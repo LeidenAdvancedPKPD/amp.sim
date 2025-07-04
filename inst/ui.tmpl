@@ -1,0 +1,40 @@
+# Define libraries used in app
+library(shiny)
+library(bslib)
+library(ggplot2)
+library(shinyjs)
+library(pmxsimtools)
+{{{packages}}}
+# Source functions, and create javascript code
+{{{sourcefunc}}}
+jsCode <- 'shinyjs.getlabs = function(params) {
+  var labtxt = $(".control-label").map(function(){return $(this).attr("for") + "%=%" + $(this).text() ;}).get();
+  Shiny.onInputChange("alllabs", labtxt);
+}'
+
+ui <- page_sidebar(
+  window_title = "{{{apptitle}}}",
+  title =  div(a(img(src = "logo.png", height = "45px")),HTML("&nbsp;&nbsp;&nbsp; Shiny app title")),
+  theme =  bs_theme("font-size-base" = "0.75rem","btn-font-size"="0.75rem","input-font-size"="0.75rem") |>  bs_add_rules(list(".navbar{background-color:rgb(250, 176, 56) !important;}")) ,
+  useShinyjs(),
+  extendShinyjs(text = jsCode, functions = "getlabs"),
+  sidebar = sidebar(
+    width="20vw",
+    title = NULL,
+    div(id = "form1",
+        # Input elements can be added and changed here
+        radioButtons("updOpts", "Update options:",c("Default"="defopt" ,"Overlay Simulation"="appsim"),inline=TRUE),
+        {{{inputElements}}}
+    )
+  ),
+  div(actionButton(inputId = "go", label = "Simulate", icon=icon("play")),
+      actionButton(inputId = "sett", label = "Settings", icon=icon("gear")),
+      actionButton(inputId = "refr", label = "Refresh", icon=icon("rotate"))),
+  navset_underline(id="seltabs",
+    nav_panel(title = "Introduction", value="introtab",br(), markdown("*Placeholder for introduction text*")),
+    nav_panel(title = "Simulation",   value="simtab",  br(), shinycssloaders::withSpinner(plotOutput("plot1"),type=6,color="#F69C0F")),
+    nav_panel(title = "Model Scheme", value="shemetab",br(),
+              div(img(src='modelscheme.png', class = "img-fluid",style="height:75vh;")),br(),
+              markdown("*Placeholder for model scheme text*"))
+  )
+)

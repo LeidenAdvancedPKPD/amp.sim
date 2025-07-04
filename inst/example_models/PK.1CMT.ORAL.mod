@@ -1,0 +1,43 @@
+;; Importance: 0
+;; Description: 1 CMT PK model with oral absorption
+$PROB  1 CMT PK model with oral absorption
+$INPUT
+STUDYID ID TRT CMT AMT TIME TAFD TALD DV EVID MDV CNTRY SEX AGE WEIGHT HEIGHT BMI FLAGPK STIME
+$DATA NM.theoph.02B.csv IGNORE=@
+$SUBROUTINES  ADVAN6 TOL=3
+$MODEL
+COMP = (ABS)
+COMP = (CENTRAL)
+
+$PK
+KA = THETA(1) * EXP(ETA(1))
+CL = THETA(2) * EXP(ETA(2))
+V  = THETA(3)
+S2  = V
+K20 = CL/V
+F1  = 1
+
+$DES
+CP = A(2)/V
+DADT(1) = - KA*A(1)
+DADT(2) =   KA*A(1) - K20*A(2)
+
+$THETA
+(0,.1)  ; KA (1/h)
+(0,2)    ; CL (l/h)
+(0,1)    ; V (l)
+
+$OMEGA
+.01 ; ETA KA
+.02 ; ETA CL
+
+$ERROR
+Y = F * (1 + EPS(1))
+IPRED = F
+
+$SIGMA
+.1 ; Prop. error
+
+$EST METHOD=1 INTERACTION MAXEVAL=9999  PRINT=5 NOABORT POSTHOC
+$COV COMP
+$TABLE  ID TIME ETA1 ETA2 KA CP NOPRINT ONEHEADER FILE=par

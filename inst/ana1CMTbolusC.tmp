@@ -1,0 +1,10 @@
+library(ggplot2)
+ana1CMTbolus <- function(Dose,pars,t){
+  C <- 1/pars['V']
+  L <- pars['CL']/pars['V']
+  Dose * C * exp(-L*t)
+}
+pars   <- c(CL=1,V=1)
+times  <- seq(0,24,length.out=200)
+out    <- pmxsimtools::mdose(Dose=10,tau=24,ndose=1,t=times,func=ana1CMTbolus,pars=pars)
+ggplot(out,aes(time,y)) + geom_line()

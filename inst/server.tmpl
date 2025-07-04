@@ -1,0 +1,54 @@
+server <- function(input, output,session) {
+  #observeEvent(input$go, updateTabsetPanel(session, "tabsel",selected = "simtab"))
+  observeEvent(input$go, nav_select("seltabs", "simtab"))
+  observeEvent(input$refr, {reset("form1")})
+
+  # Use reactive values to store simulations in for overlaying
+  savedsims <- reactiveValues()
+  js$getlabs()
+
+  plotdat <- eventReactive(input$go,{
+    # Here we need to change the parameters to the value given in the ui
+    # Be careful here to change the correct parameters; e.g. Often CL is not directly used by 'des', likely K20 needs to be adapted instead
+    # In the last step the simulation are prepared (dosing, output times) and performed
+    {{#usedesolve}}
+    {{{initcode}}}
+    {{/usedesolve}}
+    {{#userxode2}}
+    {{{omegacode}}}
+    {{{sigmacode}}}
+    {{/userxode2}}
+    events <- readRDS('etc/events.rds')
+    {{{changeParm}}}
+    #times  <- seq(0,max(events$time)+24,length.out=1000)
+    #if("addl"%in%names(events)) times <- seq(0,max(events$time) + ((max(events$addl)+1)*max(events$ii)) ,length.out=1000)   
+    {{{timesv}}}
+    {{{simcode}}}
+
+    # Handle overlay
+    overlayres       <- overlaying(input=input,out=out,savedsims=savedsims)
+    savedsims$res    <- overlayres$results
+    savedsims$sett   <- overlayres$settings
+    return(overlayres$results)
+  })
+  output$plot1 <- renderPlot({
+    # A default plot is created for all parameters, adapt accordingly
+    pl <- ggplot(plotdat(),aes(time,value,color=Simulation)) + geom_line(linewidth=1.2) + facet_wrap("name",scales='free') + theme_light(base_size=18)
+    if(input$updOpts=="defopt") pl <- pl + theme(legend.position = "none")
+    pl
+  }, height = 600)
+
+  # Settings modal
+  settingsmodal <- modalDialog(title="Settings",easyClose = TRUE,size="l",fade=FALSE,htmlOutput("settout"),br())
+  observeEvent(input$sett, showModal(settingsmodal),ignoreInit = TRUE)
+  showsettings  <- eventReactive(input$sett,{
+    if(!is.null(savedsims$sett)){
+      # The line below can be adapted if certain input elements do not need to be shown in the settings (leavout argument)
+      settdf <- settings2df(savedsims=savedsims$sett,leaveout=c("go","updOpts","sett","refr","seltabs"))
+      HTML(knitr::kable(settdf,"html",table.attr = "class=\"table\"",align="lll",row.names = FALSE))
+    }else{
+      HTML("No simulations yet performed")
+    }
+  })
+  output$settout <- renderUI(showsettings())
+}

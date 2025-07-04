@@ -1,0 +1,14 @@
+library(deSolve)
+model <- function(t,y,p){
+  # {{{problem}}}
+  with(as.list(c(p,y)), {
+{{{pkblock}}}
+{{{desblock}}}
+{{{errorblock}}}
+{{{predblock}}}
+{{{mdl_ret}}} # additional variables that should be returned can be added here
+  })
+}
+{{#control2mod}}
+{{{control}}}
+{{/control2mod}}

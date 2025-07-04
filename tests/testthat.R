@@ -1,0 +1,20 @@
+library(testthat)
+library(pmxsimtools)
+
+test_check("pmxsimtools")
+
+# devtools::install() 
+# devtools::load_all() 
+# devtools::test() 
+# test_dir("tests/testthat/")
+
+# devtools::test_active_file(file = "tests/testthat/test_misc.R")
+# devtools::test_active_file(file = "tests/testthat/test_nonmemsim.R")
+# devtools::test_active_file(file = "tests/testthat/test_readconvert.R")
+# devtools::test_active_file(file = "tests/testthat/test_shinypart.R")
+# install.packages("covr",repos = "https://cloud.r-project.org")
+# covr::report()
+# covr::package_coverage()
+# covr::codecov()
+# covr::package_coverage(type="tests")
+# devtools:::test_coverage()

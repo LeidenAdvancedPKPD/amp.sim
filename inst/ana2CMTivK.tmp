@@ -1,0 +1,13 @@
+library(ggplot2)
+ana2CMTiv <- function(Dose,pars,t,dur){
+  with(as.list(pars),{
+    ifelse(t <= dur,
+      ((Dose/dur) * C1 / L1 * (1-exp(-L1 * t))) + ((Dose/dur) * C2 / L2 * (1-exp(-L2 * t))),
+      ((Dose/dur) * C1 / L1 * (1-exp(-L1 * dur)) * exp(-L1 * (t-dur))) + ((Dose/dur) * C2 / L2 * (1-exp(-L2 * dur)) * exp(-L2 * (t-dur)))
+    )
+  })
+}
+pars   <- c(C1=10,L1=1,C2=5,L2=0.1)
+times  <- seq(0,24,length.out=200)
+out    <- pmxsimtools::mdose(Dose=10,tau=24,ndose=1,t=times,func=ana2CMTiv,pars=pars,dur=2)
+ggplot(out,aes(time,y)) + geom_line()

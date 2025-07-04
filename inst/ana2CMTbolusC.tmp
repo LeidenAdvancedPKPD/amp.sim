@@ -1,0 +1,16 @@
+library(ggplot2)
+ana2CMTbolus <- function(Dose,pars,t){
+  K10 <- pars['CL1']/pars['V1']
+  K12 <- pars['CL2']/pars['V1']
+  K21 <- pars['CL2']/pars['V2']
+  A   <- K10 + K12 + K21
+  L1  <- (A + sqrt(A * A - 4 * K10 * K21)) / 2
+  L2  <- (A - sqrt(A * A - 4 * K10 * K21)) / 2
+  C1  <- (K21 - L1) / (L2 - L1) / pars['V1']
+  C2  <- (K21 - L2) / (L1 - L2) / pars['V1']
+  (Dose * C1 * exp(-L1*t)) + (Dose * C2 * exp(-L2*t))
+}
+pars   <- c(CL1=10,V1=5,CL2=5,V2=100)
+times  <- seq(0,24,length.out=200)
+out    <- pmxsimtools::mdose(Dose=10,tau=24,ndose=1,t=times,func=ana2CMTbolus,pars=pars)
+ggplot(out,aes(time,y)) + geom_line()

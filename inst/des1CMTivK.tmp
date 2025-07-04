@@ -1,0 +1,18 @@
+library(ggplot2)
+des1CMTiv <- function(t,y,p){
+  with(as.list(c(p,y)), {
+    V      <- 1/C
+    K      <- L
+    DADT1  <- A2 - K*A1
+    DADT2  <- 0
+    CP     <- A1/V
+    list(c(DADT1,DADT2),c(CP=CP))
+  })
+}
+pars   <- c(C=1,L=1)
+init   <- c(A1=0,A2=0)
+events <- dose_func(cmt=2,value=10,times=0,tinf=2)
+times  <- seq(0,24,length.out=200)
+out    <- as.data.frame(deSolve::lsoda(init,times,des1CMTiv, pars,events=list(data=events)))
+out    <- reshape2::melt(out,id='time')
+ggplot(out,aes(time,value)) + geom_line() + facet_wrap(~variable,scales='free')

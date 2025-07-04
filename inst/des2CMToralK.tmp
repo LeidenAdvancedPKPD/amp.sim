@@ -1,0 +1,23 @@
+library(ggplot2)
+des2CMToral <- function(t,y,p){
+  with(as.list(c(p,y)), {
+    V2  <- 1 / (C1 + C2)
+    K23 <- (C1 * L2 + C2 * L1) / (C1 + C2)
+    K20 <- L1 * L2 / K23
+    K32 <- L1 + L2 - K23 - K20
+
+    DADT1 = -A1 * KA
+    DADT2 =  A1 * KA + A3 * K32 - A2 * (K20 + K23)
+    DADT3 =            A2 * K23 - A3 * K32
+
+    CP    =  A2/V2
+    list(c(DADT1, DADT2, DADT3),c(CP=CP))
+  })
+}
+pars   <- c(KA=0.1,C1=500,L1=2,C2=10,L2=0.01)
+init   <- c(A1=0,A2=0,A3=0)
+events <- dose_func(cmt=1,value=1,times=0)
+times  <- seq(0,24,length.out=200)
+out    <- as.data.frame(deSolve::lsoda(init,times,des2CMToral, pars,events=list(data=events)))
+out    <- reshape2::melt(out,id='time')
+ggplot(out,aes(time,value)) + geom_line() + facet_wrap(~variable,scales='free')

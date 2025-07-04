@@ -1,0 +1,8 @@
+library(ggplot2)
+ana1CMToral <- function(Dose,pars,t){
+  Dose * pars['C'] * pars['KA']/(pars['KA']-pars['L']) * (exp(-pars['L']*t) - exp(-pars['KA']*t))
+}
+pars   <- c(KA=0.1,C=1,L=1)
+times  <- seq(0,24,length.out=200)
+out    <- pmxsimtools::mdose(Dose=10,tau=24,ndose=1,t=times,func=ana1CMToral,pars=pars)
+ggplot(out,aes(time,y)) + geom_line()

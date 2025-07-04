@@ -1,0 +1,304 @@
+---
+title: "Simulations using R"
+description: >
+  Performing simulations in R can be convenient because there is a single
+  environment to work in. The pmxsimtools package provide several functions
+  to perform simulations in R using several dedicated simulation frameworks. 
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Simulations using R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Introduction
+
+This vignette describes how pharmacometric models can be simulated in R by using the `pmxsimtools` package. In the field of pharmacometrics, models are oftend estimated using the NONMEM software tool. However, subsequently simulating such models is more often done in R. This method is often preferred because an entire exercise can be done in one environment. There might also be advantages with respect to output size and speed.
+
+When simulating in R there are different packages available to do so. Although there are more, the `pmxsimtools` package support 3 of these packages that are often used, each having their own pros and cons:
+
+- `deSolve` package: Widely used general solver package. Can be slow when models are not compiled and does not have specific features for PKPD modeling. For simple models this package can be good choice
+- `rxode2` package: Package specified towards PKPD modeling. Simulations are fast and is the backbone for the estimation package `nlmixr2`. For models that are estimated and simulated solely in R this can be a good choice
+- `mrgsolve` package: Package specified towards PKPD model. Simulations are also fast. Syntax for models is highly comparable to NONMEM syntax. When transforming and comparing with NONMEM this can be good choice
+
+This vignette highlights how the 3 different packages can be used and provide some examples for different type of simulations.
+
+## Model translation
+
+A main feature of the package is the translation of NONMEM models to one of the three frameworks discussed above.
+Within this translation step, the model itself is translated and a starting point for controlling the simulations is provided. 
+To perform the translation, the `convert_nonmem` function can be used. This function will translate the model as good as possible and create all applicable code to perform an initial simulation:
+
+```{r eval=FALSE}
+library(pmxsimtools)
+convert_nonmem("run1.mod", "example1", type_return = "deSolve")
+# convert_nonmem("run1.mod", "example2", type_return = "rxode2")
+# For rxode2/nlmixr2 it is advised to let the nonmem2rx package
+# do the translation, added value is that the model can also be use for fitting! 
+convert_nonmem("run1.mod", "example2", type_return = "nonmem2rx")
+convert_nonmem("run1.mod", "example3", type_return = "mrgsolve")
+```
+
+When the function is called, by default a file including the model will be generated (e.g. example1.r) and a separate file to control the simulation (e.g. example1_control.r). The control file can usually be directly submitted in R to perform a simple simulation and plot the result.
+In case final estimates from a NONMEM run should be used for the simulations, a NONMEM ext file can be provided to the function. 
+
+Be aware that the function tries to translate a NONMEM model as good as possible. There might however be cases that manual adaptations are necessary, simply because they are not supported by the package that performs the simulation. Depending on the package being used for simulation, the following items might need additional attention:
+
+- Handling of (time-varying) covariates (more on this later)
+- Usage lag time and bio-availability (mainly applicable for deSolve)
+- Handling of mixture models 
+- Handling of inter-occasion variability
+- Handling of NONMEM reserved keywords or syntax
+
+
+## Simulation of typical subject
+
+For the remainder of the vignette, a translation to an `mrgsolve` model is used. The main principles however holds for the other packages as well.
+The step below shows the original model and the result of the translated model:
+
+```{r eval=TRUE, echo=FALSE}
+library(pmxsimtools)
+ret <- convert_nonmem("PK.1CMT.ORAL.mod", paste0(tempdir(),"/example"), overwrite = TRUE,
+                      type_return = "mrgsolve",control="string",mod_return = "CP")
+mdl <- readLines(paste0(tempdir(),"/example.cpp"))
+ret[grepl("mread",ret)] <- "mod <- mread(\"example.cpp\")"
+```
+
+```{fortran eval=FALSE}
+$PROB  1 CMT PK model with oral absorption
+$INPUT
+ID CMT AMT TIME DV EVID MDV WEIGHT
+$DATA input.csv IGNORE=@
+$SUBROUTINES  ADVAN6 TOL=3
+$MODEL
+COMP = (ABS)
+COMP = (CENTRAL)
+
+$PK
+COV1 = (WEIGHT/70)**THETA(4)
+KA = THETA(1) * COV1 * EXP(ETA(1))
+CL = THETA(2) * EXP(ETA(2))
+V  = THETA(3)
+S2  = V
+K20 = CL/V
+F1  = 1
+
+$DES
+CP = A(2)/V
+DADT(1) = - KA*A(1)
+DADT(2) =   KA*A(1) - K20*A(2)
+
+$THETA
+(0,.1)  ; KA (1/h)
+(0,2)    ; CL (l/h)
+(0,1)    ; V (l)
+0.2      ; effect of WT
+
+$OMEGA
+.01 ; ETA KA
+.02 ; ETA CL
+
+$ERROR
+Y = F * (1 + EPS(1))
+IPRED = F
+
+$SIGMA
+.1 ; Prop. error
+
+$EST METHOD=1 INTERACTION MAXEVAL=9999  PRINT=5 NOABORT POSTHOC
+$COV COMP
+$TABLE  ID TIME ETA1 ETA2 KA CP NOPRINT ONEHEADER FILE=par
+```
+
+```{r eval=FALSE}
+library(pmxsimtools)
+convert_nonmem("PK.1CMT.ORAL.mod", "example", type_return = "mrgsolve", mod_return = "CP")
+```
+```{r eval=TRUE, echo=FALSE}
+cat(ret,sep="\n")
+cat(mdl,sep="\n")
+```
+
+When we run the control script without any adaptations we would see the following:
+
+```{r echo=FALSE, fig.width=6,message=FALSE}
+library(mrgsolve)
+mod  <- mread(paste0(tempdir(),"/example.cpp"))
+evnt <- ev(amt = 100, ii = 24, addl = 1)
+out  <- mod %>% ev(evnt) %>% mrgsim(end = 48, delta = 0.1, nid=10)
+plot(out)
+```
+
+We see that in this case, that the simulations are not as expected. This is because the model has a covariate of weight. Because the translation does not take into account the dataset,
+the package cannot set a valid value and is therefore set to -999. Other adaptations we could do are, simulate a single subject without random effects (using `zer0_re`) and use `ggplot` to only plot applicable compartments:
+
+```{r fig.width=6,fig.height=4,message=FALSE, warning=FALSE}
+library(ggplot2)
+parm <- c(WEIGHT = 70)               
+mod  <- param(mod,parm)   
+out  <- zero_re(mod) %>% ev(evnt) %>% mrgsim(end = 48, delta = 0.1, nid=1)
+ggplot(out@data,aes(time,CP)) + geom_line() + scale_y_log10() + theme_bw()
+```
+
+__Take into account that in the result above the initial estimates from the model are used. We could provide the ext file to use final estimates__
+
+## Simulation of population
+
+In most cases the simulation should be performed for more than 1 subject. There is some variation what the different subjects represent. It could be either inter-individual variability (IIV), uncertainty or a combination of both. This section shows how various combinations can be handled.
+
+### Simulations including only IIV
+
+The situation where you want to simulate with only IIV, is the easiest and is already integrated within the `mrgsolve` package. By default, when a NONMEM model is translated, the random structure is included in the model. This is than also used by the `mrgsim` function to sample $\eta$ values for the model. As shown in the first example the original code was adapted to set IIV to 0. If we do not do this and set a number of individuals to simulate we can easily include IIV
+
+
+```{r fig.width=6,fig.height=4,message=FALSE, warning=FALSE}
+parm <- c(WEIGHT = 70)               
+mod  <- param(mod,parm)   
+out  <- mod %>% ev(evnt) %>% mrgsim(end = 48, delta = 0.1, nid=100)
+ggplot(out@data,aes(time,CP, group=ID)) + geom_line(alpha=0.3) + 
+  scale_y_log10() + theme_bw()
+```
+
+#### Simulations including only uncertainty
+
+In case we only want to simulate with uncertainty, we need to disregard IIV in the same way as in the first example. Furthermore we need to sample $\theta$ values from the covariance matrix for the uncertainty. The `pmxsimtools` provides a function to do so (`sample_par`). Once we have the sampled parameters, it is a matter to simulate each row of the data frame with the sampled parameters. In this example the `dplyr` package is used to accomplish this:
+
+```{r eval=TRUE,fig.width=6,fig.height=4,message=FALSE, warning=FALSE}
+parm  <- c(WEIGHT = 70)
+mod   <- param(mod,parm)   
+# sample from uncertainty and apply simulations
+parms <- sample_par(ext="PK.1CMT.ORAL.ext",
+                    covmat = "PK.1CMT.ORAL.cov",
+                    nrepl=100, uncert=TRUE)
+parms <- setNames(parms,sub("S","",names(parms)))
+
+library(dplyr)
+dosim <- function(df){
+  zero_re(mod) %>% ev(evnt) %>% 
+    param(c(unlist(df),parm)) %>% 
+    mrgsim_df(end = 48, delta = 0.1, nid=1) %>%
+    mutate(ID = unique(df$ID))  
+}
+out <- parms %>% group_by(ID) %>% 
+  group_map(~dosim(.x),.keep=TRUE) %>% 
+  bind_rows()
+ggplot(out,aes(time,CP,group=ID)) + geom_line(alpha=.3) + 
+  scale_y_log10() + theme_bw()
+```
+
+
+#### Simulations including IIV and uncertainty
+
+For larger clinical trial simulations it is often necessary to simulate including both IIV and uncertainty. This section describes a way to do so. Also running these types of simulation can be computationally intensive. Therefor this section also shows how the simulations can be speed up using the `parallel` package. 
+This example combines the examples above where in this case 10 trials are simulated for 10 subjects each
+
+```{r eval=FALSE}
+parm  <- c(WEIGHT = 70)
+parms <- sample_par(ext="PK.1CMT.ORAL.ext",
+                    covmat = "PK.1CMT.ORAL.cov",
+                    nrepl=10, uncert=TRUE)
+parms <- setNames(parms,sub("S","",names(parms)))
+library(parallel)
+cl  <- makeCluster(getOption("cl.cores", 7))
+clusterExport(cl, c("evnt","parms","mod","parm"))
+out <- parLapply(cl, 1:nrow(parms),function(x){
+  library(mrgsolve)
+  ret     <- mod %>% ev(evnt) %>% param(c(unlist(parms[x,]),parm)) %>% 
+               mrgsim_df(end = 48, delta = 0.1, nid=10)
+  ret$REP <- unique(parms$ID[x])
+  ret
+})
+stopCluster(cl)
+out <- do.call(rbind,out)
+ggplot(out,aes(time,CP,group=ID)) + geom_line(alpha=.3) + 
+  scale_y_log10() + facet_wrap("REP",labeller = "label_both") + 
+  theme_bw()
+
+```
+
+
+```{r echo=FALSE,eval=TRUE,fig.width=6,fig.height=4,message=FALSE, warning=FALSE}
+# Perform actual sims without parallel, because do not want to compile it (on CRAN) with this package
+parm  <- c(WEIGHT = 70)
+parms <- sample_par(ext="PK.1CMT.ORAL.ext",
+                    covmat = "PK.1CMT.ORAL.cov",
+                    nrepl=10, uncert=TRUE)
+parms <- setNames(parms,sub("S","",names(parms)))
+out <- lapply(1:nrow(parms),function(x){
+  ret     <- mod %>% ev(evnt) %>% param(c(unlist(parms[x,]),parm)) %>% 
+               mrgsim_df(end = 48, delta = 0.1, nid=10)
+  ret$REP <- unique(parms$ID[x])
+  ret
+})
+out <- do.call(rbind,out)
+ggplot(out,aes(time,CP,group=ID)) + geom_line(alpha=.3) + 
+  scale_y_log10() + facet_wrap("REP",labeller = "label_both") + 
+  theme_bw()
+
+```
+
+
+For running in parallel, the following steps are important:
+
+1. Create a cluster object where the numbers of cores are specified (`makeCluster`)
+2. Exporting of objects to the cluster, so each worker has access to all objects used in the calculations (`clusterExport`)
+3. Performing a special kind of lapply for parallel processing (`parLapply`)
+4. Let R know that the cluster calculations are done (`stopCluster`)
+
+It is some extra work to set-up a 'parallel' script, but this can really pay-off with drastically decreasing run-times. 
+
+Within the examples above, weight is kept constant for simplicity. Obtaining valid covariates can be handled in different ways. 
+There are different ways of sampling values and provide this to the simulation functions. Please refer to the help pages of the different packages for additional guidance.
+
+In the example above, the $\eta$ values are sampled within the model. It is also possible to perform all sampling within R using the `sample_par` function. In case a clinical trial simulation should be done using a combination of replicates and subjects, it is more convenient to use the `sample_sim` function instead. This function is a wrapper around `sample_par` but makes it easier to make a combined sampling dataset of replicates and subjects. 
+
+### Using a template model
+
+In case a closed form model should be simulated, the previous mentioned methods do not work. For these cases different template models are present in the `pmxsimtools` package. It includes 1 and 2 compartment models for IV, infusion and extra-vascular dosing, parameterized using rate constants or CL/V, and as analytical solution or differential equations. The `tmpl_model` function can be used without arguments to see what is available:
+
+```{r}
+tmpl_model()
+```
+
+A model can be provided to the function, in which case the simulation code is added in the current script right after the function call (when working in Rstudio) or within the console (when not working in Rstudio):
+
+```{r eval=FALSE}
+tmpl_model("ana1CMTivC.tmp")
+```
+
+When submitting the lines of code you will directly get an initial simulated curve:
+
+```{r echo=TRUE, fig.width=6,fig.height=4,message=FALSE, warning=FALSE}
+library(ggplot2)
+ana1CMTiv <- function(Dose,pars,t,dur){
+  C <- 1/pars['V']
+  L <- pars['CL']/pars['V']
+  ifelse(t <= dur,
+    (Dose/dur) * C / L * (1-exp(-L * t)),
+    (Dose/dur) * C / L * (1-exp(-L * dur)) * exp(-L * (t-dur))
+  )
+}
+pars   <- c(CL=1,V=1)
+times  <- seq(0,24,length.out=200)
+out    <- mdose(Dose = 10, tau = 24, ndose = 1, t = times,
+                func = ana1CMTiv, pars = pars, dur = 2)
+ggplot(out,aes(time,y)) + geom_line() + theme_bw()
+
+```
+
+This method can be a lot faster for models with an analytical solution, though simulating multiple doses is a bit more of a hassle. For these situations the `mdose` helper function can be used to perform superposition.
+Finally, a simple example is shown how these models can be rewritten for simulating a population:
+
+```{r eval=FALSE}
+samp <- data.frame(CL=rnorm(100,10,1),V=rnorm(100,5,0.5))
+out <- lapply(1:nrow(samp), function(x){
+  data.frame(mdose(Dose=10,tau=24,ndose=1,t=times,func=ana1CMTiv,
+                   pars=unlist(samp[x,]),dur=2),ID=x)
+})
+out <- do.call(rbind,out)
+```
+
+
+### Final thoughts
+
+Simulating entirely in R can be quite some work. The `pmxsimtools` can help in reducing the amount of work to rewrite everything to R, and makes it easier to perform a simple simulation. Because R is different from NONMEM there are important things to take into account. When the simulations become larger it can also become more difficult to perform the simulation in R and the run-times can get out of hand. But the usage of template models (mainly the ones with an analytical solution) and the `parallel` package can help in optimizing performance.
