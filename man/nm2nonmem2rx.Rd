@@ -11,7 +11,7 @@ nm2nonmem2rx(mod, out = NULL, control = "")
 
 \item{out}{character with the name of the output file without a file extension}
 
-\item{control}{character with the type of control to bre returned (see \code{\link{convert_nonmem}} for more details)}
+\item{control}{character with the type of control to be returned (see \code{\link{convert_nonmem}} for more details)}
 }
 \value{
 a list is returned inluding all building blocks to create a model

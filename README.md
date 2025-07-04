@@ -5,7 +5,7 @@ This package is not intended to be yet another simulation package, but rather a 
 This means that the package does not include functionality to perform the actual simulations, but has the following main features:
 
 1. Automate and streamline simulations within NONMEM
-2. Translate NONMEM models to R simulation frameworks (support for  `deSolve`, `rxode2` and `mrgsolve`)
+2. Translate NONMEM models to R simulation frameworks (support for  `deSolve`, `rxode2`, `nlmixr2` and `mrgsolve`)
 3. Directly create `shiny` applications of (translated) models
 
 # Installation
@@ -13,7 +13,7 @@ This means that the package does not include functionality to perform the actual
 Currently the package is under active development and can be installed using:
 
 ```R
-devtools::install_github("richardhooijmaijers/pmxsimtools")
+devtools::install_github("LeidenAdvancedPKPD/amp.sim")
 ```
 
 # Usage

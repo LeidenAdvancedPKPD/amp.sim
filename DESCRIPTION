@@ -1,6 +1,6 @@
-Package: pmxsimtools
+Package: amp.sim
 Title: Various functions to aid simulation of pharmacometric models
-Version: 0.2.1
+Version: 0.0.1
 Authors@R: c(person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = c("aut", "cre","cph")))
 Description: The package includes functions to transform NONMEM models into R syntax so they can be used for
     simulations using the deSolve, RxODE or mrgsolve package. Furthermore functions are included to aid simulations performed
@@ -29,4 +29,4 @@ License: GPL (>=2)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
