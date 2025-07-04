@@ -4,10 +4,19 @@
 \alias{nm2deSolve}
 \title{Convert NONMEM model to deSolve syntax}
 \usage{
-nm2deSolve(lstblock, ext = NULL, mod_return = NULL, out = NULL, control = "")
+nm2deSolve(
+  lstblock,
+  model,
+  ext = NULL,
+  mod_return = NULL,
+  out = NULL,
+  control = ""
+)
 }
 \arguments{
 \item{lstblock}{structured list with information of the model that was read-in, usually obtained from the \code{\link{nmnmlistblock}} function}
+
+\item{model}{character vector with the model content}
 
 \item{ext}{character with the name of the NONMEM ext file (if not provided estimates are read directly from control stream)}
 

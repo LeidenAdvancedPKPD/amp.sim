@@ -4,10 +4,12 @@
 \alias{nm2mrgsolve}
 \title{Convert NONMEM model to mrgsolve syntax}
 \usage{
-nm2mrgsolve(lstblock, ext = NULL, mod_return = NULL, out = NULL)
+nm2mrgsolve(lstblock, model, ext = NULL, mod_return = NULL, out = NULL)
 }
 \arguments{
 \item{lstblock}{structured list with information of the model that was read-in, usually obtained from the \code{\link{nmlistblock}} function}
+
+\item{model}{character vector with the model content}
 
 \item{ext}{character with the name of the NONMEM ext file (if not provided estimates are read directly from control stream)}
 

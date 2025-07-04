@@ -4,6 +4,7 @@
 #' This function gets the parameter values from a NONMEM model or ext file including naming and additional
 #' variables if present
 #'
+#' @param model character vector with the model content
 #' @param lstblock list with each item being a separate strucured dollor block, usually obtain from \code{\link{nmlistblock}}
 #' @param ext character with the name of the NONMEM ext file (if not provided estimates are read directly from the list block)
 #' @param addparam logical indicating if the function should try to add parameters (besides THETAs and the ones defined in covariates)
@@ -17,10 +18,10 @@
 #' \dontrun{
 #'   get_est("run1.mod")
 #' }
-get_param <- function(lstblock,ext=NULL,addparam=TRUE){
+get_param <- function(model,lstblock,ext=NULL,addparam=TRUE){
   modst   <- lapply(lstblock,function(x) paste(unlist(x)[names(unlist(x))=="orig"],collapse="\n"))
   modst   <- unlist(strsplit(paste0("$",names(modst)," ",modst),"\n"))
-  if(is.null(ext)) mpars <- modst else mpars <- ext
+  if(is.null(ext)) mpars <- model else mpars <- ext
   estm    <- get_est(mpars)
   estmm   <- try(get_est(modst),silent=TRUE)
   estma   <- estm$THETA

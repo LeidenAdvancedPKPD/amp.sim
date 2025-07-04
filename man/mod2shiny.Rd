@@ -16,14 +16,14 @@ mod2shiny(
   sigma = NULL,
   delloc = FALSE,
   framework = "deSolve",
-  logo = paste0(system.file(package = "pmxsimtools"), "/logo.png"),
+  logo = paste0(system.file(package = "amp.sim"), "/logo.png"),
   times = NULL
 )
 }
 \arguments{
 \item{parvector}{named vector with the model parameters, should contain all parameters used by the model}
 
-\item{modfile}{A script with the model defined in it, it is ssumed that this file is created using \code{\link[pmxsimtools]{convert_nonmem}}}
+\item{modfile}{A script with the model defined in it, it is ssumed that this file is created using \code{\link[amp.sim]{convert_nonmem}}}
 
 \item{evnt}{dataframe with the events used by the model (this is saved as rds together with the app)}
 

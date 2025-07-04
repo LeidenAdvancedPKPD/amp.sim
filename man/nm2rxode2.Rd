@@ -4,10 +4,12 @@
 \alias{nm2rxode2}
 \title{Convert NONMEM model to rxode2 syntax}
 \usage{
-nm2rxode2(lstblock, ext = NULL, out = NULL, control = "")
+nm2rxode2(lstblock, model, ext = NULL, out = NULL, control = "")
 }
 \arguments{
 \item{lstblock}{structured list with information of the model that was read-in, usually obtained from the \code{\link{nmlistblock}} function}
+
+\item{model}{character vector with the model content}
 
 \item{ext}{character with the name of the NONMEM ext file (if not provided estimates are read directly from control stream)}
 

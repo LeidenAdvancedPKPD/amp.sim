@@ -29,11 +29,11 @@ convert_nonmem <- function(model,out, ext=NULL, mod_return=NULL,type_return="mrg
   mdll   <- get_nmblock(mdl,block=c("PROB","SUB","MODEL","PK","DES","PRED","THETA","OMEGA","ERROR","SIGMA","EST"))
   mdlls  <- nmlistblock(mdll)
   if(type_return=="mrgsolve"){
-    tmplst <- nm2mrgsolve(mdlls,ext=ext, mod_return = mod_return, out=out)
+    tmplst <- nm2mrgsolve(mdlls,model=mdl,ext=ext, mod_return = mod_return, out=out)
   }else if(type_return=="rxode2"){
-    tmplst <- nm2rxode2(mdlls,ext=ext, out=out, control=control)
+    tmplst <- nm2rxode2(mdlls,model=mdl,ext=ext, out=out, control=control)
   }else if(type_return=="deSolve"){
-    tmplst <- nm2deSolve(mdlls,ext=ext, out=out, control=control)
+    tmplst <- nm2deSolve(mdlls,model=mdl,ext=ext, out=out, control=control)
   }else if(type_return=="nonmem2rx"){
     tmplst <- nm2nonmem2rx(model,out=out, control=control)
   }else{
@@ -41,7 +41,7 @@ convert_nonmem <- function(model,out, ext=NULL, mod_return=NULL,type_return="mrg
   }
   # fill in template and write to disk
   # tomod <- ifelse(control=="model",TRUE,FALSE)
-  tmpl  <- readLines(paste0(system.file(package="pmxsimtools"),"/",tolower(type_return),".tmpl"))
+  tmpl  <- readLines(paste0(system.file(package="amp.sim"),"/",tolower(type_return),".tmpl"))
   if(!is.null(out)){
     if(!overwrite && file.exists(tmplst$modname)){
       warning("File already present and not overwritten (set overwrite to TRUE if file should be overwritten)")

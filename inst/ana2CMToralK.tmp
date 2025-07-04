@@ -7,5 +7,5 @@ ana2CMToral <- function(Dose,pars,t){
 }
 pars   <- c(KA=0.1,C1=500,L1=2,C2=10,L2=0.01)
 times  <- seq(0,24,length.out=200)
-out    <- pmxsimtools::mdose(Dose=10,tau=24,ndose=1,t=times,func=ana2CMToral,pars=pars)
+out    <- amp.sim::mdose(Dose=10,tau=24,ndose=1,t=times,func=ana2CMToral,pars=pars)
 ggplot(out,aes(time,y)) + geom_line()

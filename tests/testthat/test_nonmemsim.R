@@ -30,7 +30,7 @@ test_that("make_nmsimmodel correctly makes a NONMEM simulation model", {
   dat$STHETA1 <- dat$STHETA2 <- dat$STHETA3 <- dat$STHETA4 <- dat$STHETA5 <- 1
   dat$SETA1   <- dat$SETA2   <- 0
   write.csv(dat,file=paste0(tempdir(),"/simdat.csv"),na=".",quote=FALSE,row.names = FALSE)
-  nmmod       <- system.file("testfiles/nonmem.mod",package="pmxsimtools")
+  nmmod       <- system.file("testfiles/nonmem.mod",package="amp.sim")
   suppressWarnings(make_nmsimmodel(nmmod,paste0(tempdir(),"/simmod.mod"), data=paste0(tempdir(),"/simdat.csv")))
   mod         <- readLines(paste0(tempdir(),"/simmod.mod"))
   modsub      <- mod[grep("\\$PK",mod):length(mod)]

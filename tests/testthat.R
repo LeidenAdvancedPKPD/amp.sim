@@ -1,7 +1,7 @@
 library(testthat)
-library(pmxsimtools)
+library(amp.sim)
 
-test_check("pmxsimtools")
+test_check("amp.sim")
 
 # devtools::install() 
 # devtools::load_all() 

@@ -1,7 +1,7 @@
 ---
 title: "Simulations using NONMEM"
 description: >
-  Simulations in NONMEM can have quite some manual steps. The pmxsimtools
+  Simulations in NONMEM can have quite some manual steps. The amp.sim
   package provide several functions to ease the process of NONMEM simulations
 output: rmarkdown::html_vignette
 vignette: >
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 ## Introduction
 
-This vignette describes the steps to simulate a NONMEM model using the `pmxsimtools` package. Although the example is relatively simple, it should showcase the general principle that can be applied to any type of model. The `pmxsimtools` package include various functions that can be used to help in the otherwise manual tasks when simulating solely with NONMEM. 
+This vignette describes the steps to simulate a NONMEM model using the `amp.sim` package. Although the example is relatively simple, it should showcase the general principle that can be applied to any type of model. The `amp.sim` package include various functions that can be used to help in the otherwise manual tasks when simulating solely with NONMEM. 
 The functions are set-up in way that all sampling is done within R, and that all model parameters are added to the input file. This method is chosen because the flexibility it provides to perform different kind of sampling methods (e.g. including uncertainty, variability or a combination). Once a standardized input data set is available, the creation of simulation model from any kind of NONMEM model can be automated fairly easy.
 
 ## Simulation dataset
@@ -26,7 +26,7 @@ The functions are set-up in way that all sampling is done within R, and that all
 The basis of a NONMEM simulation is creating a valid dataset. Within NONMEM all information regarding dosing, output time-points, covariates and parameters can be added to a data set. The following chunk shows how the `simdata` function can be used to create a starting point for a simulation data set:
 
 ```{r}
-library(pmxsimtools)
+library(amp.sim)
 simd <- simdata(time = seq(0,120,1), dosetime = 0, doseheight = 100, 
                 addl = 2, ii = 24, numid = 10)
 ```
@@ -99,7 +99,7 @@ write.csv(inp,csv="sim.input.csv",row.names = FALSE, na = ".")
 
 The resulting dataset would look something like this:
 ```{r eval=TRUE, echo=FALSE}
-library(pmxsimtools)
+library(amp.sim)
 simd <- simdata(time = seq(0,120,1), dosetime = 0,
                 doseheight = 100, addl = 2, ii = 24, numid = 10)
 simd$WEIGHT  <- 70

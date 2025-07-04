@@ -3,7 +3,7 @@ context("Test if functions for shiny work as expected")
 #--------------------------
 # Test mod2shiny function
 test_that("mod2shiny correctly creates a shiny app", {
-  nmmod <- system.file("testfiles/nonmem.mod",package="pmxsimtools")
+  nmmod <- system.file("testfiles/nonmem.mod",package="amp.sim")
   tst   <- convert_nonmem(nmmod,out=paste0(tempdir(),"/shinytest"),control="string",overwrite = TRUE)
   prm   <- c(THETA1 = 0.08, THETA2 = 2, THETA3 = 1, THETA4 = 0.2, THETA5 = 1.2, WEIGHT = 70, SEX = 1)
   evnt  <- mrgsolve::ev(amt = 100, ii = 24, addl = 1)

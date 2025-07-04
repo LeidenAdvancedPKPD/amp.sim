@@ -33,11 +33,11 @@ test_that("dose_func creates valid dosing", {
 #-------------------------------
 # Test model_validation function
 test_that("model_validation creates valid output", {
-  res  <- model_validation(system.file("testfiles/compareParfile",package="pmxsimtools"),
-                           system.file("testfiles/compareModel.cpp",package="pmxsimtools"),out=NULL)
+  res  <- model_validation(system.file("testfiles/compareParfile",package="amp.sim"),
+                           system.file("testfiles/compareModel.cpp",package="amp.sim"),out=NULL)
   # Omit latex compilation is difficult in covr and CRAN
-  # suppressWarnings(model_validation(system.file("testfiles/compareParfile",package="pmxsimtools"),
-  #                                   system.file("testfiles/compareModel.cpp",package="pmxsimtools"),
+  # suppressWarnings(model_validation(system.file("testfiles/compareParfile",package="amp.sim"),
+  #                                   system.file("testfiles/compareModel.cpp",package="amp.sim"),
   #                                   out=paste0(tempdir(),"/compare.tex")))                           
     
   expect_true("ggplot"%in%class(res$plot_sim_est))
@@ -56,9 +56,9 @@ test_that("model_validation creates valid output", {
 # Test sample_par function
 test_that("sample_par samples correctly", {
   
-  extf   <- system.file("testfiles/ext_sampling.ext",package="pmxsimtools")
-  covf   <- system.file("testfiles/covariance_sampling.cov",package="pmxsimtools")
-  bsd    <- system.file("testfiles/bootstrap_testing",package="pmxsimtools")
+  extf   <- system.file("testfiles/ext_sampling.ext",package="amp.sim")
+  covf   <- system.file("testfiles/covariance_sampling.cov",package="amp.sim")
+  bsd    <- system.file("testfiles/bootstrap_testing",package="amp.sim")
   samp1  <- suppressWarnings(sample_par(extf,covf,inc_eta=TRUE,uncert=TRUE, seed=1234))
   samp2  <- suppressWarnings(sample_par(extf,covf,inc_eta=TRUE,uncert=TRUE, seed=1234))
   samp3  <- suppressWarnings(sample_par(extf,covf,inc_eta=TRUE,inc_theta = FALSE, uncert = FALSE, seed=1234))
@@ -91,8 +91,8 @@ test_that("sample_par samples correctly", {
 #-------------------------
 # Test sample_sim function
 test_that("sample_sim samples correctly", {
-  extf   <- system.file("testfiles/ext_sampling.ext",package="pmxsimtools")
-  covf   <- system.file("testfiles/covariance_sampling.cov",package="pmxsimtools")
+  extf   <- system.file("testfiles/ext_sampling.ext",package="amp.sim")
+  covf   <- system.file("testfiles/covariance_sampling.cov",package="amp.sim")
   samp1  <- suppressWarnings(sample_sim(ext=extf,covmat=covf,type="noIIV",nrepl=3,nsub=4))
   samp2  <- suppressWarnings(sample_sim(ext=extf,covmat=covf,type="sameIIV",nrepl=3,nsub=4))
   samp3  <- suppressWarnings(sample_sim(ext=extf,covmat=covf,type="varIIV",nrepl=3,nsub=4))
@@ -120,7 +120,7 @@ test_that("sample_sim samples correctly", {
 # Test tmpl_model function
 test_that("tmpl_model gets correct template models", {
   tfil <- tmpl_model()
-  afil <- list.files(system.file(package="pmxsimtools"),pattern="\\.tmp$")
+  afil <- list.files(system.file(package="amp.sim"),pattern="\\.tmp$")
   expect_setequal(tfil,afil)  
 })
 

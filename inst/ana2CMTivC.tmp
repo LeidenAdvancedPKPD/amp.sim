@@ -17,5 +17,5 @@ ana2CMTiv <- function(Dose,pars,t,dur){
 }
 pars   <- c(CL1=10,V1=5,CL2=5,V2=100)
 times  <- seq(0,24,length.out=200)
-out    <- pmxsimtools::mdose(Dose=10,tau=24,ndose=1,t=times,func=ana2CMTiv,pars=pars,dur=2)
+out    <- amp.sim::mdose(Dose=10,tau=24,ndose=1,t=times,func=ana2CMTiv,pars=pars,dur=2)
 ggplot(out,aes(time,y)) + geom_line()

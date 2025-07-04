@@ -19,9 +19,9 @@
 tmpl_model <- function(tmpl){
   if (!requireNamespace("rstudioapi", quietly = TRUE)) stop("Package \"rstudioapi\" needed for this function to work", call. = FALSE)
   if (missing(tmpl)) {
-    list.files(system.file(package = "pmxsimtools"), pattern = "\\.tmp$")
+    list.files(system.file(package = "amp.sim"), pattern = "\\.tmp$")
   }else{
-    ret <- readLines(paste0(system.file(package = "pmxsimtools"),"/",tmpl))
+    ret <- readLines(paste0(system.file(package = "amp.sim"),"/",tmpl))
     if(rstudioapi::isAvailable()){
       range <- rstudioapi::getSourceEditorContext()$selection[[1]]$range
       nrang <- rstudioapi::document_position(range$end[1] + 1, 0)

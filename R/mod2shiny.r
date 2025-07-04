@@ -4,7 +4,7 @@
 #' This function fills in a default template for simulations within shiny
 #'
 #' @param parvector named vector with the model parameters, should contain all parameters used by the model
-#' @param modfile A script with the model defined in it, it is ssumed that this file is created using \code{\link[pmxsimtools]{convert_nonmem}}
+#' @param modfile A script with the model defined in it, it is ssumed that this file is created using \code{\link[amp.sim]{convert_nonmem}}
 #' @param evnt dataframe with the events used by the model (this is saved as rds together with the app)
 #' @param init vector with the compartment initialization (only applicable for deSolve framework)
 #' @param naming named vector with the names in parvector and the new values to use within the shiny app
@@ -31,7 +31,7 @@
 #'
 #' \dontrun{mod2shiny(parvector=c(KA=0.1,K20=0.3),modfile='model.r',evnt=evdat)}
 mod2shiny <- function(parvector,modfile,evnt,init=NULL,naming=NULL,apptitle="Shiny app title",outloc=".",omega=NULL,sigma=NULL,
-                      delloc=FALSE,framework="deSolve",logo=paste0(system.file(package="pmxsimtools"),"/logo.png"),times=NULL){
+                      delloc=FALSE,framework="deSolve",logo=paste0(system.file(package="amp.sim"),"/logo.png"),times=NULL){
   
   if(framework=="nonmem2rx") framework="rxode2" # nonmem2rx can be handled in the same way as rxode2
   if(framework=="deSolve" && is.null(init)) stop("Provide 'init' when the deSolve framework is used")
@@ -42,7 +42,7 @@ mod2shiny <- function(parvector,modfile,evnt,init=NULL,naming=NULL,apptitle="Shi
   if(!is.null(naming)){
     if(any(names(naming)%in%names(parvector))) names(parvector2)[names(parvector)%in%names(naming)] <- naming
   }
-  uiIn    <- readLines(paste0(system.file(package="pmxsimtools"),"/ui.tmpl"))
+  uiIn    <- readLines(paste0(system.file(package="amp.sim"),"/ui.tmpl"))
   #inpe    <- paste0("numericInput(inputId = '",names(parvector),"', label='",names(parvector),":', value=",round(parvector,2),")")
   inpe    <- paste0("numericInput(inputId = '",names(parvector),"', label='",names(parvector2),":', value=",signif(parvector,3),")")
   sourcef <- ifelse(framework=="mrgsolve",paste0("assign('model',mread('etc/",basename(modfile),"'),envir = .GlobalEnv)"),paste0("source('etc/",basename(modfile),"')"))
@@ -50,7 +50,7 @@ mod2shiny <- function(parvector,modfile,evnt,init=NULL,naming=NULL,apptitle="Shi
   uiOut   <- whisker::whisker.render(uiIn, uilist)
   
   # Fill in server template - decided to place in the entire parm output including changes for input elements
-  serverIn   <- readLines(paste0(system.file(package="pmxsimtools"),"/server.tmpl"))
+  serverIn   <- readLines(paste0(system.file(package="amp.sim"),"/server.tmpl"))
   parserv1   <- paste0("parm <- c(",paste(paste(names(parvector),"=",round(parvector,2)),collapse=", "),")")
   parserv2   <- paste(paste0("    parm['",names(parvector),"'] <- input$",names(parvector)),collapse="\n")
   parserv    <- paste(parserv1,parserv2,sep="\n")
@@ -82,7 +82,7 @@ mod2shiny <- function(parvector,modfile,evnt,init=NULL,naming=NULL,apptitle="Shi
   writeLines(uiOut,paste0(outloc,"/ui.r"))
   writeLines(serverOut,paste0(outloc,"/server.r"))
   file.copy(logo,paste0(outloc,"/www/logo.png"))
-  file.copy(paste0(system.file(package="pmxsimtools"),"/modelscheme.png"),paste0(outloc,"/www/modelscheme.png"))
+  file.copy(paste0(system.file(package="amp.sim"),"/modelscheme.png"),paste0(outloc,"/www/modelscheme.png"))
   file.copy(modfile,paste0(outloc,"/etc/",basename(modfile)))
   cat(paste0("Shiny app created in location '",outloc,"'. It can be submitted using:\n",cli::style_bold("shiny::runApp('",outloc,"',launch.browser=TRUE)")))
 }

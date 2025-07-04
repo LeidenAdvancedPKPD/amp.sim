@@ -14,14 +14,14 @@ vignette: >
 
 ## Introduction
 
-Shiny apps are a great way of visualizing a (translated) model. The main advantage of a shiny app for a simulation model is that you can easily test the effect of different parameters on the outcome of a simulation. When translating a model using the `pmxsimtools` package you will have a standardized way models are created. This makes it possible to automatically create a shiny app for such a model.
+Shiny apps are a great way of visualizing a (translated) model. The main advantage of a shiny app for a simulation model is that you can easily test the effect of different parameters on the outcome of a simulation. When translating a model using the `amp.sim` package you will have a standardized way models are created. This makes it possible to automatically create a shiny app for such a model.
 
 ## Basics
 
 To create a shiny app for a model, you will need a translated model and a single function call:
 
 ```{r eval=FALSE}
-library(pmxsimtools)
+library(amp.sim)
 mod2shiny(parvector = c(THETA1=0.1,THETA2=0.3),
           modfile   = 'model.cpp',
           evnt      = ev(amt = 100, ii = 24, addl = 1),

@@ -110,9 +110,9 @@ test_that("get_param returns the valid parameters and matrices", {
   mdl   <- c("$PK","CL=THETA(1)","WT=70","DUMM=ALP","$THETA","(0,.03) ; KA (1/h)"," (0,2) ; K (1/h)",
              "$OMEGA  .01; ETA KA" ," .02; ETA K","$SIGMA  .1  ; Prop. error")
   lst   <- nmlistblock(get_nmblock(mdl,c("PK","THETA","OMEGA","SIGMA"))) 
-  res1  <- get_param(lst,ext) 
-  res2  <- get_param(lst) 
-  res3  <- get_param(lst,addparam = FALSE) 
+  res1  <- get_param(mdl,lst,ext) 
+  res2  <- get_param(mdl,lst) 
+  res3  <- get_param(mdl,lst,addparam = FALSE) 
   
   expect_true(length(res1)==length(res2) & length(res1)==length(res3)) # length is the same for each setting
   expect_true(all(names(res1$params)==c("THETA1","THETA2","ALP")))     # additional parameter added
@@ -146,7 +146,7 @@ test_that("nm2mrgsolve returns the correctly tranformed model", {
              "$DES","CP = A(2)/V","DADT(1) = - KA*A(1)","DADT(2) =   KA*A(1) - K20*A(2)","$THETA (0,.1) ; KA (1/h)","(0,2) ; CL (l/h)","(0,1) ; V (l)",
              "$OMEGA",".01 ; ETA KA",".02 ; ETA CL","$ERROR","Y = F * (1 + EPS(1))","IPRED = F","$SIGMA",".1 ; Prop. error")
   lst   <- nmlistblock(get_nmblock(mdl,c("DES","PK","OMEGA","SIGMA","PROB","THETA","MODEL","ERROR")))
-  res   <- nm2mrgsolve(lst) 
+  res   <- nm2mrgsolve(lst,mdl) 
   
   expect_true(all(c("modname", "problem", "control2mod", "cmt", "pkblock", "init", 
                     "desblock", "predblock", "errorblock", "param", "randstruct", 
@@ -169,9 +169,9 @@ test_that("nm2mrgsolve returns the correctly tranformed model", {
   expect_true(any(grepl("ev\\(",res$control)))
   expect_true(any(grepl("mrgsim\\(",res$control)))
   
-  res2 <- nm2mrgsolve(lst,mod_return = "Y") 
+  res2 <- nm2mrgsolve(lst,mdl,mod_return = "Y") 
   expect_true(res2$mdl_ret=="$CAPTURE Y")
-  res3 <- nm2mrgsolve(lst,out = "test") 
+  res3 <- nm2mrgsolve(lst,mdl,out = "test") 
   expect_true(res3$modname=="test.cpp")
 })
 
@@ -183,7 +183,7 @@ test_that("nm2rxode2 returns the correctly tranformed model", {
              "$DES","CP = A(2)/V","DADT(1) = - KA*A(1)","DADT(2) =   KA*A(1) - K20*A(2)","$THETA (0,.1) ; KA (1/h)","(0,2) ; CL (l/h)","(0,1) ; V (l)",
              "$OMEGA",".01 ; ETA KA",".02 ; ETA CL","$ERROR","Y = F * (1 + EPS(1))","IPRED = F","$SIGMA",".1 ; Prop. error")
   lst   <- nmlistblock(get_nmblock(mdl,c("DES","PK","OMEGA","SIGMA","PROB","THETA","MODEL","ERROR")))
-  res   <- nm2rxode2(lst) 
+  res   <- nm2rxode2(lst,mdl) 
   
   expect_true(all(c("modname", "problem", "control2mod", "cmt", "pkblock", "init", 
                     "desblock", "predblock", "errorblock", "param", "randstruct", 
@@ -206,10 +206,10 @@ test_that("nm2rxode2 returns the correctly tranformed model", {
   expect_true(any(grepl("et\\(",res$control)))
   expect_true(any(grepl("rxSolve\\(",res$control)))
   
-  res2 <- nm2rxode2(lst,control = "model") 
+  res2 <- nm2rxode2(lst,mdl,control = "model") 
   expect_true(res2$control2mod)
   expect_false(any(grepl("rxode2|source",res2$control)))
-  res3 <- nm2rxode2(lst,out = "test") 
+  res3 <- nm2rxode2(lst,mdl,out = "test") 
   expect_true(res3$modname=="test.r")
 })
 
@@ -251,7 +251,7 @@ test_that("nm2deSolve returns the correctly tranformed model", {
              "$DES","CP = A(2)/V","DADT(1) = - KA*A(1)","DADT(2) =   KA*A(1) - K20*A(2)","$THETA (0,.1) ; KA (1/h)","(0,2) ; CL (l/h)","(0,1) ; V (l)",
              "$OMEGA",".01 ; ETA KA",".02 ; ETA CL","$ERROR","Y = F * (1 + EPS(1))","IPRED = F","$SIGMA",".1 ; Prop. error")
   lst   <- nmlistblock(get_nmblock(mdl,c("DES","PK","OMEGA","SIGMA","PROB","THETA","MODEL","ERROR")))
-  res   <- nm2deSolve(lst) 
+  res   <- nm2deSolve(lst,mdl) 
   
   expect_true(all(c("modname", "problem", "control2mod", "cmt", "pkblock", "init", 
                     "desblock", "predblock", "errorblock", "param", "randstruct", 
@@ -277,10 +277,10 @@ test_that("nm2deSolve returns the correctly tranformed model", {
   expect_true(any(grepl("dose_func\\(",res$control)))
   expect_true(any(grepl("lsoda\\(",res$control)))
   
-  res2 <- nm2deSolve(lst,control = "model") 
+  res2 <- nm2deSolve(lst,mdl,control = "model") 
   expect_true(res2$control2mod)
   expect_false(any(grepl("library.*deSolve|source",res2$control)))
-  res3 <- nm2deSolve(lst,out = "test") 
+  res3 <- nm2deSolve(lst,mdl,out = "test") 
   expect_true(res3$modname=="test.r")
 })
 

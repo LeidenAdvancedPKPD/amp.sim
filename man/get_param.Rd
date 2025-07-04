@@ -4,9 +4,11 @@
 \alias{get_param}
 \title{Get parameter values from model or ext file}
 \usage{
-get_param(lstblock, ext = NULL, addparam = TRUE)
+get_param(model, lstblock, ext = NULL, addparam = TRUE)
 }
 \arguments{
+\item{model}{character vector with the model content}
+
 \item{lstblock}{list with each item being a separate strucured dollor block, usually obtain from \code{\link{nmlistblock}}}
 
 \item{ext}{character with the name of the NONMEM ext file (if not provided estimates are read directly from the list block)}

@@ -2,7 +2,7 @@
 title: "Simulations using R"
 description: >
   Performing simulations in R can be convenient because there is a single
-  environment to work in. The pmxsimtools package provide several functions
+  environment to work in. The amp.sim package provide several functions
   to perform simulations in R using several dedicated simulation frameworks. 
 output: rmarkdown::html_vignette
 vignette: >
@@ -13,9 +13,9 @@ vignette: >
 
 ## Introduction
 
-This vignette describes how pharmacometric models can be simulated in R by using the `pmxsimtools` package. In the field of pharmacometrics, models are oftend estimated using the NONMEM software tool. However, subsequently simulating such models is more often done in R. This method is often preferred because an entire exercise can be done in one environment. There might also be advantages with respect to output size and speed.
+This vignette describes how pharmacometric models can be simulated in R by using the `amp.sim` package. In the field of pharmacometrics, models are oftend estimated using the NONMEM software tool. However, subsequently simulating such models is more often done in R. This method is often preferred because an entire exercise can be done in one environment. There might also be advantages with respect to output size and speed.
 
-When simulating in R there are different packages available to do so. Although there are more, the `pmxsimtools` package support 3 of these packages that are often used, each having their own pros and cons:
+When simulating in R there are different packages available to do so. Although there are more, the `amp.sim` package support 3 of these packages that are often used, each having their own pros and cons:
 
 - `deSolve` package: Widely used general solver package. Can be slow when models are not compiled and does not have specific features for PKPD modeling. For simple models this package can be good choice
 - `rxode2` package: Package specified towards PKPD modeling. Simulations are fast and is the backbone for the estimation package `nlmixr2`. For models that are estimated and simulated solely in R this can be a good choice
@@ -30,7 +30,7 @@ Within this translation step, the model itself is translated and a starting poin
 To perform the translation, the `convert_nonmem` function can be used. This function will translate the model as good as possible and create all applicable code to perform an initial simulation:
 
 ```{r eval=FALSE}
-library(pmxsimtools)
+library(amp.sim)
 convert_nonmem("run1.mod", "example1", type_return = "deSolve")
 # convert_nonmem("run1.mod", "example2", type_return = "rxode2")
 # For rxode2/nlmixr2 it is advised to let the nonmem2rx package
@@ -57,7 +57,7 @@ For the remainder of the vignette, a translation to an `mrgsolve` model is used.
 The step below shows the original model and the result of the translated model:
 
 ```{r eval=TRUE, echo=FALSE}
-library(pmxsimtools)
+library(amp.sim)
 ret <- convert_nonmem("PK.1CMT.ORAL.mod", paste0(tempdir(),"/example"), overwrite = TRUE,
                       type_return = "mrgsolve",control="string",mod_return = "CP")
 mdl <- readLines(paste0(tempdir(),"/example.cpp"))
@@ -111,7 +111,7 @@ $TABLE  ID TIME ETA1 ETA2 KA CP NOPRINT ONEHEADER FILE=par
 ```
 
 ```{r eval=FALSE}
-library(pmxsimtools)
+library(amp.sim)
 convert_nonmem("PK.1CMT.ORAL.mod", "example", type_return = "mrgsolve", mod_return = "CP")
 ```
 ```{r eval=TRUE, echo=FALSE}
@@ -161,7 +161,7 @@ ggplot(out@data,aes(time,CP, group=ID)) + geom_line(alpha=0.3) +
 
 #### Simulations including only uncertainty
 
-In case we only want to simulate with uncertainty, we need to disregard IIV in the same way as in the first example. Furthermore we need to sample $\theta$ values from the covariance matrix for the uncertainty. The `pmxsimtools` provides a function to do so (`sample_par`). Once we have the sampled parameters, it is a matter to simulate each row of the data frame with the sampled parameters. In this example the `dplyr` package is used to accomplish this:
+In case we only want to simulate with uncertainty, we need to disregard IIV in the same way as in the first example. Furthermore we need to sample $\theta$ values from the covariance matrix for the uncertainty. The `amp.sim` provides a function to do so (`sample_par`). Once we have the sampled parameters, it is a matter to simulate each row of the data frame with the sampled parameters. In this example the `dplyr` package is used to accomplish this:
 
 ```{r eval=TRUE,fig.width=6,fig.height=4,message=FALSE, warning=FALSE}
 parm  <- c(WEIGHT = 70)
@@ -254,7 +254,7 @@ In the example above, the $\eta$ values are sampled within the model. It is also
 
 ### Using a template model
 
-In case a closed form model should be simulated, the previous mentioned methods do not work. For these cases different template models are present in the `pmxsimtools` package. It includes 1 and 2 compartment models for IV, infusion and extra-vascular dosing, parameterized using rate constants or CL/V, and as analytical solution or differential equations. The `tmpl_model` function can be used without arguments to see what is available:
+In case a closed form model should be simulated, the previous mentioned methods do not work. For these cases different template models are present in the `amp.sim` package. It includes 1 and 2 compartment models for IV, infusion and extra-vascular dosing, parameterized using rate constants or CL/V, and as analytical solution or differential equations. The `tmpl_model` function can be used without arguments to see what is available:
 
 ```{r}
 tmpl_model()
@@ -301,4 +301,4 @@ out <- do.call(rbind,out)
 
 ### Final thoughts
 
-Simulating entirely in R can be quite some work. The `pmxsimtools` can help in reducing the amount of work to rewrite everything to R, and makes it easier to perform a simple simulation. Because R is different from NONMEM there are important things to take into account. When the simulations become larger it can also become more difficult to perform the simulation in R and the run-times can get out of hand. But the usage of template models (mainly the ones with an analytical solution) and the `parallel` package can help in optimizing performance.
+Simulating entirely in R can be quite some work. The `amp.sim` can help in reducing the amount of work to rewrite everything to R, and makes it easier to perform a simple simulation. Because R is different from NONMEM there are important things to take into account. When the simulations become larger it can also become more difficult to perform the simulation in R and the run-times can get out of hand. But the usage of template models (mainly the ones with an analytical solution) and the `parallel` package can help in optimizing performance.

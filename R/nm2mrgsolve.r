@@ -4,6 +4,7 @@
 #' This function converts a NONMEM model to syntax useable in mrgsolve simulations.
 #'
 #' @param lstblock structured list with information of the model that was read-in, usually obtained from the \code{\link{nmlistblock}} function
+#' @param model character vector with the model content
 #' @param ext character with the name of the NONMEM ext file (if not provided estimates are read directly from control stream)
 #' @param mod_return a character vector indicating which items should be returned from the model function (see \code{\link{convert_nonmem}} for more details)
 #' @param out character with the name of the output file without a file extension
@@ -20,7 +21,7 @@
 #'   lst <- nmlistblock(lst)
 #'   nm2mrgsolve(lst)
 #' }
-nm2mrgsolve <- function(lstblock,ext=NULL,mod_return=NULL,out=NULL){
+nm2mrgsolve <- function(lstblock,model,ext=NULL,mod_return=NULL,out=NULL){
   # Define a translator function to rewrite specific parts for mrgsolve
   wrn <- msg <- ""
   translator     <- function(block){
@@ -56,7 +57,7 @@ nm2mrgsolve <- function(lstblock,ext=NULL,mod_return=NULL,out=NULL){
       rets
     })
   }
-  params            <- get_param(lstblock,ext=ext,addparam = TRUE) # check if we want the addparam as argument (maybe always true?)
+  params            <- get_param(model,lstblock,ext=ext,addparam = TRUE) # check if we want the addparam as argument (maybe always true?)
   sclpar            <- params$all_params[grepl("^S\\d+$",params$all_params)]
   adderr            <- ifelse(!"F"%in%params$all_params,"",ifelse(length(sclpar)>0,paste0("F = A(",sub("S","",sclpar[1]),")/",sclpar[1],";"),"F = A(1);"))
   

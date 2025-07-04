@@ -4,6 +4,7 @@
 #' This function converts a NONMEM model to syntax useable in deSolve simulations
 #'
 #' @param lstblock structured list with information of the model that was read-in, usually obtained from the \code{\link{nmnmlistblock}} function
+#' @param model character vector with the model content
 #' @param ext character with the name of the NONMEM ext file (if not provided estimates are read directly from control stream)
 #' @param out character with the name of the output file without a file extension
 #' @param control character with the type of control to bre returned (see \code{\link{convert_nonmem}} for more details)
@@ -19,7 +20,7 @@
 #'   lst <- listblock(lst)
 #'   nm2deSolve(lst)
 #' }
-nm2deSolve <- function(lstblock,ext=NULL,mod_return=NULL,out=NULL,control=""){ # ,mod_return=NULL
+nm2deSolve <- function(lstblock,model,ext=NULL,mod_return=NULL,out=NULL,control=""){ # ,mod_return=NULL
   # Define a translator function to rewrite specific parts for mrgsolve
   translator     <- function(block){
     sapply(block,function(x){
@@ -47,7 +48,7 @@ nm2deSolve <- function(lstblock,ext=NULL,mod_return=NULL,out=NULL,control=""){ #
     })
   }
 
-  params            <- get_param(lstblock,ext=ext,addparam = TRUE) # check if we want the addparam as argument (maybe always true?)
+  params            <- get_param(model,lstblock,ext=ext,addparam = TRUE) # check if we want the addparam as argument (maybe always true?)
   sclpar            <- params$all_params[grepl("^S\\d+$",params$all_params)]
   adderr            <- ifelse(!"F"%in%params$all_params,"",ifelse(length(sclpar)>0,paste0("F = A",sub("S","",sclpar[1]),"/",sclpar[1],";"),"F = A1;"))
 
@@ -83,7 +84,7 @@ nm2deSolve <- function(lstblock,ext=NULL,mod_return=NULL,out=NULL,control=""){ #
   retlst$control <- c(retlst$control, dput2(retlst$param,FALSE,"parm","\n"))
   retlst$control <- c(retlst$control, dput2(retlst$init,FALSE,"init","\n"))
   retlst$control <- c(retlst$control, "times <- seq(0,48,.1)")
-  retlst$control <- c(retlst$control,"evnt <- pmxsimtools::dose_func(cmt=1,value=100,tau=24,ndose=2)")
+  retlst$control <- c(retlst$control,"evnt <- amp.sim::dose_func(cmt=1,value=100,tau=24,ndose=2)")
   retlst$control <- c(retlst$control,"out  <- data.frame(deSolve::lsoda(init,times,model,parm,events=list(data=evnt)))")
   retlst$control <- c(retlst$control,"out  <- tidyr::pivot_longer(out,cols=!contains(\"time\"))")
   retlst$control <- c(retlst$control,"ggplot(out,aes(time,value)) + geom_line() + facet_wrap(\"name\",scales=\"free\")")
