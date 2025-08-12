@@ -1,14 +1,11 @@
 ---
 title: "Shiny apps"
-resource_files:
-  - shinyscreenshot.PNG
-description: >
-  The package include functionality to directly create a shiny app from
-  a translated model.
-output: rmarkdown::html_vignette
+format: 
+  html: 
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Shiny apps}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -44,13 +41,16 @@ Instructions are shown on the screen how you can directly run the shiny app, whi
 
 ## App appearance
 
-When the app is created an app will be created that will look somehting like:
+When the app is created an app will be created that will look something like:
+
+![example screenshot](shinyscreenshot.PNG){#fig-shiny}
 
 <!-- ```{r echo=FALSE, out.width="100%"} -->
 ```{r echo=FALSE, out.width="100%"}
 #knitr::include_graphics("./shinyscreenshot.PNG")
 #knitr::include_graphics(paste0(getwd(),"/shinyscreenshot.PNG"))
-knitr::include_graphics(file.path("..","man", "figures", "shinyscreenshot.PNG"))
+#knitr::include_graphics(file.path("..","man", "figures", "shinyscreenshot.PNG"))
+#knitr::include_graphics(system.file("shinyscreenshot.PNG",package = "amp.sim"))
 ```
 <!-- ![](./shinyscreenshot.PNG) -->
 

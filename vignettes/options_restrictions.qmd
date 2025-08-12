@@ -1,13 +1,11 @@
 ---
 title: "Considerations for translating models"
-description: >
-  Translating models has lots of aspects. The package tries to take the most
-  important ones into account but things might not work out of the box.
-  This vignette shows most important considerations when translating models. 
-output: rmarkdown::html_vignette
+format: 
+  html: 
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Considerations for translating models}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
 
