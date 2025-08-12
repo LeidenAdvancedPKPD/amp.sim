@@ -7,13 +7,13 @@
 nm2mrgsolve(lstblock, model, ext = NULL, mod_return = NULL, out = NULL)
 }
 \arguments{
-\item{lstblock}{structured list with information of the model that was read-in, usually obtained from the \code{\link{nmlistblock}} function}
+\item{lstblock}{structured list with information of the model that was read-in, usually obtained from the \link{nmlistblock} function}
 
 \item{model}{character vector with the model content}
 
 \item{ext}{character with the name of the NONMEM ext file (if not provided estimates are read directly from control stream)}
 
-\item{mod_return}{a character vector indicating which items should be returned from the model function (see \code{\link{convert_nonmem}} for more details)}
+\item{mod_return}{a character vector indicating which items should be returned from the model function (see \link{convert_nonmem} for more details)}
 
 \item{out}{character with the name of the output file without a file extension}
 }

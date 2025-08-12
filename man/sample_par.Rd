@@ -29,6 +29,8 @@ sample_par(
 \item{seed}{a numeric with the seed number used in set.seed to enable reproducibility, when not provided
 the seed from the global environment will be used (e.g. using \link[base:Random]{base::set.seed})}
 
+\item{nrepl}{numeric witht the number of replicates to sample}
+
 \item{inc_theta}{logical indicating if THETAs should be added to result}
 
 \item{inc_eta}{logical indicating if ETAs should be added to result}
@@ -41,8 +43,6 @@ the seed from the global environment will be used (e.g. using \link[base:Random]
 
 \item{restheta}{character with the theta that describes residual error (e.g. "THETA3") in case uncertainty is sampled
 this parameter will be set to the population value}
-
-\item{inc_sigma}{logical indicating if SIGMAs should be added to result}
 }
 \value{
 a dataframe with sampled values

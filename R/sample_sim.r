@@ -54,14 +54,14 @@ sample_sim <- function(nrepl=2,nsub=3,type="noIIV",...){
     reps    <- reps[rep(1:nrow(reps),each=nsub),]
     subs    <- sample_par(...,inc_theta=FALSE,inc_eta=TRUE,nrepl=nsub)
     subs    <- subs[rep(1:nrow(subs),nrepl),]
-    ret     <- cbind(reps,subset(subs,,-ID))
+    ret     <- cbind(reps,subs[,!names(subs)%in%"ID"])
     ret$REP <- ret$ID
     ret$ID  <- rep(1:nsub,nrepl)
   }else if(type=="unc_varIIV"){
     reps    <- sample_par(...,uncert=TRUE,nrepl=nrepl)
     reps    <- reps[rep(1:nrow(reps),each=nsub),]
     subs    <- sample_par(...,inc_theta=FALSE,inc_eta=TRUE,nrepl=nsub*nrepl)
-    ret     <- cbind(reps,subset(subs,,-ID))
+    ret     <- cbind(reps, subs[,!names(subs)%in%"ID"])
     ret$REP <- ret$ID
     ret$ID  <- rep(1:nsub,nrepl)
   }

@@ -19,7 +19,7 @@
 #'   dput2(setNames(rnorm(26),letters))
 #' }
 dput2 <- function(x,comment=FALSE,obj=NULL,collapse=NULL,...){
-  ret <- capture.output(dput(x,...))
+  ret <- utils::capture.output(dput(x,...))
   if(!is.null(obj)) ret <- c(paste(obj,"<-",ret[1]),ret[-1])
   if(comment) ret <- paste("#", ret)
   if(!is.null(collapse)) ret <- paste(ret,collapse=collapse)

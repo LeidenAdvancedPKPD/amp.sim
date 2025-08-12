@@ -10,10 +10,10 @@
 #'    (relevant in case ext files should be excluded because of minimization issues)
 #' @param seed a numeric with the seed number used in set.seed to enable reproducibility, when not provided 
 #'  the seed from the global environment will be used (e.g. using [base::set.seed])
+#' @param nrepl numeric witht the number of replicates to sample
 #' @param inc_theta logical indicating if THETAs should be added to result
 #' @param inc_eta logical indicating if ETAs should be added to result
 #' @param verbose logical indicating if additional information should be added to result (e.g. OMEGA/SIGMA values)
-#' @param inc_sigma logical indicating if SIGMAs should be added to result
 #' @param dropfixed logical indicating if parameters that are fixed should be dropped (can only be done in case covmat is provided)
 #' @param uncert logical indicating if the uncertainty should be sampled
 #' @param restheta character with the theta that describes residual error (e.g. "THETA3") in case uncertainty is sampled
@@ -40,14 +40,14 @@
 sample_par <- function(ext,covmat=NULL,bootstrap=NULL,seed=NULL,nrepl=10,inc_theta=TRUE,inc_eta=FALSE,verbose=FALSE,dropfixed=FALSE,uncert=FALSE,restheta=NULL){
   # set seed and read data (if applicable)
   if(!is.null(seed)){
-    if(!exists(".Random.seed")) tmp <- runif(1) # create new .Random.seed in case it is deleted
+    if(!exists(".Random.seed")) tmp <- stats::runif(1) # create new .Random.seed in case it is deleted
     oldseed <- .Random.seed
     on.exit({ .Random.seed <<- oldseed })
     set.seed(seed)
   }
 
-  if(class(ext)=="character")    extf   <- read.table(ext,skip=1,header=TRUE) else extf <- ext
-  if(class(covmat)=="character") covmat <- try(read.table(covmat,skip=1,header=TRUE))
+  if(inherits(ext,"character"))    extf   <- utils::read.table(ext,skip=1,header=TRUE) else extf <- ext
+  if(inherits(covmat,"character")) covmat <- try(utils::read.table(covmat,skip=1,header=TRUE))
 
   # sample from covariance matrix or bootstrap (for uncertainty only!)
   extf     <- extf[extf$ITERATION==-1e9,-c(1,ncol(extf))]
@@ -63,7 +63,7 @@ sample_par <- function(ext,covmat=NULL,bootstrap=NULL,seed=NULL,nrepl=10,inc_the
     }else{
       if(is.null(bootstrap)) return("In case of sampling with uncertainty, a bootstrap location should be provided (or covmat)")
       bsres <- if(length(bootstrap)==1 && file.info(bootstrap)$isdir) list.files(bootstrap,pattern="\\.ext$",full.names=TRUE) else bootstrap
-      bsres <- lapply(bsres,read.table,skip=1,header=TRUE)
+      bsres <- lapply(bsres,utils::read.table,skip=1,header=TRUE)
       bsres <- lapply(bsres,function(x) x[x$ITERATION==-1e9,])
       bsres <- do.call(rbind,bsres)
 
@@ -72,7 +72,7 @@ sample_par <- function(ext,covmat=NULL,bootstrap=NULL,seed=NULL,nrepl=10,inc_the
       }else{
         sampl <- bsres[c(1:nrow(bsres),sample(1:nrow(bsres),nrepl-nrow(bsres),replace=TRUE)),]
       }
-      sampl <- subset(sampl,select=-c(ITERATION,OBJ))
+      sampl <- dplyr::select(sampl,-c(.data$ITERATION,.data$OBJ))
       sampl <- cbind(ID=1:nrepl,sampl)
     }
     if(!is.null(restheta)) sampl[,restheta] <- extf[,restheta]

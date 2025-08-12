@@ -12,7 +12,7 @@
 #' @param sigma_ext character with teh name of the ext file which includes the sigma value (in case residual error is coded in the dollar sigma block)
 #'
 #' @details The function will adapt an orginal model in such a way that it can be used directly for simulations
-#'   the assumptions are that an input dataset is created using \code{\link[MSTools]{sample_par}} and \code{\link[MSTools]{simdata}}.
+#'   the assumptions are that an input dataset is created using [sample_par] and [simdata].
 #'   This means that all THETA and ETA values are available in the simulation dataset as respectively STHETAN and SETAN (simulated THETA/ETA n).
 #'   Furthermore it is assumed that the input dataset is a csv file.
 #'   The function will first comment all applicable dollar blocks. Then a OMEGA is added with 0 FIX and the INPUT, DATA and
@@ -40,7 +40,7 @@ make_nmsimmodel <- function(omod,smod,data,subprobs=1,table=NULL,sigma_ext=NULL)
   out   <- append(out,"$OMEGA 0 FIX",dblck$OMEGA[1]-1)
 
   # correct $INPUT, $DATA and $TABLE
-  dnames <- read.csv(data,header=FALSE,nrow=1,stringsAsFactors = FALSE)
+  dnames <- utils::read.csv(data,header=FALSE,nrow=1,stringsAsFactors = FALSE)
   out    <- append(out,paste("$INPUT\n",sub("#","",paste(dnames,collapse=" "))),dblck$INPUT[1]-1)
   out    <- append(out,paste("$DATA",basename(data),"IGNORE=@"),dblck$INPUT[1]-1)
   out    <- append(out,paste0("$SIM (123) SUBPROBLEMS=",subprobs," ONLYSIM"),length(out))
@@ -55,7 +55,7 @@ make_nmsimmodel <- function(omod,smod,data,subprobs=1,table=NULL,sigma_ext=NULL)
 
   # Adapt sigma if indicated
   if(!is.null(sigma_ext)){
-    ext  <- read.table(sigma_ext,skip=1,header=TRUE)
+    ext  <- utils::read.table(sigma_ext,skip=1,header=TRUE)
     ext  <- ext[ext$ITERATION==-1000000000,grep("SIGMA",names(ext)),drop=FALSE]
     out  <- append(out,paste0("$SIGMA\n",paste(unlist(ext),collapse="\n")),grep("\\$SIGMA",out)[1])
   }

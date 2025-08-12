@@ -17,9 +17,9 @@
 #' }
 nm2nonmem2rx <- function(mod, out=NULL,control=""){
   res         <- nonmem2rx::nonmem2rx(file=mod)
-  theta_names <- setNames(res$iniDf$label[!is.na(res$iniDf$ntheta)],res$iniDf$name[!is.na(res$iniDf$ntheta)]) 
+  theta_names <- stats::setNames(res$iniDf$label[!is.na(res$iniDf$ntheta)],res$iniDf$name[!is.na(res$iniDf$ntheta)]) 
   covs        <- res$allCovs[!res$allCovs%in%unique(unlist(dimnames(res$sigma)))]
-  covs        <- setNames(rep(-999,length(covs)),covs)
+  covs        <- stats::setNames(rep(-999,length(covs)),covs)
   parm        <- c(res$theta,covs)
   retlst      <- list()
   retlst$modelfun  <- deparse(body(res$fun))

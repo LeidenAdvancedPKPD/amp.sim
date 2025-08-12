@@ -22,14 +22,14 @@ overlaying <- function(out,input=input,savedsims){
     resn$Simulation <- paste0("sim ",resn$numsim)
     resn$Simulation <- factor(resn$Simulation,levels=unique(resn$Simulation))
     res             <- rbind(savedsims$res,resn)
-    sett            <- c(savedsims$sett,list(vals=reactiveValuesToList(input)))
+    sett            <- c(savedsims$sett,list(vals=shiny::reactiveValuesToList(input)))
     names(sett)[length(sett)] <- unique(as.character(resn$Simulation))
   }else{
     res            <- out
     res$numsim     <- 1
     res$Simulation <- paste0("sim ",res$numsim)
     res$Simulation <- factor(res$Simulation,levels=unique(res$Simulation))
-    sett           <- list(`sim 1`=reactiveValuesToList(input))
+    sett           <- list(`sim 1`=shiny::reactiveValuesToList(input))
   }
   return(list(results=res,settings=sett))
 }

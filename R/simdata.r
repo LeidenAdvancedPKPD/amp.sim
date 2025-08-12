@@ -20,7 +20,9 @@
 #' sim1 <- simdata(seq(0,24,1),0.5,100,10,12,NA,2)
 #' sim2 <- simdata(seq(0,24,1),c(0.5,1),c(100,200),c(10,5),c(12,24),NA,2)
 #' # Directly create a sequence of different dose levels
-#' sim3 <- lapply(seq(25,60,5),function(x) simdata(time=1:12,dosetime=0,doseheight=x,addl=139,ii=120,rate=0,numid=10))
+#' sim3 <- lapply(seq(25,60,5),function(x){
+#'   simdata(time=1:12,dosetime=0,doseheight=x,addl=139,ii=120,rate=0,numid=10)
+#' }) 
 #' sim3 <- do.call(rbind,sim3)
 simdata <- function(time,dosetime,doseheight,addl,ii,rate=NA,numid=5){
   dose     <- data.frame(TIME=dosetime,AMT=doseheight,ADDL=addl,II=ii,RATE=rate)
@@ -29,8 +31,9 @@ simdata <- function(time,dosetime,doseheight,addl,ii,rate=NA,numid=5){
   out$DOSE <- doseheight[1]
   out      <- out[rep(1:nrow(out),numid),]
   out$ID   <- rep(1:numid,each=nrow(out)/numid)
-  out      <- subset(out,,c(ID,DOSE,TIME,AMT,ADDL,II,RATE,DV))
+  #out      <- subset(out,,c(ID,DOSE,TIME,AMT,ADDL,II,RATE,DV))
+  out      <- out[,c("ID", "DOSE", "TIME", "AMT", "ADDL", "II", "RATE", "DV")]
   out      <- out[order(out$ID,out$TIME),]
-  if(all(is.na(out$RATE))) out <- subset(out,select=-RATE)
+  if(all(is.na(out$RATE))) out <- dplyr::select(out,-c(.data$RATE)) # out <- subset(out,select=-RATE)
   return(out)
 }

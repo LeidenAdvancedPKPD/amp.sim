@@ -28,7 +28,7 @@ commented based on input file and other simulation functions within package
 }
 \details{
 The function will adapt an orginal model in such a way that it can be used directly for simulations
-the assumptions are that an input dataset is created using \code{\link[MSTools]{sample_par}} and \code{\link[MSTools]{simdata}}.
+the assumptions are that an input dataset is created using \link{sample_par} and \link{simdata}.
 This means that all THETA and ETA values are available in the simulation dataset as respectively STHETAN and SETAN (simulated THETA/ETA n).
 Furthermore it is assumed that the input dataset is a csv file.
 The function will first comment all applicable dollar blocks. Then a OMEGA is added with 0 FIX and the INPUT, DATA and

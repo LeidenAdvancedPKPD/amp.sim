@@ -25,15 +25,15 @@
 split_sim <- function(data,model,locout,splitby="ID",numout=4){
 
   # Split the input data
-  if(class(data)!="data.frame"){
-    inp           <- read.csv(data,stringsAsFactors = FALSE, na.strings = ".")
+  if(!inherits(data,"data.frame")){
+    inp           <- utils::read.csv(data,stringsAsFactors = FALSE, na.strings = ".")
     names(inp)[1] <- sub("^X\\.","",names(inp)[1]) # In case a comment char is used #
   }else{
     inp <- data
   }
   inps          <- split(inp,cut_equal(inp[,splitby],numout))
   noret         <- lapply(1:length(inps),function(x){
-    write.csv(inps[[x]],paste0(locout,"/",sub("\\.csv$","",basename(data)),".",x,".csv"),row.names=FALSE,quote=FALSE,na=".")
+    utils::write.csv(inps[[x]],paste0(locout,"/",sub("\\.csv$","",basename(data)),".",x,".csv"),row.names=FALSE,quote=FALSE,na=".")
   })
 
   # Split the simulation model

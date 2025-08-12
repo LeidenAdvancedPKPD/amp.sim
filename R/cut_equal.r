@@ -24,9 +24,9 @@ cut_equal <- function(x,n,type=1,ntries=1000){
   if(type==1){
     brk <- 1
     x2  <- as.numeric(as.factor(x))
-    qnt <- quantile(x2,probs=seq(0,1,length.out = brk))
+    qnt <- stats::quantile(x2,probs=seq(0,1,length.out = brk))
     while(length(unique(qnt)) < (n+1)){
-      qnt <- quantile(x2,probs=seq(0,1,length.out = brk))
+      qnt <- stats::quantile(x2,probs=seq(0,1,length.out = brk))
       brk <- brk+1
     }
     ret   <- as.character(cut(x2,unique(qnt),include.lowest = TRUE,right=FALSE))
@@ -42,7 +42,7 @@ cut_equal <- function(x,n,type=1,ntries=1000){
     colnames(m) <- names(tv)
 
     counts  <- apply(m, 1, function(r) sapply(1 : n, function(i) sum(tv[which(r == i)])))
-    score   <- apply(counts, 2, var)
+    score   <- apply(counts, 2, stats::var)
     best    <- which.min(score)
     assignm <- m[best,  ]
 

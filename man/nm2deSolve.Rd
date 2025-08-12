@@ -14,15 +14,17 @@ nm2deSolve(
 )
 }
 \arguments{
-\item{lstblock}{structured list with information of the model that was read-in, usually obtained from the \code{\link{nmnmlistblock}} function}
+\item{lstblock}{structured list with information of the model that was read-in, usually obtained from the \link{nmlistblock} function}
 
 \item{model}{character vector with the model content}
 
 \item{ext}{character with the name of the NONMEM ext file (if not provided estimates are read directly from control stream)}
 
+\item{mod_return}{a character vector indicating which items should be returned from the model function (see \link{convert_nonmem} for more details)}
+
 \item{out}{character with the name of the output file without a file extension}
 
-\item{control}{character with the type of control to bre returned (see \code{\link{convert_nonmem}} for more details)}
+\item{control}{character with the type of control to bre returned (see \link{convert_nonmem} for more details)}
 }
 \value{
 a list is returned inluding all building blocks to create a model
@@ -34,7 +36,8 @@ This function converts a NONMEM model to syntax useable in deSolve simulations
 
 \dontrun{
   mdl <- readLines("run1.mod")
-  lst <- get_nmblock(mdl,block=c("PROB","SUB","MODEL","PK","DES","PRED","THETA","OMEGA","ERROR","SIGMA","EST"))
+  lst <- get_nmblock(mdl,block=c("PROB","SUB","MODEL","PK","DES","PRED",
+                                 "THETA","OMEGA","ERROR","SIGMA","EST"))
   lst <- listblock(lst)
   nm2deSolve(lst)
 }

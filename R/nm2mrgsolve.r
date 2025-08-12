@@ -3,10 +3,10 @@
 #'
 #' This function converts a NONMEM model to syntax useable in mrgsolve simulations.
 #'
-#' @param lstblock structured list with information of the model that was read-in, usually obtained from the \code{\link{nmlistblock}} function
+#' @param lstblock structured list with information of the model that was read-in, usually obtained from the [nmlistblock] function
 #' @param model character vector with the model content
 #' @param ext character with the name of the NONMEM ext file (if not provided estimates are read directly from control stream)
-#' @param mod_return a character vector indicating which items should be returned from the model function (see \code{\link{convert_nonmem}} for more details)
+#' @param mod_return a character vector indicating which items should be returned from the model function (see [convert_nonmem] for more details)
 #' @param out character with the name of the output file without a file extension
 #'
 #' @export

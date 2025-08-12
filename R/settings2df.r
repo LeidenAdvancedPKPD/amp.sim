@@ -4,7 +4,7 @@
 #' This function adds settings or input elements to a dataframe for displaying in app
 #'
 #' @param savedsims reactiveValue that contains the saved simulations
-#' @param leavout character vector with the the elements that should be lefted out the dataframe
+#' @param leaveout character vector with the the elements that should be lefted out the dataframe
 #'
 #' @export
 #' @return a dataframe with settings
@@ -20,7 +20,7 @@ settings2df <- function(savedsims,leaveout=c("go","updOpts","sett","refr","tabse
   sett$sim      <- row.names(sett)
   # sett          <- reshape2::melt(sett,id="sim")
   # sett          <- reshape2::dcast(sett,variable~sim,value.var = "value")
-  sett          <- tidyr::pivot_longer(sett,cols=!contains("sim"))
+  sett          <- tidyr::pivot_longer(sett,cols=!tidyr::contains("sim"))
   sett          <- tidyr::pivot_wider(sett,names_from = "sim",values_from="value")
   labsr         <- savedsims[[1]]$alllabs
   labs          <- sub(".*%=%","",labsr)

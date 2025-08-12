@@ -3,11 +3,12 @@
 #'
 #' This function converts a NONMEM model to syntax useable in deSolve simulations
 #'
-#' @param lstblock structured list with information of the model that was read-in, usually obtained from the \code{\link{nmnmlistblock}} function
+#' @param lstblock structured list with information of the model that was read-in, usually obtained from the [nmlistblock] function
 #' @param model character vector with the model content
 #' @param ext character with the name of the NONMEM ext file (if not provided estimates are read directly from control stream)
+#' @param mod_return a character vector indicating which items should be returned from the model function (see [convert_nonmem] for more details)
 #' @param out character with the name of the output file without a file extension
-#' @param control character with the type of control to bre returned (see \code{\link{convert_nonmem}} for more details)
+#' @param control character with the type of control to bre returned (see [convert_nonmem] for more details)
 #'
 #' @export
 #' @return a list is returned inluding all building blocks to create a model
@@ -16,7 +17,8 @@
 #'
 #' \dontrun{
 #'   mdl <- readLines("run1.mod")
-#'   lst <- get_nmblock(mdl,block=c("PROB","SUB","MODEL","PK","DES","PRED","THETA","OMEGA","ERROR","SIGMA","EST"))
+#'   lst <- get_nmblock(mdl,block=c("PROB","SUB","MODEL","PK","DES","PRED",
+#'                                  "THETA","OMEGA","ERROR","SIGMA","EST"))
 #'   lst <- listblock(lst)
 #'   nm2deSolve(lst)
 #' }
@@ -57,7 +59,7 @@ nm2deSolve <- function(lstblock,model,ext=NULL,mod_return=NULL,out=NULL,control=
   retlst$pkblock     <- paste(paste0("    ",translator(lstblock$PK)),collapse="\n")
   retlst$desblock    <- paste(paste0("    ",translator(lstblock$DES)),collapse="\n")
   retlst$predblock   <- paste(paste0("    ",translator(lstblock$PRED)),collapse="\n")
-  retlst$param       <- c(params$params,setNames(rep(0,nrow(params$omega_matrix)),paste0("ETA",1:nrow(params$omega_matrix))))
+  retlst$param       <- c(params$params,stats::setNames(rep(0,nrow(params$omega_matrix)),paste0("ETA",1:nrow(params$omega_matrix))))
   retlst$init        <- get_inits(lstblock)
   # inits are defined outside model function, meaning that some values are not available in parameter vector. Try to obtain it by evaluating the PK block
   tempenv  <- new.env()
@@ -68,7 +70,7 @@ nm2deSolve <- function(lstblock,model,ext=NULL,mod_return=NULL,out=NULL,control=
   }else{
     for(i in 1:length(retlst$init)) if(is.na(suppressWarnings(as.numeric(retlst$init[i])))) try(retlst$init[i] <- get(retlst$init[i],envir = tempenv))
   }
-  retlst$init        <- setNames(as.numeric(retlst$init),names(retlst$init))
+  retlst$init        <- stats::setNames(as.numeric(retlst$init),names(retlst$init))
   retlst$modname     <- paste0(out,".r")
   retlst$control2mod <- ifelse(control=="model",TRUE,FALSE)
   retlst$mdl_ret     <- paste0("c(",paste0("DADT",1:sum(grepl("DADT[[:digit:]]",translator(lstblock$DES))),collapse=","),")")

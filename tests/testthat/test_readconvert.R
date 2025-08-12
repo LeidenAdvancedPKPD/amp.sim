@@ -216,31 +216,33 @@ test_that("nm2rxode2 returns the correctly tranformed model", {
 #------------------------
 # Test nm2nonmem2rx function
 test_that("nm2nonmem2rx returns the correctly tranformed model", {
-  mdl   <- c("$PROB  example","$PK","KA = THETA(1) * EXP(ETA(1))","CL = THETA(2) * EXP(ETA(2))","V  = THETA(3)","S2  = V","K20 = CL/V","F1  = 1",
-             "$MODEL","COMP = (ABS)","COMP = (CENTRAL)",
-             "$DES","CP = A(2)/V","DADT(1) = - KA*A(1)","DADT(2) =   KA*A(1) - K20*A(2)","$THETA (0,.1) ; KA (1/h)","(0,2) ; CL (l/h)","(0,1) ; V (l)",
-             "$OMEGA",".01 ; ETA KA",".02 ; ETA CL","$ERROR","Y = F * (1 + EPS(1))","IPRED = F","$SIGMA",".1 ; Prop. error")
-  tdir   <- tempdir()
-  writeLines(mdl,paste0(tdir,"/testmodel.mod"))
-  #lst   <- nmlistblock(get_nmblock(mdl,c("DES","PK","OMEGA","SIGMA","PROB","THETA","MODEL","ERROR")))
-  res   <- nm2nonmem2rx(paste0(tdir,"/testmodel.mod")) 
-  
-  expect_true(all(c("modelfun","modname","control")%in%names(res))) 
-  
-  expect_true(res$modname==".r")
-  expect_true(grepl("KA.*exp\\(ETA.*\\)",res$modelfun))
-  expect_true(grepl("d/dt\\(ABS\\).*<-.*-.*ka",res$modelfun))
-  expect_true(grepl("f\\(ABS\\)",res$modelfun))
-  expect_true(any(grepl("parm.*<-.*\\(.*\\)",res$control)))
-  expect_true(any(grepl("ome.*structure.*0.01.*0.*0.*0.02",res$control)))
-  expect_true(any(grepl("sigm.*structure.*0.1.*dim",res$control)))
-  expect_true(any(grepl("et\\(",res$control)))
-  expect_true(any(grepl("rxSolve\\(",res$control)))
-  
-  res2 <- nm2nonmem2rx(paste0(tdir,"/testmodel.mod"),control = "model") 
-  expect_false(any(grepl("rxode2|source",res2$control)))
-  res3 <- nm2nonmem2rx(paste0(tdir,"/testmodel.mod"),out = "test") 
-  expect_true(res3$modname=="test.r")
+  if(require(nonmem2rx)){
+    mdl   <- c("$PROB  example","$PK","KA = THETA(1) * EXP(ETA(1))","CL = THETA(2) * EXP(ETA(2))","V  = THETA(3)","S2  = V","K20 = CL/V","F1  = 1",
+               "$MODEL","COMP = (ABS)","COMP = (CENTRAL)",
+               "$DES","CP = A(2)/V","DADT(1) = - KA*A(1)","DADT(2) =   KA*A(1) - K20*A(2)","$THETA (0,.1) ; KA (1/h)","(0,2) ; CL (l/h)","(0,1) ; V (l)",
+               "$OMEGA",".01 ; ETA KA",".02 ; ETA CL","$ERROR","Y = F * (1 + EPS(1))","IPRED = F","$SIGMA",".1 ; Prop. error")
+    tdir   <- tempdir()
+    writeLines(mdl,paste0(tdir,"/testmodel.mod"))
+    #lst   <- nmlistblock(get_nmblock(mdl,c("DES","PK","OMEGA","SIGMA","PROB","THETA","MODEL","ERROR")))
+    res   <- nm2nonmem2rx(paste0(tdir,"/testmodel.mod")) 
+    
+    expect_true(all(c("modelfun","modname","control")%in%names(res))) 
+    
+    expect_true(res$modname==".r")
+    expect_true(grepl("KA.*exp\\(ETA.*\\)",res$modelfun))
+    expect_true(grepl("d/dt\\(ABS\\).*<-.*-.*ka",res$modelfun))
+    expect_true(grepl("f\\(ABS\\)",res$modelfun))
+    expect_true(any(grepl("parm.*<-.*\\(.*\\)",res$control)))
+    expect_true(any(grepl("ome.*structure.*0.01.*0.*0.*0.02",res$control)))
+    expect_true(any(grepl("sigm.*structure.*0.1.*dim",res$control)))
+    expect_true(any(grepl("et\\(",res$control)))
+    expect_true(any(grepl("rxSolve\\(",res$control)))
+    
+    res2 <- nm2nonmem2rx(paste0(tdir,"/testmodel.mod"),control = "model") 
+    expect_false(any(grepl("rxode2|source",res2$control)))
+    res3 <- nm2nonmem2rx(paste0(tdir,"/testmodel.mod"),out = "test") 
+    expect_true(res3$modname=="test.r")
+  }
 })
 
 #------------------------

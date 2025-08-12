@@ -26,16 +26,16 @@
 #' }
 model_validation <- function(nmtable,simmodel,rounding=4,comppred="CP",out="validate/result.tex",...){
 
-  if(!"ggplot2" %in% rownames(installed.packages())) stop("the ggplot2 package should be installed to use this function")
-  if(!"R3port" %in% rownames(installed.packages())) stop("the R3port package should be installed to use this function")
-  if(!"mrgsolve" %in% rownames(installed.packages())) stop("the mrgsolve package should be available to use this function")
-  if(!"dplyr" %in% rownames(installed.packages())) stop("the dplyr package should be available to use this function")
+  if(!"ggplot2" %in% rownames(utils::installed.packages())) stop("the ggplot2 package should be installed to use this function")
+  if(!"R3port" %in% rownames(utils::installed.packages())) stop("the R3port package should be installed to use this function")
+  if(!"mrgsolve" %in% rownames(utils::installed.packages())) stop("the mrgsolve package should be available to use this function")
+  if(!"dplyr" %in% rownames(utils::installed.packages())) stop("the dplyr package should be available to use this function")
 
   # read in nonmem table file
-  if(class(nmtable)=="data.frame"){
+  if(inherits(nmtable,"data.frame")){
     parf <- nmtable
   }else{
-    parf <- try(read.table(nmtable,header=TRUE,comment.char = "",skip=1))
+    parf <- try(utils::read.table(nmtable,header=TRUE,comment.char = "",skip=1))
     if("try-error"%in%class(parf)) stop("Could not read in NONMEM table file")
   }
   if(!all(c("PRED","ID","TIME","AMT")%in%names(parf))) stop("The variables 'PRED', 'TIME', 'ID' and 'AMT' should at least be available for comparison")
@@ -51,13 +51,15 @@ model_validation <- function(nmtable,simmodel,rounding=4,comppred="CP",out="vali
   simres$reldiff <- 100 * (round(simres[,comppred],rounding) - round(simres$PRED,rounding))/round(simres$PRED,rounding)
 
   # Create results and write to report if applicable
-  simrest1 <- dplyr::select(dplyr::mutate(dplyr::rename(simres,value=diff),variable="Absolute difference"),-reldiff)
-  simrest2 <- dplyr::select(dplyr::mutate(dplyr::rename(simres,value=reldiff),variable="Relative difference (%)"),-diff)
+  simrest1 <- dplyr::rename(simres,"value"="diff") |> dplyr::mutate(variable="Absolute difference") |> dplyr::select(-c(.data$reldiff))
+  simrest2 <- dplyr::rename(simres,"value"="reldiff") |> dplyr::mutate(variable="Relative difference (%)") |> dplyr::select(-c(.data$diff))
+  #simrest1 <- dplyr::select(dplyr::mutate(dplyr::rename(simres,value=diff),variable="Absolute difference"),-reldiff)
+  #simrest2 <- dplyr::select(dplyr::mutate(dplyr::rename(simres,value=reldiff),variable="Relative difference (%)"),-diff)
   simrest  <- rbind(simrest1,simrest2)
-  sumtbl   <- dplyr::summarise(dplyr::group_by(simrest,variable), n = dplyr::n(), min=min(value,na.rm=TRUE),
-                               p5=quantile(value,0.05,na.rm=TRUE), median=median(value,na.rm=TRUE),
-                               p9=quantile(value,0.95,na.rm=TRUE), max=max(value,na.rm=TRUE),
-                               mean=mean(value,na.rm=TRUE), sd=sd(value,na.rm=TRUE))
+  sumtbl   <- dplyr::summarise(dplyr::group_by(simrest,dplyr::across(dplyr::all_of("variable"))), n = dplyr::n(), min=min(.data$value,na.rm=TRUE),
+                               p5=stats::quantile(.data$value,0.05,na.rm=TRUE), median=stats::median(.data$value,na.rm=TRUE),
+                               p9=stats::quantile(.data$value,0.95,na.rm=TRUE), max=max(.data$value,na.rm=TRUE),
+                               mean=mean(.data$value,na.rm=TRUE), sd=stats::sd(.data$value,na.rm=TRUE))
 
   top10            <- simres[!is.na(simres$reldiff) & simres$reldiff!=0,]
   top10$absreldiff <- formatC(abs(top10$reldiff),2,format="fg",flag="#")
@@ -66,9 +68,9 @@ model_validation <- function(nmtable,simmodel,rounding=4,comppred="CP",out="vali
 
   pl1 <- ggplot2::ggplot(simres,ggplot2::aes(.data[["PRED"]],.data[[comppred]])) + ggplot2::geom_point(alpha=.2) + ggplot2::geom_abline(slope=1,intercept = 0) +
     ggplot2::labs(x="Results estimation",y="Results simulation") + ggplot2::theme_bw(base_size = 9)
-  pl2a <- ggplot2::ggplot(simres,ggplot2::aes(diff)) + ggplot2::geom_histogram() +
+  pl2a <- ggplot2::ggplot(simres,ggplot2::aes(.data$diff)) + ggplot2::geom_histogram() +
     ggplot2::labs(x="Difference bewteen estimation and simulation") + ggplot2::theme_bw(base_size = 9)
-  pl2b <- ggplot2::ggplot(simres,ggplot2::aes(reldiff)) + ggplot2::geom_histogram() +
+  pl2b <- ggplot2::ggplot(simres,ggplot2::aes(.data$reldiff)) + ggplot2::geom_histogram() +
     ggplot2::labs(x="Relative difference bewteen estimation and simulation (%)") + ggplot2::theme_bw(base_size = 9)
 
   if(!is.null(out)){
@@ -78,7 +80,7 @@ model_validation <- function(nmtable,simmodel,rounding=4,comppred="CP",out="vali
         file=paste0(dirname(out),"/01.res.tex.rawtex"))
     R3port::ltx_list(sumtbl,out = paste0(dirname(out),"/02.res.tex"), show=FALSE,
                      title="Summary statistics of the differences between estimation and simultion model")
-    R3port::ltx_list(head(top10[order(top10$absreldiff,decreasing = TRUE),],10),porder=FALSE,xrepeat=TRUE, show=FALSE,
+    R3port::ltx_list(utils::head(top10[order(top10$absreldiff,decreasing = TRUE),],10),porder=FALSE,xrepeat=TRUE, show=FALSE,
                      out = paste0(dirname(out),"/03.res.tex"),title="Top 10 highest relative differences between estimation and simultion model")
     R3port::ltx_plot(pl1,out = paste0(dirname(out),"/04.res.tex"),pwidth = 7, show=FALSE,
                      title="Graphical comparison between estimation and simultion model")

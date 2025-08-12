@@ -52,9 +52,9 @@ get_est <- function(from){
     matr[is.na(matr)] <- 0
     if(type=="OMEGA") return(list(matr,eta)) else return(matr)
   }
-  if(length(grep("\\.ext$",from))!=0 | class(from)=="data.frame"){
+  if(inherits(from,"data.frame")  || length(grep("\\.ext$",from))!=0){
     # actions for ext data
-    if(class(from)=="data.frame") est <- from else  est    <- read.table(from,skip=1,header = TRUE)
+    if(inherits(from,"data.frame")) est <- from else  est    <- utils::read.table(from,skip=1,header = TRUE)
     est    <- est[est$ITERATION==-1.0e+09,]
     theta  <- est[,grep("THETA",names(est))]
     thetan <- names(theta)
@@ -68,7 +68,7 @@ get_est <- function(from){
     theta  <- gsub("\\(|\\).*|;.*","",thetaa)
     theta  <- trimws(gsub("FIX","",theta))
     theta  <- sapply(strsplit(theta,",| "),function(x){
-      ret <- na.omit(as.numeric(x))
+      ret <- stats::na.omit(as.numeric(x))
       ifelse(length(ret)==1,ret,ret[2])
     })
     names(theta) <- paste0("THETA",1:length(theta))

@@ -41,12 +41,12 @@ get_param <- function(model,lstblock,ext=NULL,addparam=TRUE){
   allpar  <- get_parmvar(lstblock,returnall=TRUE)
   addpar  <- setdiff(get_parmvar(lstblock),names(estma))
   addpar  <- addpar[!addpar%in%c(get("reserved1",envir=.simenv),"F")] # F is reserved in nm error block
-  addparv <- setNames(rep(-999,length(addpar)),addpar) # set unkown values to -999, more likely to fail to ensure user changes this!
+  addparv <- stats::setNames(rep(-999,length(addpar)),addpar) # set unkown values to -999, more likely to fail to ensure user changes this!
   if(addparam) estma <- c(estma,addparv)
   if("try-error"%in%class(estmm) || length(estmm$THETA)!=length(estmm$THETAN)){ # any(is.na(estmm$THETA)): although not perfect NAs can be present for naming
     nams <- ""
   }else{
-    nams <- dput2(setNames(trimws(estmm$THETAN),names(estmm$THETA)),TRUE,"theta_names")
+    nams <- dput2(stats::setNames(trimws(estmm$THETAN),names(estmm$THETA)),TRUE,"theta_names")
   }
   return(list(params=estma,theta_names=nams,omega_matrix=ome,omega_string=omestr,sigma_matrix=sigm,sigma_string=sigmstr,add_params=addpar,all_params=allpar))
 }

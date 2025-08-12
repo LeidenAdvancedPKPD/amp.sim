@@ -44,7 +44,7 @@ mdose <- function(Dose,tau,ndose,t,func,...){
   timlst <- lapply(t, function(x) {
     n.tau <- ceiling( x / (sum.tau <- sum( tau)))
     t     <- c( 0, rep( 0:(n.tau-1) * sum.tau, each = length( tau)) + rep( cumsum( tau), n.tau))
-    head(x - t[ t <= x],n=ndose)
+    utils::head(x - t[ t <= x],n=ndose)
   })
   y <- sapply(timlst,function(y){  sum(do.call(deparse(substitute(func)),c(args2,t=list(y)))) })
   return(data.frame(time=t,y=y))

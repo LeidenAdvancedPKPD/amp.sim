@@ -25,7 +25,7 @@ get_iiv_ruv_ctl <- function(mod,type="OMEGA"){
   varbl$bl      <- grepl(paste0("\\$",type,".*BLOCK"),varbl$cont)
   varbl$numvar  <- suppressWarnings(ifelse(varbl$bl,as.numeric(gsub(".*BLOCK\\(|\\)","",varbl$cont)),NA))
   numn         <- suppressWarnings(lapply(strsplit(varbl$cont," "),as.numeric))
-  varbl$numvar[!varbl$numbl%in%varbl$numbl[varbl$bl]] <- sapply(numn,function(x) length(na.omit(x)))[!varbl$numbl%in%varbl$numbl[varbl$bl]]
+  varbl$numvar[!varbl$numbl%in%varbl$numbl[varbl$bl]] <- sapply(numn,function(x) length(stats::na.omit(x)))[!varbl$numbl%in%varbl$numbl[varbl$bl]]
   numvar       <- tapply(varbl$numvar, varbl$numbl, sum, na.rm=TRUE)
   varbl$numvar  <- numvar[match(varbl$numbl,as.numeric(names(numvar)))]
   varbl$numvarc <- ifelse(duplicated(varbl[,c("numbl","numvar")]),0,varbl$numvar)
@@ -33,7 +33,7 @@ get_iiv_ruv_ctl <- function(mod,type="OMEGA"){
   
   fin <- lapply(unique(varbl$numbl),function(x){
     allom <- varbl$cont[varbl$numbl==x]
-    ret   <- suppressWarnings(as.numeric(na.omit(as.numeric(strsplit(paste(allom,collapse=" ")," ")[[1]]))))
+    ret   <- suppressWarnings(as.numeric(stats::na.omit(as.numeric(strsplit(paste(allom,collapse=" ")," ")[[1]]))))
     if(varbl$bl[varbl$numbl==x][1]){
       bn1        <- rep(1:varbl$numvar[varbl$numbl==x][1],1:varbl$numvar[varbl$numbl==x][1])
       bn2        <- unlist(sapply(1:varbl$numvar[varbl$numbl==x][1],function(y) 1:y))

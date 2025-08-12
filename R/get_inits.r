@@ -14,8 +14,8 @@
 get_inits <- function(lstblock){
   inits1 <- unlist(sapply(lstblock$DES,function(x) return(x$LHS[grepl("DADT\\(.*\\)",x$LHS)])))
   inits1 <- paste0("A",gsub("DADT\\(|\\)","",inits1))
-  inits1 <- setNames(rep(0,length(inits1)),inits1)
-  inits2 <- unlist(lapply(lstblock$PK,function(x) setNames(trimws(x[x$type=="init"][['RHS']]),x[x$type=="init"][['LHS']])))
+  inits1 <- stats::setNames(rep(0,length(inits1)),inits1)
+  inits2 <- unlist(lapply(lstblock$PK,function(x) stats::setNames(trimws(x[x$type=="init"][['RHS']]),x[x$type=="init"][['LHS']])))
   if(!is.null(inits2)){
     names(inits2) <- gsub("_0\\(|\\)","",names(inits2))
     inits <- inits1

@@ -27,7 +27,8 @@ This function converts a NONMEM model to syntax useable in rxode2 simulations
 
 \dontrun{
   mdl <- readLines("run1.mod")
-  lst <- get_nmblock(mdl,block=c("PROB","SUB","MODEL","PK","DES","PRED","THETA","OMEGA","ERROR","SIGMA","EST"))
+  lst <- get_nmblock(mdl,block=c("PROB","SUB","MODEL","PK","DES","PRED",
+                                 "THETA","OMEGA","ERROR","SIGMA","EST"))
   lst <- nmlistblock(lst)
   nm2rxode2(lst)
 }
