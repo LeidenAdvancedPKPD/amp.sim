@@ -35,11 +35,13 @@ nm2mrgsolve <- function(lstblock,model,ext=NULL,mod_return=NULL,out=NULL){
           rets <- x$cntrl
           if(x$comm!="") rets <- paste0(rets,"//",x$comm)
         }else{
-          if(grepl("A[[:digit:]]+$",x$LHS) & grepl("A\\([[:digit:]]+\\)$",trimws(x$RHS))){
+          #if(grepl("A[[:digit:]]+$",x$LHS) & grepl("A\\([[:digit:]]+\\)$",trimws(x$RHS))){
+          if(grepl("^A[[:digit:]]+$",trimws(x$LHS)) & grepl("A\\([[:digit:]]+\\)$",trimws(x$RHS))){
             assign("msg",c("Assignment of compartment with same name (commented out)",msg),envir = parent.frame(n = 4))
             x$LHS <- paste0("//",x$LHS)
           } 
-          if(grepl("A[[:digit:]]+$",x$LHS) & !grepl("A\\([[:digit:]]+\\)$",trimws(x$RHS))){
+          #if(grepl("A[[:digit:]]+$",x$LHS) & !grepl("A\\([[:digit:]]+\\)$",trimws(x$RHS))){
+          if(grepl("^A[[:digit:]]+$",trimws(x$LHS)) & !grepl("A\\([[:digit:]]+\\)$",trimws(x$RHS))){
             assign("wrn",c("Assignment of compartment (commented out), check code to ensure this is correct",wrn),envir = parent.frame(n = 4))
             x$LHS <- paste0("//",x$LHS)
           }
