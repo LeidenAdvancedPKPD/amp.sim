@@ -40,7 +40,7 @@ nmlistblock <- function(dollmodel){
           LHS   <- gsub("IF.*\\(.*\\)","",LHS)
           LHS   <- trimws(LHS)
           RHS   <- gsub(".*=","",xnc)
-          RHS   <- gsub("ERR(\\([[:digit:]]\\))","EPS\\1",RHS) # Make sure residual is always coded as EPS
+          RHS   <- gsub("ERR(\\([[:digit:]]*\\))","EPS\\1",RHS) # Make sure residual is always coded as EPS
         }else{
           LHS <- RHS <- ""
         }
