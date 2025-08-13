@@ -39,7 +39,8 @@ __Specific NONMEM coding__
 
 Within NONMEM there are different ways of coding certain blocks. For instance there are many ways of defining initial estimates for $\theta$ and $\omega$ values. The package supports most common coding but not all. It is therefor advised not to use very specific coding here (e.g. defining $\theta$ as `(value)xn` to repeat estimates). For $\omega$ values, blocks are supported but using the 'block same' structure to code inter-occasion variability will likely not work out of the box. Also structures defining correlations instead of covariance will likely need adaptations.
 
-Within NONMEM it is also possible to write abbreviated FORTRAN code (e.g. including things like `COM(n)` and/or `$ABBREVIATED`). This part is currently not supported by the package and should be deleted/rewritten before translating the model.
+Within NONMEM it is also possible to write abbreviated FORTRAN code (e.g. including things like `COM(n)` and/or `$ABBREVIATED`). Additionally, the usage of protected functions in R could lead to possible issues in the translated model (e.g. `PROTOECT` option in `$ABBREVIATED`). 
+This part is currently not supported by the package and should be deleted/rewritten before translating the model.
 
 The most important reserved keywords are taken into account. However given the amount of reserved keywords (not only in NONMEM but in the simulation packages as well), it could be that certain keywords are not supported. Please file an issue if you stumble upon an example that does not work.
 

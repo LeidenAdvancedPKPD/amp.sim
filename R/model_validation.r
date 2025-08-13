@@ -51,10 +51,8 @@ model_validation <- function(nmtable,simmodel,rounding=4,comppred="CP",out="vali
   simres$reldiff <- 100 * (round(simres[,comppred],rounding) - round(simres$PRED,rounding))/round(simres$PRED,rounding)
 
   # Create results and write to report if applicable
-  simrest1 <- dplyr::rename(simres,"value"="diff") |> dplyr::mutate(variable="Absolute difference") |> dplyr::select(-c(.data$reldiff))
-  simrest2 <- dplyr::rename(simres,"value"="reldiff") |> dplyr::mutate(variable="Relative difference (%)") |> dplyr::select(-c(.data$diff))
-  #simrest1 <- dplyr::select(dplyr::mutate(dplyr::rename(simres,value=diff),variable="Absolute difference"),-reldiff)
-  #simrest2 <- dplyr::select(dplyr::mutate(dplyr::rename(simres,value=reldiff),variable="Relative difference (%)"),-diff)
+  simrest1 <- dplyr::rename(simres,"value"="diff") |> dplyr::mutate(variable="Absolute difference") |> dplyr::select(!dplyr::all_of("reldiff"))
+  simrest2 <- dplyr::rename(simres,"value"="reldiff") |> dplyr::mutate(variable="Relative difference (%)") |> dplyr::select(!dplyr::all_of("diff"))
   simrest  <- rbind(simrest1,simrest2)
   sumtbl   <- dplyr::summarise(dplyr::group_by(simrest,dplyr::across(dplyr::all_of("variable"))), n = dplyr::n(), min=min(.data$value,na.rm=TRUE),
                                p5=stats::quantile(.data$value,0.05,na.rm=TRUE), median=stats::median(.data$value,na.rm=TRUE),
