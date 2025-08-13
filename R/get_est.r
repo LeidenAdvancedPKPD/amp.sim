@@ -52,9 +52,15 @@ get_est <- function(from){
     matr[is.na(matr)] <- 0
     if(type=="OMEGA") return(list(matr,eta)) else return(matr)
   }
+  # Define function to enable reading the last table (in case multiple estimation methods are used)
+  readlast <- function(x){
+    dat    <- suppressWarnings(try(readLines(x),silent=TRUE))
+    tabpos <- grep("TABLE NO\\.",dat)
+    suppressWarnings(try(utils::read.table(x, skip=tabpos[length(tabpos)], header=TRUE,fill = TRUE),silent=TRUE))
+  }
   if(inherits(from,"data.frame")  || length(grep("\\.ext$",from))!=0){
     # actions for ext data
-    if(inherits(from,"data.frame")) est <- from else  est    <- utils::read.table(from,skip=1,header = TRUE)
+    if(inherits(from,"data.frame")) est <- from else  est <- readlast(from)
     est    <- est[est$ITERATION==-1.0e+09,]
     theta  <- est[,grep("THETA",names(est))]
     thetan <- names(theta)
