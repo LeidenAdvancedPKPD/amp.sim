@@ -34,6 +34,6 @@ simdata <- function(time,dosetime,doseheight,addl,ii,rate=NA,numid=5){
   #out      <- subset(out,,c(ID,DOSE,TIME,AMT,ADDL,II,RATE,DV))
   out      <- out[,c("ID", "DOSE", "TIME", "AMT", "ADDL", "II", "RATE", "DV")]
   out      <- out[order(out$ID,out$TIME),]
-  if(all(is.na(out$RATE))) out <- dplyr::select(out,-c(.data$RATE)) # out <- subset(out,select=-RATE)
+  if(all(is.na(out$RATE))) out <- dplyr::select(out, !dplyr::all_of("RATE"))  
   return(out)
 }

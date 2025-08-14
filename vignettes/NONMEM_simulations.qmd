@@ -129,7 +129,7 @@ simd$SETA1   <- round(rnorm(nrow(simd),sd=0.2),3)
 simd$SETA2   <- round(rnorm(nrow(simd),sd=0.1),3)
 ```
 ```{r}
-#| eval: false
+#| eval: true
 head(simd)
 ```
 
@@ -169,8 +169,20 @@ split_sim(data    = "sim.input.csv",
           numout  = 3)
 ```
 
-Within this function the dataset and model should be provided so that multiple copies can be made for both. Also, a variable to split on should be 
-given and the number of outputs/models. The function will then try, as good as possible, to create equally sized chunks.
+Within this function, the dataset and model should be provided so that multiple copies can be made for both. Also, a variable to split on should be given and the number of outputs/models. The function will then try, as good as possible, to create equally sized chunks.
+An important note here, is that you can use a data frame for `data` instead of a csv file. This is convenient because in that case you do not need to use a huge csv file that should be split. Although, You do need a csv file in order to make the initial simulation model (e.g. 'run2sim_final.mod' above). It is suggested to do this with only the head of the simulation input and then do the splitting, for example:
+
+```{r}
+#| eval: false
+write.csv(head(inp),csv="sim.input.csv",row.names = FALSE, na = ".")
+make_nmsimmodel("run1.mod", smod = "sim1.mod", data = "sim.input.csv")
+
+split_sim(data    = inp,
+          model   = "sim1.mod",
+          locout  = "simulation",
+          splitby = "DOSE",
+          numout  = 3)
+```
 
 ## Run the simulation
 

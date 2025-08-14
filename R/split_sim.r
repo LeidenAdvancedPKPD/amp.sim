@@ -10,7 +10,7 @@
 #' @param splitby character string with the variable in the data to be split on (if this is not ID it could lead to unexpected results)
 #' @param numout the number of 'equal length' outputs to be created.
 #'
-#' @details In general the data can be a character string defining the input dataset (as csv file!) or a dataframe
+#' @details In general the data can be a character string defining the input dataset (csv file) or a dataframe
 #'  it is proposed to use a dataframe as in many cases the splitting should take place for a large problem. In case
 #'  a dataframe is used (e.g. from loading an Rdata object)  it is not necessary to import a huge csv file.
 #'
@@ -28,12 +28,14 @@ split_sim <- function(data,model,locout,splitby="ID",numout=4){
   if(!inherits(data,"data.frame")){
     inp           <- utils::read.csv(data,stringsAsFactors = FALSE, na.strings = ".")
     names(inp)[1] <- sub("^X\\.","",names(inp)[1]) # In case a comment char is used #
+    nam <- sub("\\.csv$","",basename(data))
   }else{
     inp <- data
+    nam <- deparse(substitute(data))
   }
   inps          <- split(inp,cut_equal(inp[,splitby],numout))
   noret         <- lapply(1:length(inps),function(x){
-    utils::write.csv(inps[[x]],paste0(locout,"/",sub("\\.csv$","",basename(data)),".",x,".csv"),row.names=FALSE,quote=FALSE,na=".")
+    utils::write.csv(inps[[x]],paste0(locout,"/",nam,".",x,".csv"),row.names=FALSE,quote=FALSE,na=".")
   })
 
   # Split the simulation model
@@ -42,7 +44,7 @@ split_sim <- function(data,model,locout,splitby="ID",numout=4){
   ddat      <- unlist(lapply(setdiff(grep("\\$DATA",mdl),grep(";.*\\$DATA",mdl)),function(x) x:(min(doll[doll>x]-1))))
   mdl[ddat] <- paste(";",mdl[ddat])
   noret     <- lapply(1:numout,function(x){
-    out <- append(mdl,paste("$DATA",paste0(sub("\\.csv$","",basename(data)),".",x,".csv"),"IGNORE=@"),ddat[1]-1)
+    out <- append(mdl,paste("$DATA",paste0(nam,".",x,".csv"),"IGNORE=@"),ddat[1]-1)
     writeLines(out,paste0(locout,"/",sub("\\.mod$","",basename(model)),".",x,".mod"))
   })
 }
