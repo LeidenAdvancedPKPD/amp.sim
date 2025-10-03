@@ -25,7 +25,7 @@ This function splits a large simulation dataset and accompanying model in chunks
 to prevent memory problems within the simulation or to enable simulating over multiple cores
 }
 \details{
-In general the data can be a character string defining the input dataset (as csv file!) or a dataframe
+In general the data can be a character string defining the input dataset (csv file) or a dataframe
 it is proposed to use a dataframe as in many cases the splitting should take place for a large problem. In case
 a dataframe is used (e.g. from loading an Rdata object)  it is not necessary to import a huge csv file.
 }
