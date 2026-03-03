@@ -65,11 +65,10 @@ test_that("conv_pow correctly convert the power to syntax used in mrgsolve", {
 #----------------------
 # Test get_est function
 test_that("get_est correctly gets the estimate from a model or ext output", {
-  ext <- data.frame(ITERATION = c(0L, 24L, -1000000000L),THETA1 = c(0.03,0.07, 0.07),THETA2 = c(2, 2.6, 2.6),
-                    SIGMA.1.1. = c(0.1,0.07, 0.07), OMEGA.1.1. = c(0.01, 0.006, 0.006), 
-                    OMEGA.2.1. = c(0, 0, 0), OMEGA.2.2. = c(0.02, 0.04, 0.04), OBJ = c(999, 647, 647))
-  mdl  <- c("$THETA","(0,.03) ; KA (1/h)"," (0,2) ; K (1/h)","$OMEGA  .01; ETA KA" ," .02; ETA K","$SIGMA  .1  ; Prop. error")
-  extr <- get_est(ext)
+  extf   <- system.file("testfiles/ext_sampling.ext",package="amp.sim")
+  covf   <- system.file("testfiles/covariance_sampling.cov",package="amp.sim")
+  mdl    <- system.file("testfiles/nonmem.mod",package="amp.sim")
+  extr <- get_est(extf)
   modr <- get_est(mdl)
   
   expect_equal(names(extr), names(modr))
@@ -78,14 +77,14 @@ test_that("get_est correctly gets the estimate from a model or ext output", {
   expect_true(is.matrix(extr$SIGMA))
   expect_named(extr$THETA)
   expect_named(extr$ETA)
-  expect_equal(unname(extr$THETA), c(0.07,2.6))
+  expect_equal(round(unname(extr$THETA),2), c(0.09, 2.67, 1.38, 0.41, 1.61))
   expect_equal(unname(extr$ETA), c(0,0))
-  expect_equal(extr$OMEGA, matrix(c(0.006,0,0,0.04),nrow=2))
-  expect_equal(unname(modr$THETA), c(0.03,2))
+  expect_equal(round(extr$OMEGA,2), matrix(c(0.04,-0.04,-0.04,0.35),nrow=2))
+  expect_equal(unname(modr$THETA), c(0.08, 2, 1, 0.2, 1.2))
   expect_equal(unname(modr$ETA), c(0,0))
-  expect_equal(modr$OMEGA, matrix(c(0.01,0,0,0.02),nrow=2))
-  expect_equal(extr$THETAN, c("THETA1","THETA2"))
-  expect_equal(trimws(modr$THETAN), c("KA (1/h)","K (1/h)"))
+  expect_equal(modr$OMEGA, matrix(c(0.2,0.01,0.01,0.1),nrow=2))
+  expect_equal(extr$THETAN, paste0("THETA",1:5))
+  expect_equal(trimws(modr$THETAN), c("KA (1/h)", "CL (l/h)", "V (l)", "effect of WT", "effect of SEX"))
 })
 
 #--------------------------

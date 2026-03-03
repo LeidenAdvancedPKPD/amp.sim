@@ -16,7 +16,7 @@
 get_parmvar <- function(lstblock,returnall=FALSE){
   alllst   <- c(lstblock$PK,lstblock$DES,lstblock$ERROR,lstblock$PRED)
   if(is.null(alllst)) stop("There is no PK, DES, PRED or error block in the provided model")
-  allvars   <- lapply(alllst,function(x){if(x$type%in%c("formula","control+formula","controlflow")) return(x)})
+  allvars   <- lapply(alllst,function(x){if(x$type%in%c("formula","control+formula","controlflow","init")) return(x)})
   allvars   <- allvars[!sapply(allvars,is.null)]
   addvars   <- vector("character") # return vector with variables to be added
   noaddvars <- vector("character") # temp vector to check if variable should be added

@@ -68,11 +68,14 @@ nm2mrgsolve <- function(lstblock,model,ext=NULL,mod_return=NULL,out=NULL){
   retlst$problem     <- lstblock$PROB[[1]]$orig
   retlst$control2mod <- FALSE
   retlst$cmt         <- gsub(";.*","",unlist(lapply(lstblock$MODEL,"[[","orig")))
-  if(any(grepl("^NCOMPARTMENTS=|^NCM=|^NCOMPS=",retlst$cmt))){
-    retlst$cmt         <- retlst$cmt[grepl("^NCOMPARTMENTS=|^NCM=|^NCOMPS=",retlst$cmt)][1]
-    retlst$cmt         <- paste(paste0("A",1:as.numeric(sub("^NCOMPARTMENTS=|^NCM=|^NCOMPS=","",retlst$cmt))),collapse=" ") 
+  if(any(grepl("^NCOMPARTMENTS\\s*=|^NCM\\s*=|^NCOMPS\\s*=|^NCOMP\\s*=",retlst$cmt))){
+    #retlst$cmt         <- retlst$cmt[grepl("^NCOMPARTMENTS=|^NCM=|^NCOMPS=|^NCOMP=",retlst$cmt)][1]
+    #retlst$cmt         <- paste(paste0("A",1:as.numeric(sub("^NCOMPARTMENTS=|^NCM=|^NCOMPS=|^NCOMP=","",retlst$cmt))),collapse=" ") 
+    retlst$cmt         <- sub(".*\\b(NCOMP|NCOMPARTMENT|NCOMPARTMENTS|NCM|NCOMPS|NCOMP)\\b\\s*=\\s*([0-9]+).*", "\\2", paste(retlst$cmt, collapse=" "))
+    retlst$cmt         <- paste(paste0("A",1:as.numeric(retlst$cmt)),collapse=" ") 
   }else{
-    retlst$cmt         <- unlist(regmatches(retlst$cmt,gregexpr("\\(.*?\\)",retlst$cmt)))
+    #retlst$cmt         <- unlist(regmatches(retlst$cmt,gregexpr("\\(.*?\\)",retlst$cmt)))
+    retlst$cmt         <- unlist(regmatches(retlst$cmt,gregexpr("COMPARTMENT.*=|COMP.*=",retlst$cmt))) # no necessarily brackets but we need at least "COMP="
     retlst$cmt         <- paste(paste0("A",1:length(retlst$cmt)),collapse=" ") # Do not use names for CMTs
   }
   retlst$cmt         <- paste(c("$CMT",retlst$cmt),collapse="\n")
@@ -86,7 +89,7 @@ nm2mrgsolve <- function(lstblock,model,ext=NULL,mod_return=NULL,out=NULL){
   retlst$errorblock  <- paste(c("$ERROR",adderr,retlst$errorblock),collapse="\n")
   retlst$param       <- paste(paste(names(params$params),"=",params$params),collapse=", ")
   retlst$randstruct  <- paste("$OMEGA @block",paste(params$omega_string, collapse="\n"),sep="\n") # we do not need annotations, so keep it as simple as possible
-  retlst$sigmablock  <- paste("$SIGMA @block",paste(params$sigma_string, collapse="\n"),sep="\n")
+  if(!is.null(params$sigma_string)) retlst$sigmablock  <- paste("$SIGMA @block",paste(params$sigma_string, collapse="\n"),sep="\n") else retlst$sigmablock  <- ""
   retlst$modtype     <- ifelse(retlst$desblock!="$DES\n","ode",ifelse(retlst$predblock!="$PRED\n","pred","other"))
   
   if(retlst$modtype=="pred")  {retlst$init <- retlst$pkblock <- retlst$cmt <- retlst$desblock <- retlst$errorblock <- ""}

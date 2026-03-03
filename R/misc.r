@@ -25,3 +25,30 @@ dput2 <- function(x,comment=FALSE,obj=NULL,collapse=NULL,...){
   if(!is.null(collapse)) ret <- paste(ret,collapse=collapse)
   return(ret)
 }
+#------------------------------------------ pos_clpar ------------------------------------------
+#' Get position of closing parenthesis
+#'
+#' This function gets the position of the closing parenthesis after the first opening one
+#'
+#' @param x character string for which the parenthesis should be searched
+#'
+#' @export
+#' @return a numeric with the position of the closing parenthesis (will be -1 if no match is present)
+#' @author Richard Hooijmaijers
+#' @examples
+#'
+#' \dontrun{
+#'   tst <- "IF (test == A(1)) a(1)=(1*5)/2"
+#'   pos_clpar(tst)
+#'   substring(tst,1,pos_clpar(tst))
+#' }
+pos_clpar <- function(x){
+  if(grepl("'|\"",x)) stop("character comparison not supported")  
+  ob  <- gregexpr("\\(",x)[[1]] 
+  cb  <- gregexpr("\\)",x)[[1]] 
+  names(ob) <- rep("+1",length(ob))
+  names(cb) <- rep("-1",length(ob))
+  ab  <- sort(c(ob, cb))
+  cab <- as.numeric(names(ab)) |> cumsum()
+  return(ab[which(cab==0)[1]])
+}

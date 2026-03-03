@@ -17,6 +17,7 @@
 get_nmblock <- function(model,block,ret="content",omitbn=TRUE){
   aliases <- list(c("PROBLEM", "PROB"), c("SUBROUTINES", "SUBS","SUB"), c("ESTIMATE","ESTM", "EST"))
   if(length(model)==1) {rmdl <- readLines(model)}else{rmdl <- model}
+  rmdl <- iconv(rmdl, "latin1", "ASCII", sub="") # want to get rid of non-ASCII characters
   alldoll  <- c(grep("^[^;]*\\$",rmdl),length(rmdl)+1)
   ret      <- lapply(block,function(x){
     aliaspres <- sapply(aliases, function(nm) any(nm%in%x))

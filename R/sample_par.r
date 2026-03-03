@@ -4,7 +4,7 @@
 #' This function samples model parameters from NONMEMs covariate matrix (*.cov) and final parameter
 #'  estimates (*.ext). Furthermore etas can also be sampled where eta blocks are taken into account (see details)
 #'
-#' @param ext character string with location of ext file with final model parameters or data.frame of ext file
+#' @param ext character string with location of ext file with final model parameters 
 #' @param covmat character string with location of cov file with covariance matrix or data.frame of cov file
 #' @param bootstrap character string with location of ext files from bootrstrap or vector with ext files from bootstrap
 #'    (relevant in case ext files should be excluded because of minimization issues)

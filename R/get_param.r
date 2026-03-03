@@ -27,14 +27,19 @@ get_param <- function(model,lstblock,ext=NULL,addparam=TRUE){
   estma   <- estm$THETA
   ome     <- estm$OMEGA
   dimnames(ome)  <- list(paste0("ETA",1:nrow(ome)),paste0("ETA",1:nrow(ome)))
-  sigm    <- estm$SIGMA
-  dimnames(sigm) <- list(paste0("EPS",1:nrow(sigm)),paste0("EPS",1:nrow(sigm)))
   omestr  <- ome
   omestr[upper.tri(omestr)] <- ""
   omestr  <- apply(omestr,1,paste,collapse=" ")
-  sigmstr <- sigm
-  sigmstr[upper.tri(sigmstr)] <- ""
-  sigmstr <- apply(sigmstr,1,paste,collapse=" ")
+
+  if(!is.null(estm$SIGMA)){
+    sigm    <- estm$SIGMA
+    dimnames(sigm) <- list(paste0("EPS",1:nrow(sigm)),paste0("EPS",1:nrow(sigm)))
+    sigmstr <- sigm
+    sigmstr[upper.tri(sigmstr)] <- ""
+    sigmstr <- apply(sigmstr,1,paste,collapse=" ")
+  }else{
+    sigm <- sigmstr <- NULL
+  }
 
   # Leave out the covariates argument, this should be entirely handled using addparam
   # estma   <- c(estma,covariates)

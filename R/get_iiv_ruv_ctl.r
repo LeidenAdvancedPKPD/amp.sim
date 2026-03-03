@@ -2,7 +2,7 @@
 #' Get omega or sigma values from control stream
 #'
 #' This function gets the omega or sigma values from a model control stream. A separate function is developed as 
-#' obtaining these values is more difficult compared using to output
+#' obtaining these values is more difficult compared to using the output
 #'
 #' @param mod character vector of length 1 with filename of model, in case length is greater than 1 it is assumed to be a vector with model code
 #' @param type character vector of length 1 with the type of block to get (valid types are "OMEGA" and "SIGMA")
@@ -34,7 +34,9 @@ get_iiv_ruv_ctl <- function(mod,type="OMEGA"){
   fin <- lapply(unique(varbl$numbl),function(x){
     allom <- varbl$cont[varbl$numbl==x]
     ret   <- suppressWarnings(as.numeric(stats::na.omit(as.numeric(strsplit(paste(allom,collapse=" ")," ")[[1]]))))
-    if(varbl$bl[varbl$numbl==x][1]){
+    if(length(ret)==0){
+      return()
+    }else if(varbl$bl[varbl$numbl==x][1]){
       bn1        <- rep(1:varbl$numvar[varbl$numbl==x][1],1:varbl$numvar[varbl$numbl==x][1])
       bn2        <- unlist(sapply(1:varbl$numvar[varbl$numbl==x][1],function(y) 1:y))
       bn3        <- (varbl$numvarc[varbl$numbl==x][1]-varbl$numvar [varbl$numbl==x][1])+1

@@ -30,69 +30,34 @@
 #'   get_est("run1.ext")
 #' }
 get_est <- function(from){
-  # df_mod <- function(x,type){
-  #   rets  <- trimws(gsub(";.*|FIX","",x))
-  #   rets  <- strsplit(rets,"[[:blank:]]+") 
-  #   for(i in 1:length(rets)){
-  #     rets[[i]] <- as.numeric(rets[[i]])
-  #     names(rets[[i]]) <- paste0(type,".",i,".",1:length(rets[[i]]),".")
-  #     if(length(rets[[i]])==1) names(rets[[i]]) <- paste0(type,".",i,".",i,".")
-  #   }
-  #   data.frame(t(unlist(rets)))
-  # }
-  to_matr <- function(x,type){
-    npar  <- max(as.numeric(gsub(paste0(type,"\\.[[:digit:]]*|\\."),"",names(x))))
-    if(type=="OMEGA") {eta   <- rep(0,npar); names(eta) <- paste0("ETA",1:npar)}
-    matr  <- matrix(nrow=npar,ncol=npar)
-    for(i in 1:ncol(x)){
-      fe <- as.numeric(gsub(paste0(type,"\\.|\\.[[:digit:]]*\\."),"",names(x)[i]))
-      le <- as.numeric(gsub(paste0(type,"\\.[[:digit:]]*|\\."),"",names(x)[i]))
-      matr[fe,le] <- matr[le,fe] <- x[,i]
-    }
-    matr[is.na(matr)] <- 0
-    if(type=="OMEGA") return(list(matr,eta)) else return(matr)
+  if(inherits(from,"data.frame")){
+    # In the new structure we can no longer support data frames for ext files 
+    lifecycle::deprecate_stop("0.1.0","get_est(from = 'must be a location to ext or model file')")
   }
-  # Define function to enable reading the last table (in case multiple estimation methods are used)
-  readlast <- function(x){
-    dat    <- suppressWarnings(try(readLines(x),silent=TRUE))
-    tabpos <- grep("TABLE NO\\.",dat)
-    suppressWarnings(try(utils::read.table(x, skip=tabpos[length(tabpos)], header=TRUE,fill = TRUE),silent=TRUE))
-  }
-  if(inherits(from,"data.frame")  || length(grep("\\.ext$",from))!=0){
+  if(length(grep("\\.ext$",from))!=0){
     # actions for ext data
-    if(inherits(from,"data.frame")) est <- from else  est <- readlast(from)
-    est    <- est[est$ITERATION==-1.0e+09,]
-    theta  <- est[,grep("THETA",names(est))]
+    est    <- NMdata::NMreadExt(from)
+    theta  <- est[est$par.type=="THETA","value"]
+    theta  <- setNames(theta, est[est$par.type=="THETA","parameter"])
     thetan <- names(theta)
-    ome    <- est[,grep("OMEGA",names(est)),drop=FALSE]
-    sigm   <- est[,grep("SIGMA",names(est)),drop=FALSE]
+    ome    <- est[est$par.type=="OMEGA",] |> NMdata::dt2mat(col.value = "value")
+    sigm   <- est[est$par.type=="SIGMA",] |> NMdata::dt2mat(col.value = "value")
   }else{
-    # actions for model file
-    est    <- get_nmblock(from,c("THETA","OMEGA","SIGMA"))
-    thetaa <- est$THETA[trimws(est$THETA)!="" & !grepl("^;",est$THETA)]
-    thetan <- gsub('^.+?;(.*)', "\\1",trimws(thetaa))
-    theta  <- gsub("\\(|\\).*|;.*","",thetaa)
-    theta  <- trimws(gsub("FIX","",theta))
-    theta  <- sapply(strsplit(theta,",| "),function(x){
-      ret <- stats::na.omit(as.numeric(x))
-      ifelse(length(ret)==1,ret,ret[2])
-    })
-    names(theta) <- paste0("THETA",1:length(theta))
-    omega  <- est$OMEGA[trimws(est$OMEGA)!="" & !grepl("^;",est$OMEGA)]
-    if(length(omega)>0)  ome  <- data.frame(t(data.frame(get_iiv_ruv_ctl(from)))) else ome <- data.frame()
-    sigma  <- est$SIGMA[trimws(est$SIGMA)!="" & !grepl("^;",est$SIGMA)]
-    if(length(sigma)>0)  sigm <- data.frame(t(data.frame(get_iiv_ruv_ctl(from,"SIGMA")))) else sigm <- data.frame()
-    # omega  <- est$OMEGA[trimws(est$OMEGA)!="" & !grepl("^;",est$OMEGA) & !grepl("BLOCK\\(.*\\)",est$OMEGA)]
-    # if(length(omega)>0)  ome <- df_mod(omega,"OMEGA") else ome <- data.frame()
-    # sigma  <- est$SIGMA[trimws(est$SIGMA)!="" & !grepl("^;",est$SIGMA)]
-    # if(length(sigma)>0)  sigm <- df_mod(sigma,"SIGMA") else sigm <- data.frame()
+    # actions for model file (be aware sigma is not mandatory!)
+    if(length(from)==1 && file.exists(from))  from <- readLines(from)
+    from   <- iconv(from, "latin1", "ASCII", sub="") # make sure there are no non-ASCII characters
+    est    <- NMdata::NMreadInits(lines=from, return = "all")
+    theta  <- est$pars$init[est$pars$par.type=="THETA"]
+    theta  <- setNames(theta, est$pars$parameter[est$pars$par.type=="THETA"])
+    thetan <- merge(est$elements[!duplicated(est$elements$linenum),c("linenum","parameter","par.type")],
+                    est$lines[est$lines$par.type=="THETA",c("linenum","text.after")])
+    thetan <- trimws(thetan[order(thetan$linenum),][thetan$par.type=="THETA","text.after"])
+    ome    <- NMdata::dt2mat(est$pars[est$pars$par.type=="OMEGA",], col.value = "init")
+    sigm   <- est$pars[est$pars$par.type=="SIGMA",]
+    if(nrow(sigm)>0) sigm <- NMdata::dt2mat(sigm, col.value = "init") else sigm   <- NULL
   }
-  # create valid matrix for omegas and sigma
-  if(nrow(ome)>0)   omer <- to_matr(ome,"OMEGA")
-  if(nrow(sigm)>0) sigmr <- to_matr(sigm,"SIGMA")
-
-  retlst <- list(THETA=unlist(theta),THETAN=thetan,OMEGA=matrix(),ETA=0,SIGMA=matrix)
-  if(nrow(ome>0))  {retlst$OMEGA <- omer[[1]];retlst$ETA <- omer[[2]];}
-  if(nrow(sigm>0)) retlst$SIGMA <- sigmr
+  # create result list
+  eta    <- setNames(rep(0,nrow(ome)), paste0("ETA",1:nrow(ome)))
+  retlst <- list(THETA = theta, THETAN = thetan, OMEGA = ome, ETA = eta, SIGMA = sigm)
   return(retlst)
 }

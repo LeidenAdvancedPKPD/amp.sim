@@ -2,7 +2,7 @@
 # Set up and environment to hold some global variables
 .simenv <- new.env(parent=emptyenv())
 # NONMEM functions and the corresponding translation (mrsolve has some deviations for std::min/max which is handled in convert_nmsyntax)
-assign("nmfuncs", c("EXP\\("="exp(","LOG\\("="log(","ABS\\("="abs(","SIN\\("="sin(","COS\\("="cos(",
+assign("nmfuncs", c("EXP\\("="exp(","LOG\\("="log(","ABS\\("="abs(","SIN\\("="sin(","COS\\("="cos(", "PHI\\(" = "phi(",
                   "SQRT\\("="sqrt(","TANH\\("="tan(","MIN\\("="min(","MAX\\("="max(","FLOOR\\("="floor(","CEILING\\("="ceiling("), envir=.simenv)
 # NONMEM operators and the corresponding translation
 assign("nmoper", c("\\.LT\\."=" < ","\\.LE\\."=" <= ","\\.EQ\\."=" == ","\\.GE\\."=" >= ","\\.GT\\."=" > ",

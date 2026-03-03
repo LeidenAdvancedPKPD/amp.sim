@@ -7,7 +7,7 @@
 nmlistblock(dollmodel)
 }
 \arguments{
-\item{dollmodel}{list with each item being a separate dollor block, usually obtain from \code{\link{get_nmblock}}}
+\item{dollmodel}{list with each item being a separate dollar block, usually obtain from \code{\link{get_nmblock}}}
 }
 \value{
 a list with the structured code

@@ -24,6 +24,9 @@ convert_nmsyntax <- function(x,type="mrgsolve"){
       x <- gsub(names(funcs)[i], paste0("std::",funcs[i]), x, ignore.case = TRUE)
     }else if(type=="mrgsolve" & funcs[i]=='ceiling('){
       x <- gsub("CEILING\\(","ceil(", x, ignore.case = TRUE)
+    }else if(type=="mrgsolve" & funcs[i]=='phi('){
+      #x <- gsub("PHI\\((.*)\\)", "R::pnorm(\\1, 0.0, 1.0, 1, 0)", x, ignore.case = TRUE)
+      x <- gsub("PHI\\(([^)]*)\\)", "R::pnorm(\\1, 0.0, 1.0, 1, 0)", x, ignore.case = TRUE)
     }else{
       x <- gsub(names(funcs)[i], funcs[i], x, ignore.case = TRUE)
     }

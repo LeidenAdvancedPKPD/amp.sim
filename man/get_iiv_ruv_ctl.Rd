@@ -16,7 +16,7 @@ a named vector with omega values
 }
 \description{
 This function gets the omega or sigma values from a model control stream. A separate function is developed as
-obtaining these values is more difficult compared using to output
+obtaining these values is more difficult compared to using the output
 }
 \examples{
 

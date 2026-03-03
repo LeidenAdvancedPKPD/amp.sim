@@ -19,7 +19,7 @@ sample_par(
 )
 }
 \arguments{
-\item{ext}{character string with location of ext file with final model parameters or data.frame of ext file}
+\item{ext}{character string with location of ext file with final model parameters}
 
 \item{covmat}{character string with location of cov file with covariance matrix or data.frame of cov file}
 
