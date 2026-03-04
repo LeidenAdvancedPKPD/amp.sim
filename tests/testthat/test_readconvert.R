@@ -97,30 +97,30 @@ test_that("get_parmvar gets all correct parameter variables from model", {
   res2  <- get_parmvar(lst,returnall=TRUE) 
   
   expect_equal(res1,"DUMM")
-  expect_equal(res2,c("DUMM","KA","CL","V2","DADT(1)"))
+  expect_equal(res2,c("DUMM","KA","A_0(1)","CL","V2","DADT(1)"))
 })
 
 #------------------------
 # Test get_param function
 test_that("get_param returns the valid parameters and matrices", {
-  ext <- data.frame(ITERATION = c(0L, 24L, -1000000000L),THETA1 = c(0.03,0.07, 0.07),THETA2 = c(2, 2.6, 2.6),
-                    SIGMA.1.1. = c(0.1,0.07, 0.07), OMEGA.1.1. = c(0.01, 0.006, 0.006), 
-                    OMEGA.2.1. = c(0, 0, 0), OMEGA.2.2. = c(0.02, 0.04, 0.04), OBJ = c(999, 647, 647))
-  mdl   <- c("$PK","CL=THETA(1)","WT=70","DUMM=ALP","$THETA","(0,.03) ; KA (1/h)"," (0,2) ; K (1/h)",
-             "$OMEGA  .01; ETA KA" ," .02; ETA K","$SIGMA  .1  ; Prop. error")
+  
+  extf   <- system.file("testfiles/ext_sampling.ext",package="amp.sim")
+  covf   <- system.file("testfiles/covariance_sampling.cov",package="amp.sim")
+  mdl    <- system.file("testfiles/nonmem.mod",package="amp.sim")
+  
   lst   <- nmlistblock(get_nmblock(mdl,c("PK","THETA","OMEGA","SIGMA"))) 
-  res1  <- get_param(mdl,lst,ext) 
+  res1  <- get_param(mdl,lst,extf) 
   res2  <- get_param(mdl,lst) 
   res3  <- get_param(mdl,lst,addparam = FALSE) 
   
-  expect_true(length(res1)==length(res2) & length(res1)==length(res3)) # length is the same for each setting
-  expect_true(all(names(res1$params)==c("THETA1","THETA2","ALP")))     # additional parameter added
-  expect_true(all(names(res3$params)==c("THETA1","THETA2")))           # additional parameter not added
-  expect_true(res1$params[1]==0.07)                                    # THETA value from ext
-  expect_true(res2$params[1]==0.03)                                    # THETA value from model
-  expect_true(grepl("theta_names.*KA.*K",res1$theta_names))            # creation of names
+  expect_true(length(res1)==length(res2) & length(res1)==length(res3))             # length is the same for each setting
+  expect_true(all(c("WEIGHT","SEX")%in%names(res1$params)))                        # additional parameter added
+  expect_true(all(names(res3$params)%in%paste0("THETA",1:5)))                      # additional parameter not added
+  expect_true(res1$params[1]==0.0858609)                                           # THETA value from ext
+  expect_true(res2$params[1]==0.08)                                                # THETA value from model
+  expect_true(grepl("theta_names.*KA.*CL",paste(res1$theta_names, collapse=" ")))  # creation of names
   expect_true(is.matrix(res1$omega_matrix) & is.matrix(res1$sigma_matrix))
-  expect_true(all(trimws(res1$omega_string)==c("0.006","0 0.04" )))
+  expect_true(all(trimws(res1$omega_string)==c("0.0397955","-0.0361431 0.346211" )))
   expect_true(res2$sigma_string=="0.1")
 })
 
