@@ -26,6 +26,7 @@ settings2df <- function(savedsims,leaveout=c("go","updOpts","sett","refr","tabse
   labs          <- sub(".*%=%","",labsr)
   names(labs)   <- sub("%=%.*","",labsr)
   sett          <- sett[!sett$name%in%leaveout,]
-  sett$name     <- plyr::revalue(sett$name,labs)
+  #sett$name     <- plyr::revalue(sett$name,labs)
+  sett$name     <- labs[match(sett$name,names(labs))]
   return(sett)
 }

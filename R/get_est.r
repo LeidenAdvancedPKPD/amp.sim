@@ -38,7 +38,7 @@ get_est <- function(from){
     # actions for ext data
     est    <- NMdata::NMreadExt(from)
     theta  <- est[est$par.type=="THETA","value"]
-    theta  <- setNames(theta, est[est$par.type=="THETA","parameter"])
+    theta  <- stats::setNames(theta, est[est$par.type=="THETA","parameter"])
     thetan <- names(theta)
     ome    <- est[est$par.type=="OMEGA",] |> NMdata::dt2mat(col.value = "value")
     sigm   <- est[est$par.type=="SIGMA",] |> NMdata::dt2mat(col.value = "value")
@@ -48,7 +48,7 @@ get_est <- function(from){
     from   <- iconv(from, "latin1", "ASCII", sub="") # make sure there are no non-ASCII characters
     est    <- NMdata::NMreadInits(lines=from, return = "all")
     theta  <- est$pars$init[est$pars$par.type=="THETA"]
-    theta  <- setNames(theta, est$pars$parameter[est$pars$par.type=="THETA"])
+    theta  <- stats::setNames(theta, est$pars$parameter[est$pars$par.type=="THETA"])
     thetan <- merge(est$elements[!duplicated(est$elements$linenum),c("linenum","parameter","par.type")],
                     est$lines[est$lines$par.type=="THETA",c("linenum","text.after")])
     thetan <- trimws(thetan[order(thetan$linenum),][thetan$par.type=="THETA","text.after"])
@@ -57,7 +57,7 @@ get_est <- function(from){
     if(nrow(sigm)>0) sigm <- NMdata::dt2mat(sigm, col.value = "init") else sigm   <- NULL
   }
   # create result list
-  eta    <- setNames(rep(0,nrow(ome)), paste0("ETA",1:nrow(ome)))
+  eta    <- stats::setNames(rep(0,nrow(ome)), paste0("ETA",1:nrow(ome)))
   retlst <- list(THETA = theta, THETAN = thetan, OMEGA = ome, ETA = eta, SIGMA = sigm)
   return(retlst)
 }

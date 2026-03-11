@@ -2,21 +2,20 @@ Package: amp.sim
 Title: Various functions to aid simulation of pharmacometric models
 Version: 0.1.0
 Authors@R: c(person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = c("aut", "cre","cph")))
-Description: Tools to transform NONMEM models into R syntax so they can be used for
-    simulations using the deSolve, RxODE or mrgsolve package. Additionally, functionality is included to aid simulations performed
-    directly in NONMEM and to automatically create shiny apps for simulation models.
+Description: Tools to transform 'NONMEM' models into R syntax so they can be used for
+    simulations using the 'deSolve', 'nlmixr2' or 'mrgsolve' package. Additionally, functionality is included to aid simulations performed
+    directly in 'NONMEM' and to automatically create shiny apps for simulation models.
 Depends:
     R (>= 4.1.0)
 Imports:
-    MASS,
-    whisker,
-    rlang,
-    plyr,
-    cli,
-    lifecycle,
-    NMdata (>= 0.2.3)
-Suggests:
   stats,
+  MASS,
+  whisker,
+  rlang,
+  cli,
+  lifecycle,
+  NMdata (>= 0.2.3)
+Suggests:
   utils,
   nonmem2rx,
   tidyr,

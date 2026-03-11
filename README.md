@@ -26,10 +26,12 @@ Without them this package wouldn't be possible!
 The main packages in R to perform simulations for pharmacometrics are `nlmixr2` and `mrgsolve`. The `deSolve` package is a 
 more general solution which could require some optimization in case of large/complex simulations.
 Besides simulations in R, NONMEM is a tool often used to perform simulations as well. Because NONMEM itself is 
-low level, R packages like `NMSim` can make these type of simulations much easier.
+low level, R packages like `NMSim` can make these type of simulations much easier. For translating models, there are solutions
+like `nonmem2mrgsolve`, `pharmpy` and `nonmem2rx` (called in this package).
 
 This package only amplifies packages like `nlmixr2` and `mrgsolve`. The functionality for NONMEM simulations differ from the 
 `NMSim` package. The `amp.sim` package is more low level and has no advanced functionality to start/run NONMEM. 
-Implementation is centered towards the dataset, in which a control stream is tailored towards that.
-
+Implementation is centered towards the dataset, in which a control stream is tailored towards. 
+There is an overlap with the model translation options, although this package aims to combine different translations and 
+extends this with other simulation tools and possible `shiny` implementation.
 

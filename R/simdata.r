@@ -25,9 +25,9 @@
 #' }) 
 #' sim3 <- do.call(rbind,sim3)
 simdata <- function(time,dosetime,doseheight,addl,ii,rate=NA,numid=5){
-  dose     <- data.frame(TIME=dosetime,AMT=doseheight,ADDL=addl,II=ii,RATE=rate)
-  obs      <- data.frame(TIME=time,DV=NA)
-  out      <- plyr::rbind.fill(dose,obs)
+  dose     <- data.frame(TIME=dosetime,DV=NA,AMT=doseheight,ADDL=addl,II=ii,RATE=rate)
+  obs      <- data.frame(TIME=time,DV=NA,AMT=NA,ADDL=NA,II=NA,RATE=NA)
+  out      <- rbind(dose,obs)
   out$DOSE <- doseheight[1]
   out      <- out[rep(1:nrow(out),numid),]
   out$ID   <- rep(1:numid,each=nrow(out)/numid)

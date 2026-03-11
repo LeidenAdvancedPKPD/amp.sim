@@ -31,7 +31,8 @@ cut_equal <- function(x,n,type=1,ntries=1000){
     }
     ret   <- as.character(cut(x2,unique(qnt),include.lowest = TRUE,right=FALSE))
     reval <- sapply(unique(ret),function(re) paste(unique(x[which(ret==re)]),collapse="+"))
-    return(plyr::revalue(ret,reval))
+    #return(plyr::revalue(ret,reval))
+    return(unname(reval[match(ret,names(reval))]))
   }else if(type==2){
     uniques <- length(unique(x))
     n       <- min(n, uniques)

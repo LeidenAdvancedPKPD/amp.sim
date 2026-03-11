@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Tools to transform NONMEM models into R syntax so they can be used for simulations using the deSolve, RxODE or mrgsolve package. Additionally, functionality is included to aid simulations performed directly in NONMEM and to automatically create shiny apps for simulation models.
+Tools to transform 'NONMEM' models into R syntax so they can be used for simulations using the 'deSolve', 'nlmixr2' or 'mrgsolve' package. Additionally, functionality is included to aid simulations performed directly in 'NONMEM' and to automatically create shiny apps for simulation models.
 }
 \author{
 \strong{Maintainer}: Richard Hooijmaijers \email{richardhooijmaijers@gmail.com} [copyright holder]
