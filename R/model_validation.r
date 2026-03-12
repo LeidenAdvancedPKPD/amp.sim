@@ -26,10 +26,10 @@
 #' }
 model_validation <- function(nmtable,simmodel,rounding=4,comppred="CP",out="validate/result.tex",...){
 
-  if(!"ggplot2" %in% rownames(utils::installed.packages())) stop("the ggplot2 package should be installed to use this function")
-  if(!"R3port" %in% rownames(utils::installed.packages())) stop("the R3port package should be installed to use this function")
-  if(!"mrgsolve" %in% rownames(utils::installed.packages())) stop("the mrgsolve package should be available to use this function")
-  if(!"dplyr" %in% rownames(utils::installed.packages())) stop("the dplyr package should be available to use this function")
+  if(length(find.package("ggplot2", quiet = TRUE))==0) stop("the ggplot2 package should be installed to use this function")
+  if(length(find.package("R3port", quiet = TRUE))==0) stop("the R3port package should be installed to use this function")
+  if(length(find.package("mrgsolve", quiet = TRUE))==0) stop("the mrgsolve package should be installed to use this function")
+  if(length(find.package("dplyr", quiet = TRUE))==0) stop("the dplyr package should be installed to use this function")
 
   # read in nonmem table file
   if(inherits(nmtable,"data.frame")){

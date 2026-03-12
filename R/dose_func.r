@@ -1,7 +1,7 @@
 #------------------------------------------ dose_func ------------------------------------------
-#' Create data.frame with dosing for usage in simulation
+#' Create data.frame with dosing for usage in simulation with deSolve
 #'
-#' This function creates a data.frame that can be used for events of the lsoda function
+#' This function creates a data.frame that can be used for events of a deSolve simulation
 #'
 #' @param cmt number of compartment or differential equation where the dosing should be given
 #' @param value the value of the dosing that should be given
@@ -12,7 +12,7 @@
 #'   used to set times of dosing (e.g c(0,24,168))
 #'
 #' @export
-#' @return a data frame that can be used as an event dataset within lsoda
+#' @return a data frame that can be used as an event dataset within deSolve
 #' @author Richard Hooijmaijers
 #' @examples
 #'

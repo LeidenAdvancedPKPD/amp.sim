@@ -9,6 +9,7 @@ Depends:
     R (>= 4.1.0)
 Imports:
   stats,
+  utils,
   MASS,
   whisker,
   rlang,
@@ -16,7 +17,6 @@ Imports:
   lifecycle,
   NMdata (>= 0.2.3)
 Suggests:
-  utils,
   nonmem2rx,
   tidyr,
   shiny,

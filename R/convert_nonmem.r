@@ -35,6 +35,7 @@ convert_nonmem <- function(model,out, ext=NULL, mod_return=NULL,type_return="mrg
   }else if(type_return=="deSolve"){
     tmplst <- nm2deSolve(mdlls,model=mdl,ext=ext, out=out, control=control)
   }else if(type_return=="nonmem2rx"){
+    if(length(find.package("nonmem2rx", quiet = TRUE))==0) stop("the nonmem2rx package should be installed to use this option")
     tmplst <- nm2nonmem2rx(model,out=out, control=control)
   }else{
     stop("make sure a valid type_return is given")
