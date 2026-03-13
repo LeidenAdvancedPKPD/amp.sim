@@ -23,7 +23,8 @@ This function returns a list with indices or content of dollar blocks
 }
 \examples{
 
-\dontrun{get_nmblock("run1.mod","OMEGA")}
+mod  <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+get_nmblock(mod,"OMEGA")
 }
 \author{
 Richard Hooijmaijers

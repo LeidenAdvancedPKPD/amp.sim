@@ -17,11 +17,10 @@ This function gets the position of the closing parenthesis after the first openi
 }
 \examples{
 
-\dontrun{
-  tst <- "IF (test == A(1)) a(1)=(1*5)/2"
-  pos_clpar(tst)
-  substring(tst,1,pos_clpar(tst))
-}
+tst <- "IF (test == A(1)) a(1)=(1*5)/2"
+pos_clpar(tst)
+substring(tst,1,pos_clpar(tst))
+
 }
 \author{
 Richard Hooijmaijers

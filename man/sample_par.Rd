@@ -62,9 +62,11 @@ added to row 2, column 1 and column 1, row 2). The matrix is used as Sigma for t
 }
 \examples{
 
-\dontrun{
-  res <- sample_par("run9.ext","run9.cov",inc_eta=TRUE)
-}
+ext <- system.file("example_models","PK.1CMT.ORAL.COV.ext", package = "amp.sim")
+cov <- system.file("example_models","PK.1CMT.ORAL.COV.cov", package = "amp.sim")
+sample_par(ext, inc_eta = TRUE, nrepl = 5)
+sample_par(ext, cov, uncert = TRUE, nrepl = 5)
+
 }
 \seealso{
 \link[MASS:mvrnorm]{MASS::mvrnorm}

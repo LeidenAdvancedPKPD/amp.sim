@@ -20,7 +20,7 @@ This is applicable as THETA(n), ETA(n), DADT(n) is not always allowed in R codin
 }
 \examples{
 
-  par_delete(c("LOG(1)","ETA(1)","EXP(2)/ETA(3)+THETA(4)"))
+par_delete(c("LOG(1)","ETA(1)","EXP(2)/ETA(3)+THETA(4)"))
 }
 \author{
 Richard Hooijmaijers

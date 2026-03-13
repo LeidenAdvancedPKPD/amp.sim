@@ -5,7 +5,7 @@
 #' variables if present
 #'
 #' @param model character vector with the model content
-#' @param lstblock list with each item being a separate strucured dollor block, usually obtain from \code{\link{nmlistblock}}
+#' @param lstblock list with each item being a separate structured dollar block, usually obtain from \code{\link{nmlistblock}}
 #' @param ext character with the name of the NONMEM ext file (if not provided estimates are read directly from the list block)
 #' @param addparam logical indicating if the function should try to add parameters (besides THETAs and the ones defined in covariates)
 #'  the additional parameters are always returned so it can be used for warnings
@@ -15,9 +15,11 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'   get_est("run1.mod")
-#' }
+#' mod    <- system.file("example_models","PK.1CMT.ORAL.COV.mod", package = "amp.sim")
+#' mdll   <- get_nmblock(mod,block=c("PK","DES"))
+#' mdlls  <- nmlistblock(mdll)
+#' get_param(mod, mdlls)
+#' 
 get_param <- function(model,lstblock,ext=NULL,addparam=TRUE){
   modst   <- lapply(lstblock,function(x) paste(unlist(x)[names(unlist(x))=="orig"],collapse="\n"))
   modst   <- unlist(strsplit(paste0("$",names(modst)," ",modst),"\n"))

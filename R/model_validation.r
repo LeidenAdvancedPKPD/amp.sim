@@ -22,7 +22,9 @@
 #' @examples
 #'
 #' \dontrun{
-#'   model_validation("run1.par","run1.cpp")
+#'   res  <- model_validation(system.file("testfiles/compareParfile",package="amp.sim"),
+#'                            system.file("testfiles/compareModel.cpp",package="amp.sim"),
+#'                            out=NULL)
 #' }
 model_validation <- function(nmtable,simmodel,rounding=4,comppred="CP",out="validate/result.tex",...){
 

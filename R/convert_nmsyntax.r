@@ -11,9 +11,7 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'   convert_nmsyntax("IF(WTBL.GT.0) ALCL = (WTBL/70)**THETA(8)")
-#' }
+#' convert_nmsyntax("IF(VAR.GT.0) VAR2 = PHI(1)")
 convert_nmsyntax <- function(x,type="mrgsolve"){
   # list of NONMEM functions and operators and the R version of if
   funcs <- get("nmfuncs",envir=.simenv)

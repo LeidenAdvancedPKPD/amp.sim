@@ -10,7 +10,10 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{nmlistblock(dollmodel)}
+#' nmmod <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+#' lst   <- get_nmblock(nmmod, block = "PROB")
+#' nmlistblock(lst)
+#' 
 nmlistblock <- function(dollmodel){
   finret <- lapply(1:length(dollmodel),function(blck){
     if(length(dollmodel[[blck]])==0){

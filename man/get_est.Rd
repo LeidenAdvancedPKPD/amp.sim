@@ -32,11 +32,12 @@ For the theta block, it is assumed that in case lower and upper boundaries are a
 }
 \examples{
 
-\dontrun{
-  # get the intial estimates from the model or final estimates from ext file
-  get_est("run1.mod")
-  get_est("run1.ext")
-}
+# get the intial estimates from the model or final estimates from ext file
+mod  <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+ext  <- system.file("example_models","PK.1CMT.ORAL.ext", package = "amp.sim")
+get_est(mod)
+get_est(ext)
+
 }
 \author{
 Richard Hooijmaijers

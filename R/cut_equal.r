@@ -19,7 +19,7 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#'  table(cut_equal(1:101,5))
+#'  table(cut_equal(1:20,5))
 cut_equal <- function(x,n,type=1,ntries=1000){
   if(type==1){
     brk <- 1

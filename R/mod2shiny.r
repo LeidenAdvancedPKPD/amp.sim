@@ -29,7 +29,15 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{mod2shiny(parvector=c(KA=0.1,K20=0.3),modfile='model.r',evnt=evdat)}
+#' nmmod <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+#' outf  <- tempfile()
+#' convert_nonmem(nmmod, out=outf, verbose = FALSE)
+#' prm   <- c(THETA1 = 0.3, THETA2 = 2, THETA3 = 5)
+#' evnt  <- mrgsolve::ev(amt = 100, ii = 24, addl = 1)
+#' nams  <- c(THETA1 = "KA (1/h)", THETA2 = "CL (l/h)", THETA3 = "V (l)") 
+#' mod2shiny(prm, modfile= paste0(outf,".cpp"), evnt = evnt,
+#'           naming = nams, framework = "mrgsolve", outloc=tempdir())
+#' 
 mod2shiny <- function(parvector,modfile,evnt,init=NULL,naming=NULL,apptitle="Shiny app title",outloc=".",omega=NULL,sigma=NULL,
                       delloc=FALSE,framework="deSolve",logo=paste0(system.file(package="amp.sim"),"/logo.png"),times=NULL){
   
@@ -84,5 +92,5 @@ mod2shiny <- function(parvector,modfile,evnt,init=NULL,naming=NULL,apptitle="Shi
   file.copy(logo,paste0(outloc,"/www/logo.png"))
   file.copy(paste0(system.file(package="amp.sim"),"/modelscheme.png"),paste0(outloc,"/www/modelscheme.png"))
   file.copy(modfile,paste0(outloc,"/etc/",basename(modfile)))
-  cat(paste0("Shiny app created in location '",outloc,"'. It can be submitted using:\n",cli::style_bold("shiny::runApp('",outloc,"',launch.browser=TRUE)")))
+  cat(paste0("Shiny app created in location '",outloc,"'. It can be submitted using:\n",cli::style_bold("shiny::runApp('",normalizePath(outloc, winslash = "/"),"',launch.browser=TRUE)")))
 }

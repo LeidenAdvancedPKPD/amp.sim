@@ -119,9 +119,12 @@ test_that("sample_sim samples correctly", {
 #-------------------------
 # Test tmpl_model function
 test_that("tmpl_model gets correct template models", {
-  tfil <- tmpl_model()
-  afil <- list.files(system.file(package="amp.sim"),pattern="\\.tmp$")
-  expect_setequal(tfil,afil)  
+  tfil  <- tmpl_model()
+  afil  <- list.files(system.file(package="amp.sim"),pattern="\\.tmp$")
+  mod1  <- tmpl_model("ana1CMTbolusC.tmp", ret="string")
+  mod1m <- readLines(system.file("ana1CMTbolusC.tmp",package="amp.sim"))
+  expect_setequal(tfil,afil)
+  expect_setequal(mod1,mod1m)  
 })
 
 #--------------------

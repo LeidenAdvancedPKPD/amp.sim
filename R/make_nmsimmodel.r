@@ -11,7 +11,7 @@
 #' @param table character of length 1 with the items for the dollar table block (if null it will use items in input dataset)
 #' @param sigma_ext character with teh name of the ext file which includes the sigma value (in case residual error is coded in the dollar sigma block)
 #'
-#' @details The function will adapt an orginal model in such a way that it can be used directly for simulations
+#' @details The function will adapt an original model in such a way that it can be used directly for simulations
 #'   the assumptions are that an input dataset is created using [sample_par] and [simdata].
 #'   This means that all THETA and ETA values are available in the simulation dataset as respectively STHETAN and SETAN (simulated THETA/ETA n).
 #'   Furthermore it is assumed that the input dataset is a csv file.
@@ -24,9 +24,17 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'   make_nmsimmodel("run1.mod","sim1.mod","sim.data.csv")
-#' }
+#' nmmod   <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+#' dat     <- simdata(0:24, dosetime = 0, doseheight = 10, addl = 2, ii = 24, 
+#'                    numid = 50, STHETA1= 1, STHETA2 = 2, STHETA3 = 1,
+#'                    SETA1 = 0, SETA2 = 0)
+#' tmp_out <- tempfile(fileext = ".csv")
+#' mod_out <- tempfile(fileext = ".mod")
+#' 
+#' write.csv(dat,file=tmp_out, na=".", quote=FALSE, row.names = FALSE)
+#' make_nmsimmodel(nmmod, mod_out, data=tmp_out)
+#' readLines(mod_out) |> head(n=15) |> cat(sep="\n")
+#' 
 make_nmsimmodel <- function(omod,smod,data,subprobs=1,table=NULL,sigma_ext=NULL){
 
   # get model and indices of dollar blocks

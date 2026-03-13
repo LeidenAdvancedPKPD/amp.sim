@@ -17,7 +17,10 @@ This function will convert a NONMEM block to a list including the type and separ
 }
 \examples{
 
-\dontrun{nmlistblock(dollmodel)}
+nmmod <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+lst   <- get_nmblock(nmmod, block = "PROB")
+nmlistblock(lst)
+
 }
 \author{
 Richard Hooijmaijers

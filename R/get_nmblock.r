@@ -13,7 +13,8 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{get_nmblock("run1.mod","OMEGA")}
+#' mod  <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+#' get_nmblock(mod,"OMEGA")
 get_nmblock <- function(model,block,ret="content",omitbn=TRUE){
   aliases <- list(c("PROBLEM", "PROB"), c("SUBROUTINES", "SUBS","SUB"), c("ESTIMATE","ESTM", "EST"))
   if(length(model)==1) {rmdl <- readLines(model)}else{rmdl <- model}

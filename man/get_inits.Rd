@@ -17,7 +17,11 @@ This function will extracts the initial states for the differential equations fr
 }
 \examples{
 
-\dontrun{get_inits("run001.mod")}
+mod    <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+mdll   <- get_nmblock(mod,block=c("PK","DES"))
+mdlls  <- nmlistblock(mdll)
+get_inits(mdlls)
+
 }
 \author{
 Richard Hooijmaijers

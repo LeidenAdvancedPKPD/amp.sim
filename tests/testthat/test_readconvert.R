@@ -320,6 +320,11 @@ test_that("convert_nonmem returns the correctly tranformed model", {
   mod4   <- readLines(paste0(tdir,"/testreturn1.cpp"))
   expect_true(any(grepl("\\$CAPTURE CP",mod4)))
   
+  cntrl5 <- convert_nonmem(paste0(tdir,"/testmodel.mod"),control="string",out=paste0(tdir,"/testnm2rx"),
+                           overwrite=TRUE,type_return="nonmem2rx") |> suppressMessages()
+  mod5   <- readLines(paste0(tdir,"/testnm2rx.r"))
+  expect_true(any(grepl("ini\\(",mod5)))
+  
   convert_nonmem(paste0(tdir,"/testmodel.mod"),control="file",out=paste0(tdir,"/testcontrol"),overwrite=TRUE, verbose=FALSE) 
   expect_true(file.exists(paste0(tdir,"/testcontrol_control.r")))
   expect_output(convert_nonmem(paste0(tdir,"/testmodel.mod"),control="console",out=paste0(tdir,"/testcontrol"),overwrite=TRUE, verbose=FALSE))

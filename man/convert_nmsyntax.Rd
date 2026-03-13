@@ -19,9 +19,7 @@ This function converts a NONMEM syntax to R syntax, mainly for functions and ope
 }
 \examples{
 
-\dontrun{
-  convert_nmsyntax("IF(WTBL.GT.0) ALCL = (WTBL/70)**THETA(8)")
-}
+convert_nmsyntax("IF(VAR.GT.0) VAR2 = PHI(1)")
 }
 \author{
 Richard Hooijmaijers

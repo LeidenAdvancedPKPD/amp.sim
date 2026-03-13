@@ -20,7 +20,11 @@ or taken from the input file. This is important as these variables need to be se
 }
 \examples{
 
-\dontrun{get_parmvar("run001.mod")}
+mod    <- system.file("example_models","PK.1CMT.ORAL.COV.mod", package = "amp.sim")
+mdll   <- get_nmblock(mod,block=c("PK","DES"))
+mdlls  <- nmlistblock(mdll)
+get_parmvar(mdlls)
+
 }
 \author{
 Richard Hooijmaijers

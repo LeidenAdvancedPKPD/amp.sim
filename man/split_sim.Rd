@@ -31,9 +31,19 @@ a dataframe is used (e.g. from loading an Rdata object)  it is not necessary to 
 }
 \examples{
 
-\dontrun{
-  split_sim(sim.input,"run1.mod",".")
-}
+nmmod   <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+dat     <- simdata(0:24, dosetime = 0, doseheight = 10, addl = 2, ii = 24, 
+                   numid = 50, STHETA1= 1, STHETA2 = 2, STHETA3 = 1,
+                   SETA1 = 0, SETA2 = 0)
+tmp_out <- tempfile(fileext = ".csv")
+mod_out <- tempfile(fileext = ".mod")
+
+write.csv(dat,file=tmp_out, na=".", quote=FALSE, row.names = FALSE)
+make_nmsimmodel(nmmod, mod_out, data=tmp_out)
+
+split_sim(data = tmp_out, model = mod_out, locout=tempdir())
+list.files(tempdir(), pattern="\\\\.mod$")
+
 }
 \author{
 Richard Hooijmaijers

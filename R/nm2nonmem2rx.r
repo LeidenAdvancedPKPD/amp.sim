@@ -7,14 +7,14 @@
 #' @param out character with the name of the output file without a file extension
 #' @param control character with the type of control to be returned (see \code{\link{convert_nonmem}} for more details)
 #'
-#' @export
+#' @noRd
 #' @return a list is returned inluding all building blocks to create a model
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'   nm2nonmem2rx("run1.mod")
-#' }
+#' nmmod <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+#' nm2nonmem2rx(nmmod) |> suppressMessages()
+#'
 nm2nonmem2rx <- function(mod, out=NULL,control=""){
   res         <- nonmem2rx::nonmem2rx(file=mod)
   theta_names <- stats::setNames(res$iniDf$label[!is.na(res$iniDf$ntheta)],res$iniDf$name[!is.na(res$iniDf$ntheta)]) 

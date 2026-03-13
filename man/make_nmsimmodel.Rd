@@ -27,7 +27,7 @@ This function creates a simulation model from an original NONMEM model where dol
 commented based on input file and other simulation functions within package
 }
 \details{
-The function will adapt an orginal model in such a way that it can be used directly for simulations
+The function will adapt an original model in such a way that it can be used directly for simulations
 the assumptions are that an input dataset is created using \link{sample_par} and \link{simdata}.
 This means that all THETA and ETA values are available in the simulation dataset as respectively STHETAN and SETAN (simulated THETA/ETA n).
 Furthermore it is assumed that the input dataset is a csv file.
@@ -37,9 +37,17 @@ the items in the dataset and the simulation model is written to  disk.
 }
 \examples{
 
-\dontrun{
-  make_nmsimmodel("run1.mod","sim1.mod","sim.data.csv")
-}
+nmmod   <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+dat     <- simdata(0:24, dosetime = 0, doseheight = 10, addl = 2, ii = 24, 
+                   numid = 50, STHETA1= 1, STHETA2 = 2, STHETA3 = 1,
+                   SETA1 = 0, SETA2 = 0)
+tmp_out <- tempfile(fileext = ".csv")
+mod_out <- tempfile(fileext = ".mod")
+
+write.csv(dat,file=tmp_out, na=".", quote=FALSE, row.names = FALSE)
+make_nmsimmodel(nmmod, mod_out, data=tmp_out)
+readLines(mod_out) |> head(n=15) |> cat(sep="\n")
+
 }
 \author{
 Richard Hooijmaijers

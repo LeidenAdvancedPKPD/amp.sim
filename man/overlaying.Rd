@@ -4,14 +4,14 @@
 \alias{overlaying}
 \title{Performs overlaying of simulations}
 \usage{
-overlaying(out, input = input, savedsims)
+overlaying(out, input, savedsims = NULL)
 }
 \arguments{
 \item{out}{dataframe with the results from a simulation to be appended for overlaying}
 
 \item{input}{list with the input elements from a shiny app}
 
-\item{savedsims}{reactiveValue that contains the saved simulations}
+\item{savedsims}{reactiveValue or list that contains the saved simulations}
 }
 \value{
 a list with a dataframe with the appended simulations and settings
@@ -20,8 +20,15 @@ a list with a dataframe with the appended simulations and settings
 This function basically appends the simulation output and add this to a reactiveValue
 }
 \examples{
+if(requireNamespace("shiny")){
+  out   <- data.frame(time=0:4, A1=rnorm(5), numsim=1)
+  input <- shiny::reactiveValues(CL=2, KA=0.3, updOpts="appsim")
+  overlayres <- overlaying(out,input)
+  savedsims  <- list(res = overlayres$results, sett = overlayres$settings)
+  overlayres <- overlaying(input=input,out=out,savedsims=savedsims)
+  head(overlayres$result)
+}
 
-\dontrun{overlaying(out=out,input=input,savedsims=savedsims)}
 }
 \author{
 Richard Hooijmaijers

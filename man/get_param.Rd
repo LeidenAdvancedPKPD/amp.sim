@@ -9,7 +9,7 @@ get_param(model, lstblock, ext = NULL, addparam = TRUE)
 \arguments{
 \item{model}{character vector with the model content}
 
-\item{lstblock}{list with each item being a separate strucured dollor block, usually obtain from \code{\link{nmlistblock}}}
+\item{lstblock}{list with each item being a separate structured dollar block, usually obtain from \code{\link{nmlistblock}}}
 
 \item{ext}{character with the name of the NONMEM ext file (if not provided estimates are read directly from the list block)}
 
@@ -25,9 +25,11 @@ variables if present
 }
 \examples{
 
-\dontrun{
-  get_est("run1.mod")
-}
+mod    <- system.file("example_models","PK.1CMT.ORAL.COV.mod", package = "amp.sim")
+mdll   <- get_nmblock(mod,block=c("PK","DES"))
+mdlls  <- nmlistblock(mdll)
+get_param(mod, mdlls)
+
 }
 \author{
 Richard Hooijmaijers

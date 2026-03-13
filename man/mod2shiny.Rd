@@ -63,7 +63,15 @@ is used. In general a single subject is simulated, but be aware that for the DeS
 }
 \examples{
 
-\dontrun{mod2shiny(parvector=c(KA=0.1,K20=0.3),modfile='model.r',evnt=evdat)}
+nmmod <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+outf  <- tempfile()
+convert_nonmem(nmmod, out=outf, verbose = FALSE)
+prm   <- c(THETA1 = 0.3, THETA2 = 2, THETA3 = 5)
+evnt  <- mrgsolve::ev(amt = 100, ii = 24, addl = 1)
+nams  <- c(THETA1 = "KA (1/h)", THETA2 = "CL (l/h)", THETA3 = "V (l)") 
+mod2shiny(prm, modfile= paste0(outf,".cpp"), evnt = evnt,
+          naming = nams, framework = "mrgsolve", outloc=tempdir())
+
 }
 \author{
 Richard Hooijmaijers

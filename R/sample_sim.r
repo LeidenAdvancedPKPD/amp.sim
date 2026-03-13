@@ -25,11 +25,11 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'   sample_sim(nrepl=2,nsub=3,type="unc_varIIV",
-#'              ext="run2.ext",cov="run2.cov")
-#' }
-
+#' ext <- system.file("example_models","PK.1CMT.ORAL.COV.ext", package = "amp.sim")
+#' cov <- system.file("example_models","PK.1CMT.ORAL.COV.cov", package = "amp.sim")
+#' sample_sim(nrepl=2,nsub=3,type="unc_varIIV", ext=ext,cov=cov)
+#' sample_sim(nrepl=2,nsub=3,type="sameIIV", ext=ext)
+#'
 sample_sim <- function(nrepl=2,nsub=3,type="noIIV",...){
   if(type=="noIIV"){
     ret     <- sample_par(...,nrepl=nsub*nrepl)

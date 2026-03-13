@@ -10,18 +10,17 @@
 #' @param out character with the name of the output file without a file extension
 #' @param control character with the type of control to bre returned (see [convert_nonmem] for more details)
 #'
-#' @export
+#' @noRd
 #' @return a list is returned inluding all building blocks to create a model
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'   mdl <- readLines("run1.mod")
-#'   lst <- get_nmblock(mdl,block=c("PROB","SUB","MODEL","PK","DES","PRED",
-#'                                  "THETA","OMEGA","ERROR","SIGMA","EST"))
-#'   lst <- listblock(lst)
-#'   nm2deSolve(lst)
-#' }
+#' nmmod <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+#' lst   <- get_nmblock(nmmod, block = c("PROB","SUB","MODEL","PK","DES","PRED",
+#'                                       "THETA","OMEGA","ERROR","SIGMA","EST"))
+#' lst   <- nmlistblock(lst)
+#' nm2deSolve(lst, readLines(nmmod))
+#'
 nm2deSolve <- function(lstblock,model,ext=NULL,mod_return=NULL,out=NULL,control=""){ # ,mod_return=NULL
   # Define a translator function to rewrite specific parts for mrgsolve
   translator     <- function(block){

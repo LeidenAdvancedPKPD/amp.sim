@@ -12,7 +12,7 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#'   par_delete(c("LOG(1)","ETA(1)","EXP(2)/ETA(3)+THETA(4)"))
+#' par_delete(c("LOG(1)","ETA(1)","EXP(2)/ETA(3)+THETA(4)"))
 par_delete <- function(vect,excfun=TRUE){
   avect <- NULL
   for(i in 1:length(vect)){

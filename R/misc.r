@@ -15,9 +15,8 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'   dput2(setNames(rnorm(26),letters))
-#' }
+#' dput2(setNames(runif(5),letters[1:5]))
+#'
 dput2 <- function(x,comment=FALSE,obj=NULL,collapse=NULL,...){
   ret <- utils::capture.output(dput(x,...))
   if(!is.null(obj)) ret <- c(paste(obj,"<-",ret[1]),ret[-1])
@@ -37,11 +36,10 @@ dput2 <- function(x,comment=FALSE,obj=NULL,collapse=NULL,...){
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'   tst <- "IF (test == A(1)) a(1)=(1*5)/2"
-#'   pos_clpar(tst)
-#'   substring(tst,1,pos_clpar(tst))
-#' }
+#' tst <- "IF (test == A(1)) a(1)=(1*5)/2"
+#' pos_clpar(tst)
+#' substring(tst,1,pos_clpar(tst))
+#'
 pos_clpar <- function(x){
   if(grepl("'|\"",x)) stop("character comparison not supported")  
   ob  <- gregexpr("\\(",x)[[1]] 

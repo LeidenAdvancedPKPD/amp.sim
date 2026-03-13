@@ -38,13 +38,13 @@ necessary.
 }
 \examples{
 
-\dontrun{
- ana1CMTiv <- function(Dose,pars,t){
-   Dose * pars['C'] * exp(-pars['L']*t)
- }
- pars <- c(L=.01,C=5)
- mdose(10,tau=24,ndose=5,t=0:240,func=ana1CMTiv,pars=pars)
+ana1CMTiv <- function(Dose,pars,t){
+  Dose * pars['C'] * exp(-pars['L']*t)
 }
+res <- mdose(10, tau = 24, ndose = 5, t = 0:240, 
+             func = ana1CMTiv, pars = c(L=.01,C=5))
+plot(res$time,res$y, type="l")
+
 }
 \author{
 Richard Hooijmaijers

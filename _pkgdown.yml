@@ -19,3 +19,63 @@ code:
 navbar:
   type: light
   bg: primary
+
+reference:
+
+- title: Converting models
+  desc: Functions to convert NONMEM models
+- subtitle: Main functions
+  contents: convert_nonmem
+- subtitle: Helper functions
+  contents: 
+  - conv_pow
+  - convert_nmsyntax
+
+- title: Simulations in NONMEM
+  desc: Functions to perform NONMEM Simulations
+- contents: 
+  - make_nmsimmodel 
+  - split_sim
+
+- title: Simulations in R
+  desc: Functions to perform Simulations in R
+  contents: 
+  - dose_func
+  - mdose
+  - model_validation
+
+- title: Shiny functionality
+  desc: Functions to create and run shiny apps
+  contents: 
+  - mod2shiny
+  - settings2df
+  - overlaying
+
+- title: General functionality
+  desc: Functions general applicable for simulations
+  contents: 
+  - sample_par
+  - sample_sim
+  - simdata
+  - tmpl_model
+
+- title: Utility functions
+  desc: Utility functions 
+  contents: 
+  - cut_equal
+  - get_est
+  - get_inits
+  - get_nmblock
+  - get_param
+  - get_parmvar
+  - dput2
+  - pos_clpar
+  - par_delete
+  - nmlistblock
+
+# Not exported
+# - nm2deSolve
+# - nm2mrgsolve
+# - nm2nonmem2rx
+# - nm2rxode2
+

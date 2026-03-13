@@ -4,13 +4,15 @@
 \alias{tmpl_model}
 \title{Get coding for template models}
 \usage{
-tmpl_model(tmpl)
+tmpl_model(tmpl, ret = "console")
 }
 \arguments{
-\item{tmpl}{string with template}
+\item{tmpl}{character with template}
+
+\item{ret}{character indicating how the result should be returned. Currently "console", "string" and "script" are accepted}
 }
 \value{
-model syntax is returned either to console or script (within Rstudio)
+model syntax is returned either to console or script (within Rstudio) or a character string
 }
 \description{
 This function returns the code for some template models
@@ -23,7 +25,9 @@ run the function without arguments
 }
 \examples{
 
- tmpl_model("des1CMToralK.tmp")
+tmpl_model()
+tmpl_model("ana1CMTbolusK.tmp")
+
 }
 \author{
 Richard Hooijmaijers

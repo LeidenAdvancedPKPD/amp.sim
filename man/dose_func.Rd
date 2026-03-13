@@ -2,7 +2,7 @@
 % Please edit documentation in R/dose_func.r
 \name{dose_func}
 \alias{dose_func}
-\title{Create data.frame with dosing for usage in simulation}
+\title{Create data.frame with dosing for usage in simulation with deSolve}
 \usage{
 dose_func(cmt, value, tinf, tau, ndose, times)
 }
@@ -21,10 +21,10 @@ dose_func(cmt, value, tinf, tau, ndose, times)
 used to set times of dosing (e.g c(0,24,168))}
 }
 \value{
-a data frame that can be used as an event dataset within lsoda
+a data frame that can be used as an event dataset within deSolve
 }
 \description{
-This function creates a data.frame that can be used for events of the lsoda function
+This function creates a data.frame that can be used for events of a deSolve simulation
 }
 \examples{
 

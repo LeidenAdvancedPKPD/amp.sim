@@ -30,7 +30,7 @@ type 1 is faster but less accurate, while type 2 is slower and more accurate
 }
 \examples{
 
- table(cut_equal(1:101,5))
+ table(cut_equal(1:20,5))
 }
 \author{
 Richard Hooijmaijers

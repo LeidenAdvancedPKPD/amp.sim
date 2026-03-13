@@ -44,9 +44,15 @@ For the mod_return argument, the additional variables are added to the output in
 }
 \examples{
 
-\dontrun{
-  convert_nonmem("run1.mod",out="rsim/run1")
-}
+mod  <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+outf <- tempfile()
+
+convert_nonmem(mod, outf, verbose = FALSE)
+readLines(paste0(outf,".cpp")) |> head(n=15) |> cat(sep="\n")
+
+convert_nonmem(mod, outf, verbose = FALSE, type_return = "nonmem2rx") |> suppressMessages()
+readLines(paste0(outf,".r")) |> head(n=15) |> cat(sep="\n")
+
 }
 \author{
 Richard Hooijmaijers

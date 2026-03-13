@@ -26,9 +26,8 @@ in a vector
 }
 \examples{
 
-\dontrun{
-  dput2(setNames(rnorm(26),letters))
-}
+dput2(setNames(runif(5),letters[1:5]))
+
 }
 \author{
 Richard Hooijmaijers

@@ -25,13 +25,13 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'  ana1CMTiv <- function(Dose,pars,t){
-#'    Dose * pars['C'] * exp(-pars['L']*t)
-#'  }
-#'  pars <- c(L=.01,C=5)
-#'  mdose(10,tau=24,ndose=5,t=0:240,func=ana1CMTiv,pars=pars)
+#' ana1CMTiv <- function(Dose,pars,t){
+#'   Dose * pars['C'] * exp(-pars['L']*t)
 #' }
+#' res <- mdose(10, tau = 24, ndose = 5, t = 0:240, 
+#'              func = ana1CMTiv, pars = c(L=.01,C=5))
+#' plot(res$time,res$y, type="l")
+#'
 mdose <- function(Dose,tau,ndose,t,func,...){
   # Make sure the overlapping arguments are passed to the function
   args1        <- lapply(ls(),function(x) get(x))

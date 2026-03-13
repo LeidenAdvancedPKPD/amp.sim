@@ -20,9 +20,15 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'   convert_nonmem("run1.mod",out="rsim/run1")
-#' }
+#' mod  <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
+#' outf <- tempfile()
+#'
+#' convert_nonmem(mod, outf, verbose = FALSE)
+#' readLines(paste0(outf,".cpp")) |> head(n=15) |> cat(sep="\n")
+#'
+#' convert_nonmem(mod, outf, verbose = FALSE, type_return = "nonmem2rx") |> suppressMessages()
+#' readLines(paste0(outf,".r")) |> head(n=15) |> cat(sep="\n")
+#'
 convert_nonmem <- function(model,out, ext=NULL, mod_return=NULL,type_return="mrgsolve",overwrite=FALSE, control="file",verbose=TRUE){
   # removed 'addparam=TRUE' from arguments, decided to always use this (cannot think of a reason why not to)
   mdl    <- readLines(model)

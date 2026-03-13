@@ -33,10 +33,11 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
-#'   res <- sample_par("run9.ext","run9.cov",inc_eta=TRUE)
-#' }
-
+#' ext <- system.file("example_models","PK.1CMT.ORAL.COV.ext", package = "amp.sim")
+#' cov <- system.file("example_models","PK.1CMT.ORAL.COV.cov", package = "amp.sim")
+#' sample_par(ext, inc_eta = TRUE, nrepl = 5)
+#' sample_par(ext, cov, uncert = TRUE, nrepl = 5)
+#'
 sample_par <- function(ext,covmat=NULL,bootstrap=NULL,seed=NULL,nrepl=10,inc_theta=TRUE,inc_eta=FALSE,verbose=FALSE,dropfixed=FALSE,uncert=FALSE,restheta=NULL){
   # set seed and read data (if applicable)
   if(!is.null(seed)){
@@ -72,7 +73,6 @@ sample_par <- function(ext,covmat=NULL,bootstrap=NULL,seed=NULL,nrepl=10,inc_the
       }else{
         sampl <- bsres[c(1:nrow(bsres),sample(1:nrow(bsres),nrepl-nrow(bsres),replace=TRUE)),]
       }
-      #sampl <- dplyr::select(sampl,-c(.data$ITERATION,.data$OBJ))
       sampl <- sampl[,!names(sample)%in%c("ITERATION","OBJ")] 
       sampl <- cbind(ID=1:nrepl,sampl)
     }

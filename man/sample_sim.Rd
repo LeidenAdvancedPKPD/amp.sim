@@ -38,10 +38,11 @@ In all the cases above where uncertainty is sampled, this is done only for THETA
 }
 \examples{
 
-\dontrun{
-  sample_sim(nrepl=2,nsub=3,type="unc_varIIV",
-             ext="run2.ext",cov="run2.cov")
-}
+ext <- system.file("example_models","PK.1CMT.ORAL.COV.ext", package = "amp.sim")
+cov <- system.file("example_models","PK.1CMT.ORAL.COV.cov", package = "amp.sim")
+sample_sim(nrepl=2,nsub=3,type="unc_varIIV", ext=ext,cov=cov)
+sample_sim(nrepl=2,nsub=3,type="sameIIV", ext=ext)
+
 }
 \author{
 Richard Hooijmaijers

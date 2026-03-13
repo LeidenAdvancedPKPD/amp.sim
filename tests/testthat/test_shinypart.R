@@ -35,5 +35,20 @@ test_that("settings2df correctly creates dataframe with settings", {
   expect_true(all(c(0.5,0.9)%in%as.numeric(res[1,2:3])))
 })
 
-# The overlaying function is not tested due to the use of shiny functions (e.g reactiveValuesToList)
-# This makes it difficult to test outside app structure
+#--------------------------
+# Test overlaying function
+test_that("overlaying correctly adds information", {
+  out         <- data.frame(time=0:4, A1=rnorm(5), numsim=1)
+  input       <- shiny::reactiveValues(CL=2, KA=0.3, updOpts="appsim")
+  overlayres1 <- overlaying(out,input)
+  savedsims   <- list(res = overlayres1$results, sett = overlayres1$settings)
+  overlayres2 <- overlaying(input=input,out=out,savedsims=savedsims)
+  
+  expect_type(overlayres1, "list")
+  expect_true(unique(overlayres1$results$numsim)==1)
+  expect_equal(overlayres1$settings$`sim 1`$CL,2)
+  
+  expect_equal(unique(overlayres2$results$numsim),1:2)
+  expect_equal(length(overlayres2$settings), 2)
+  expect_equal(overlayres2$settings[[1]], overlayres2$settings[[2]])
+})

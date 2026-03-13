@@ -19,7 +19,13 @@ This function adds settings or input elements to a dataframe for displaying in a
 }
 \examples{
 
-\dontrun{settings2df(savedsims=savedsims)}
+if(requireNamespace("tidyr")){
+  sim1 <- list(THETA1  = 0.5, THETA2 = 1,
+               alllabs =c("THETA1\%=\%DUMMY1","THETA2\%=\%DUMMY2"))
+  sim2 <- list(THETA1  = 0.9, THETA2 = 1.5)
+  settings2df(list(sim1 = sim1, sim2 = sim2))
+} 
+
 }
 \author{
 Richard Hooijmaijers

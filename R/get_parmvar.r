@@ -12,7 +12,11 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{get_parmvar("run001.mod")}
+#' mod    <- system.file("example_models","PK.1CMT.ORAL.COV.mod", package = "amp.sim")
+#' mdll   <- get_nmblock(mod,block=c("PK","DES"))
+#' mdlls  <- nmlistblock(mdll)
+#' get_parmvar(mdlls)
+#' 
 get_parmvar <- function(lstblock,returnall=FALSE){
   alllst   <- c(lstblock$PK,lstblock$DES,lstblock$ERROR,lstblock$PRED)
   if(is.null(alllst)) stop("There is no PK, DES, PRED or error block in the provided model")
