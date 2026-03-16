@@ -12,18 +12,18 @@ vignette: >
 ## Introduction
 
 This vignette describes how pharmacometric models can be simulated in R by using the `amp.sim` package. In the field of pharmacometrics, models are oftend 
-estimated using the NONMEM software tool. However, subsequently simulating such models is more often done in R. This method is often preferred because an 
-entire exercise can be done in one environment. There might also be advantages with respect to output size and speed.
+estimated using the NONMEM software tool. However, simulating such models is more often done in R. This method is commonly preferred because an 
+entire exercise can be done in one environment. There might also be advantages with respect to efficiency (object sizes and speed).
 
-When simulating in R there are different packages available to do so. Although there are more, the `amp.sim` package support the following often used packages, 
+When simulating in R there are different packages available to do so. Although there are more, the `amp.sim` package support the following regularly used packages, 
 each having their own pros and cons:
 
 - `deSolve` package: Widely used general solver package. Can be slow when models are not compiled and does not have specific features for PKPD modeling. 
-  For simple models this package can be good choice
+  For simple models this package can be a good choice
 - `rxode2` package: Package specified towards PKPD modeling. Simulations are fast and is the backbone for the estimation package `nlmixr2`. 
   For models that are estimated and simulated solely in R this can be a good choice
 - `nlmixr2` package: This is is a similar method as the previous, however the syntax is created using the `nonmem2rx` package. 
-  This will create a model not only suitable for simulations but also directly for estimation using the nlmixr2 package.
+  This will create a model not only suitable for simulations but also directly for estimation using the `nlmixr2` package.
 - `mrgsolve` package: Package specified towards PKPD model. Simulations are also fast. 
   Syntax for models is highly comparable to NONMEM syntax. When comparing with NONMEM syntax this can be good choice
 
@@ -55,11 +55,13 @@ Be aware that the function tries to translate a NONMEM model as good as possible
 simply because they are not supported by the package that performs the simulation. Depending on the package being used for simulation, 
 the following items might need additional attention:
 
-- Handling of (time-varying) covariates (more on this later)
+- Handling of (time-varying) covariates 
 - Usage lag time and bio-availability (mainly applicable for deSolve)
 - Handling of mixture models 
 - Handling of inter-occasion variability
 - Handling of NONMEM reserved keywords or syntax
+
+For more information on this see [Considerations for translating models]("04.options_restrictions.html").
 
 ## Simulation of typical subject
 
@@ -114,7 +116,8 @@ plot(out)
 ```
 
 We see that in this case, that the simulations are not as expected. This is because the model has a covariate of weight. Because the translation does not take into account the dataset,
-the package cannot set a valid value and is therefore set to -999. Other adaptations we could do are, simulate a single subject without random effects (using `zer0_re`) and use `ggplot` to only plot applicable compartments:
+the package cannot set a valid value and is therefore set to -999. 
+Below we can see the simple addition to get a result. Other adaptations showcaseds are, simulate a single subject without random effects (using `zer0_re`) and use `ggplot` to only plot applicable compartments:
 
 ```{r}
 #| fig-width: 6
@@ -136,7 +139,7 @@ In most cases the simulation should be performed for more than 1 subject. There 
 
 ### Simulations including only IIV
 
-The situation where you want to simulate with only IIV, is the easiest and is already integrated within the `mrgsolve` package. By default, when a NONMEM model is translated, the random structure is included in the model. This is than also used by the `mrgsim` function to sample $\eta$ values for the model. As shown in the first example the original code was adapted to set IIV to 0. If we do not do this and set a number of individuals to simulate we can easily include IIV
+The situation where you want to simulate with only IIV, is the easiest and is already integrated within the `mrgsolve` package. By default, when a NONMEM model is translated, the model matrices included in the model. This is also used by the `mrgsim` function to sample $\eta$ values for the model. As shown in the first example the original code was adapted to set IIV to 0. If we do not do this and set a number of individuals to simulate we can easily include IIV
 
 
 ```{r}
@@ -164,12 +167,12 @@ In case we only want to simulate with uncertainty, we need to disregard IIV in t
 library(dplyr)
 parm  <- c(WEIGHT = 70)
 mod   <- param(mod,parm)   
-# sample from uncertainty and apply simulations
-parms <- sample_par(ext    = system.file("example_models/PK.1CMT.ORAL.COV.ext",package = "amp.sim"),
-                    covmat = system.file("example_models/PK.1CMT.ORAL.COV.cov",package = "amp.sim"),
-                    nrepl = 100, uncert = TRUE) |> 
-  rename_with(~ sub("S", "", .x))
 
+# sample from uncertainty and apply simulations
+extf  <- system.file("example_models/PK.1CMT.ORAL.COV.ext",package = "amp.sim")
+covf  <- system.file("example_models/PK.1CMT.ORAL.COV.cov",package = "amp.sim")
+parms <- sample_par(ext = extf, covmat = covf, nrepl = 100, uncert = TRUE) |> 
+  rename_with(~ sub("S", "", .x))
 
 dosim <- function(df){
   zero_re(mod) |> ev(evnt) |>
@@ -177,9 +180,10 @@ dosim <- function(df){
     mrgsim_df(end = 48, delta = 0.1, nid=1) |>
     mutate(ID = unique(df$ID))  
 }
+
 out <- parms |> group_by(ID) |>
-  group_map(~dosim(.x),.keep=TRUE) |>
-  bind_rows()
+  group_map(~dosim(.x),.keep=TRUE) |> bind_rows()
+
 ggplot(out,aes(time,CP,group=ID)) + geom_line(alpha=.3) + 
   scale_y_log10() + theme_bw()
 ```
@@ -188,17 +192,19 @@ ggplot(out,aes(time,CP,group=ID)) + geom_line(alpha=.3) +
 #### Simulations including IIV and uncertainty
 
 For larger clinical trial simulations it is often necessary to simulate including both IIV and uncertainty. This section describes a way to do so. Also running these types of simulation can be computationally intensive. 
-To speed up the simulation an example is included that uses the `parallel` pacakge, although various other frameworks could be used
+To speed up the simulation an example is included that uses the `parallel` package, although various other frameworks could be used
 to multi-thread the simulations.
 This example combines the examples above where in this case 10 trials are simulated for 10 subjects each
 
 ```{r}
 #| eval: false
 parm  <- c(WEIGHT = 70)
-parms <- sample_par(ext    = system.file("example_models/PK.1CMT.ORAL.COV.ext",package = "amp.sim"),
-                    covmat = system.file("example_models/PK.1CMT.ORAL.COV.cov",package = "amp.sim"),
-                    nrepl=10, uncert=TRUE)
+extf  <- system.file("example_models/PK.1CMT.ORAL.COV.ext",package = "amp.sim")
+covf  <- system.file("example_models/PK.1CMT.ORAL.COV.cov",package = "amp.sim")
+
+parms <- sample_par(ext = extf, covmat = covf, nrepl=10, uncert=TRUE)
 parms <- setNames(parms,sub("S","",names(parms)))
+
 library(parallel)
 cl  <- makeCluster(getOption("cl.cores", 7))
 clusterExport(cl, c("evnt","parms","mod","parm"))
@@ -210,6 +216,7 @@ out <- parLapply(cl, 1:nrow(parms),function(x){
   ret
 })
 stopCluster(cl)
+
 out <- do.call(rbind,out)
 ggplot(out,aes(time,CP,group=ID)) + geom_line(alpha=.3) + 
   scale_y_log10() + facet_wrap("REP",labeller = "label_both") + 
@@ -266,7 +273,7 @@ In case a closed form model should be simulated, the previous mentioned methods 
 tmpl_model()
 ```
 
-A model can be provided to the function, in which case the simulation code is added in the current script right after the function call (when working in Rstudio) or within the console (when not working in Rstudio):
+A model can be provided to the function, in which case the simulation code can be added in the current script right after the function call (when working in Rstudio), within the console or as a string:
 
 ```{r}
 #| eval: false

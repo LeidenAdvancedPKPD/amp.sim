@@ -11,7 +11,7 @@ vignette: >
 
 ## Introduction
 
-Shiny apps are a great way of visualizing a (translated) model. The main advantage of a shiny app for a simulation model is that you can easily test the effect of different parameters on the outcome of a simulation. When translating a model using the `amp.sim` package you will have a standardized way models are created. This makes it possible to automatically create a shiny app for such a model.
+Shiny apps are a great way of visualizing a (translated) model. The main advantage of a shiny app for a simulation model is that you can easily test the effect of different parameters on the outcome of a simulation. When translating a model using the `amp.sim` package, there is a standardized way models are created. This makes it possible to automatically create a shiny app for such a model.
 
 ## Basics
 
@@ -57,7 +57,7 @@ When the app is created an app will be created that will look something like:
 The app is basic but already has some features build into it:
 
 - Overlaying; When looking at the outcome of different parameter values you often want to compare different simulations. For this reason there is an option to overlay simulations. This way you can directly compare what would happen if you simulate with different settings
-- settings; When overlaying simulations it can become difficult to see what the different settings were for the various simulations. The app provide a way to see what the different settings were for the various simulations
+- settings; When overlaying simulations it can become difficult to see what the different settings were for the various simulations. The app provide a way to display the settings for all the various simulations
 - Refreshing; although an entire shiny app can be refreshed manually, this option will only reset the parameter values to their original values.
 - General customization; The app will contain placeholders that you can use to make the app more usable. There is a tab available where you can provide information for the user and where a model scheme can be added as background information
 

@@ -11,13 +11,14 @@ vignette: >
 
 Translating model syntax from one language to another can become quite complex. This package will try to do this as good as possible, however there
 might be times that things just do not work out of the box. The most important things to take into account are listed here.
-If you find some situations that are not handled correctly or have some ideas how it could work pleas let me know by filing an issue. 
+If you find some situations that are not handled correctly or have some ideas how it could work please file an issue on github. 
 
 __Model types__
 
 There are different types of models that can be used in NONMEM. Currently the package mainly supports models that are written in differential equations (e.g \$DES block). Models written without differential equations but still user defined (e.g. \$PRED block) can be translated but likely need further inspection. For these types of models, the `deSolve` package is not really suited. The package will translate it to an R function but it is advised to simplify the result and use base R for simulations. For `rxode2` and `mrgsolve` there are more options for simulating these types of models. Likely less adaptations are necessary, but it is advised to read the additional documentation regarding these models once translated for [rxode2](https://nlmixr2.github.io/rxode2/articles/rxode2-model-types.html) and/or [mrgsolve](https://mrgsolve.org/docs/articles/extra/dollar-pred.html).
 
 Furthermore within NONMEM there are multiple ADVAN routines for common PK models. The package will not translate models defined using the general ADVANS (e.g. models without \$DES block). The main reason for this is that translating these types of models is generally fast and easy. Also the `rxode2` and `mrgsolve` packages both have options to handle these types of models. To simulate these types of models in `deSolve` or directly in base R, the package provide template models (see `?tmpl_model`).
+When such a model is used in the `convert_nonmem` function, you would typically get the results for the blocks that can be translated, but the model will likely not compile. IT can be helpful though to translate parts that can easily be added to the the default models.
 
 __Lag time, bio-availability, residual error and infusions__
 
@@ -37,10 +38,10 @@ dose_func(cmt=4,value=300,ndose=3,tau=24, tinf=2)
 
 __Specific NONMEM coding__
 
-Within NONMEM there are different ways of coding certain blocks. For instance there are many ways of defining initial estimates for $\theta$ and $\omega$ values. The package supports most common coding but not all. It is therefor advised not to use very specific coding here (e.g. defining $\theta$ as `(value)xn` to repeat estimates). For $\omega$ values, blocks are supported but using the 'block same' structure to code inter-occasion variability will likely not work out of the box. Also structures defining correlations instead of covariance will likely need adaptations.
+Within NONMEM there are different ways of coding certain blocks. For instance there are many ways of defining initial estimates for $\theta$ and $\omega$ values. The package supports most common coding trough the wonderful `NMdata` package but maybe not all. It is therefor advised not to use very specific coding here (e.g. defining $\theta$ as `(value)xn` to repeat estimates). For $\omega$ values, blocks are supported but using the 'block same' structure to code inter-occasion variability might need some double checking within the simulations. Also structures defining correlations instead of covariance will likely need adaptations.
 
 Within NONMEM it is also possible to write abbreviated FORTRAN code (e.g. including things like `COM(n)` and/or `$ABBREVIATED`). Additionally, the usage of protected functions in R could lead to possible issues in the translated model (e.g. `PROTOECT` option in `$ABBREVIATED`). 
-This part is currently not supported by the package and should be deleted/rewritten before translating the model.
+This part is currently not supported by the package. In some cases the code is commented out in the translated models, however in certain cases it might be necessary to deleted/rewrite before translating the model.
 
 The most important reserved keywords are taken into account. However given the amount of reserved keywords (not only in NONMEM but in the simulation packages as well), it could be that certain keywords are not supported. Please file an issue if you stumble upon an example that does not work.
 

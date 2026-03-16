@@ -32,7 +32,7 @@ simd <- simdata(time = seq(0,120,1), dosetime = 0, doseheight = 100,
                 addl = 2, ii = 24, numid = 10)
 ```
 
-This function will create by default a data set for one dose level (or compound, compartment, etc), if required for multiple subjects. 
+This function will create by default a data set for one dose level (or compound, compartment, etc), if needed for multiple subjects. 
 In case multiple dose levels, compartments, etc. are necessary there are different possibilities. The following example shows a couple of examples 
 using some simple base R functions:
 
@@ -50,12 +50,12 @@ simd <- rbind(cbind(simd,CMT=1),cbind(simd,CMT=2),cbind(simd,CMT=3))
 
 ### Additional variables
 
-The function will create a basic dataset with only the bare minimum for a simulation. In many cases additional variables need to be added. 
+The example above creates a basic dataset with only the bare minimum for a simulation. In many cases additional variables need to be added. 
 These variables can be covariates or just variables used within the control stream. There are many different ways that variables can be added 
 to the data and depends on the type of simulation to perform. Some important considerations are:
 
 1. Should all subjects receive the same value(s)?
-2. Should the same subjects be present in each strata?
+2. Should the same subjects be present in each strata/treatment/dose group/etc.?
 3. Are there correlations that should be taken into account?
 4. How should time-varying covariates be handled?
 
@@ -75,7 +75,7 @@ simd$AGE    <- as.integer(rnorm(10,39,5))
 Within the last step the model parameters are added to the data set. To do so the `sample_par` function can be used. 
 The function takes the NONMEM ext file, which include the final parameter estimates, as input. 
 It is possible to sample from the covariance matrix to take into account parameter uncertainty. 
-In this case the matrix (NONMEM cov file) should also be provided to the function. The following chunk show some examples on how the function can be used:
+In this case the covariance matrix (NONMEM cov file) should also be provided to the function. The following chunk show some examples on how the function can be used:
 
 ```{r}
 #| eval: false
@@ -97,7 +97,7 @@ samp <- sample_par("run1.ext",inc_eta=TRUE,nrepl=10)
 ```
 
 The resulting data frame will include $\theta$ and/or $\eta$ values based on the settings. The naming will always be prepended with the 
-letter S (for simulated or sampled) which is important for subsequent steps.
+letter 'S' (for simulated or sampled) which is important for subsequent steps.
 
 In case residual error should be included in the simulations it might be necessary to adapt the sampled dataset within this step. 
 This is the case when residual error is coded as $\theta$ and uncertainty is included. 
@@ -139,7 +139,7 @@ In the previous step we saw that sampling of $\theta$ and $\eta$ values was done
 This means that it is not necessary to do sample $\theta$ or $\eta$ values in NONMEM. 
 One important characteristic of this method is that we do not use certain dollar blocks. 
 Furthermore, the original model needs to be rewritten so that the parameters are read from the dataset. 
-These things are fairly easy to automate and for this reason the `make_simmodel` function is available:
+These things are fairly easy to automate and for this reason the `make_nmsimmodel` function is available:
 
 ```{r}
 #| eval: false
@@ -187,11 +187,11 @@ split_sim(data    = inp,
 ## Run the simulation
 
 At this point, everything should be in place to perform the simulation. The only thing left to do is to run the model(s) in NONMEM. 
-Obviously there are many different ways to do this, and based on the infrastructure in your organization. Therefore this part will show 
-pseudo code for a general R function to run all models within a certain folder:
+Obviously there are many different ways to do this, and based on the infrastructure in your organization. Therefore, the `amp.sim` pacakge does not have any functionality for this. **Below pseudo code for a general R function to run all models within a certain folder is shown**:
 
 ```{r}
 #| eval: false
+# NOTE: THIS IS EXAMPLE CODE; run_models IS NOT A FUNCTION AVAILABLE IN THE PACKAGE
 mods <- list.files("simulation",pattern="\\.mod$",full.names = TRUE)
 run_models(mods)
 ```
@@ -203,7 +203,7 @@ This package helps in both tasks. The sampling of parameters is done entirely wi
 Also, using this method it is easier to automate the creation of a simulation model. Overall the package reduces the number of manual tasks that are necessary 
 making it less error prone.
 Finally, the package provides functions to set-up and perform the simulations. For post-processing of the results like calculations and plotting no functionality is present. 
-This is mainly because it is too dependent on the type of project, also there are many R packages available to perform these tasks.
+This is mainly because it is too dependent on the type of project, also there are many other R packages available to perform these tasks.
 
 
 
