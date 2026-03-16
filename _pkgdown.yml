@@ -1,67 +1,67 @@
-url: "https://lapp.nl/"
+url: https://leidenadvancedpkpd.github.io/amp.sim/
 template:
   bootstrap: 5
   bslib:
-    primary: "#FDA840"
-    base_font: {google: {family: "Source Sans Pro", wght: [400, 600], ital: [0, 1]}}
-    code_font: {google: "Source Code Pro"}
+    primary: '#FDA840'
+    base_font:
+      google:
+        family: Source Sans Pro
+        wght:
+        - 400
+        - 600
+        ital:
+        - 0
+        - 1
+    code_font:
+      google: Source Code Pro
     font_scale: 0.9
-    fg: "#172431"
-    bg: "#fcfcfc"
+    fg: '#172431'
+    bg: '#fcfcfc'
     border-radius: 0
     btn-border-radius: 3px
     grid-gutter-width: 3rem
     pkgdown-nav-height: 78px
-
 code:
   width: 74
-
 navbar:
   type: light
   bg: primary
-
 reference:
-
 - title: Converting models
   desc: Functions to convert NONMEM models
 - subtitle: Main functions
   contents: convert_nonmem
 - subtitle: Helper functions
-  contents: 
+  contents:
   - conv_pow
   - convert_nmsyntax
-
 - title: Simulations in NONMEM
   desc: Functions to perform NONMEM Simulations
-- contents: 
-  - make_nmsimmodel 
+- contents:
+  - make_nmsimmodel
   - split_sim
-
 - title: Simulations in R
   desc: Functions to perform Simulations in R
-  contents: 
+  contents:
   - dose_func
   - mdose
   - model_validation
-
 - title: Shiny functionality
   desc: Functions to create and run shiny apps
-  contents: 
+  contents:
   - mod2shiny
   - settings2df
   - overlaying
-
 - title: General functionality
   desc: Functions general applicable for simulations
-  contents: 
+  contents:
   - sample_par
   - sample_sim
   - simdata
   - tmpl_model
-
 - title: Utility functions
-  desc: Utility functions 
-  contents: 
+  desc: Utility functions
+  contents:
   - cut_equal
   - get_est
   - get_inits
@@ -72,10 +72,4 @@ reference:
   - pos_clpar
   - par_delete
   - nmlistblock
-
-# Not exported
-# - nm2deSolve
-# - nm2mrgsolve
-# - nm2nonmem2rx
-# - nm2rxode2
 
