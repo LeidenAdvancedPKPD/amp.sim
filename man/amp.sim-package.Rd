@@ -4,7 +4,7 @@
 \name{amp.sim-package}
 \alias{amp.sim}
 \alias{amp.sim-package}
-\title{amp.sim: Various functions to aid simulation of pharmacometric models}
+\title{amp.sim: Various Functions to Aid Simulation of Pharmacometric Models}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
