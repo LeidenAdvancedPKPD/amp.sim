@@ -1,3 +1,7 @@
+<!-- badges: start -->
+[![Codecov test coverage](https://codecov.io/gh/LeidenAdvancedPKPD/amp.sim/graph/badge.svg)](https://app.codecov.io/gh/LeidenAdvancedPKPD/amp.sim)
+<!-- badges: end -->
+
 # Introduction <img src="man/figures/logo.png" align="right" alt="" width="120" />
 
 There are quite a few R packages available to simulate (pharmacometric) models in R.

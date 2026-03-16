@@ -1,10 +1,19 @@
 Package: amp.sim
 Title: Various functions to aid simulation of pharmacometric models
 Version: 0.1.0
-Authors@R: c(person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = c("aut", "cre","cph")))
+Authors@R: (person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = c("aut", "cre","cph")),
+            person("LAPP Consultants",email = "info@lapp.nl", role=c("fnd","cph")))
 Description: Tools to transform 'NONMEM' models into R syntax so they can be used for
     simulations using the 'deSolve', 'nlmixr2' or 'mrgsolve' package. Additionally, functionality is included to aid simulations performed
     directly in 'NONMEM' and to automatically create shiny apps for simulation models.
+URL: https://leidenadvancedpkpd.github.io/amp.sim/, https://github.com/LeidenAdvancedPKPD/amp.sim
+BugReports: https://github.com/LeidenAdvancedPKPD/amp.sim/issues    
+License: GPL (>=3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+VignetteBuilder: quarto
 Depends:
     R (>= 4.1.0)
 Imports:
@@ -31,9 +40,4 @@ Suggests:
   dplyr,
   testthat,
   quarto
-License: GPL (>=2)
-Encoding: UTF-8
-LazyData: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
-VignetteBuilder: quarto
+
