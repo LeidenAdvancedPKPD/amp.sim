@@ -1,0 +1,37 @@
+# Delete parenthesis including a numeric within a vector
+
+This function deletes all parenthesis from a character vector that has a
+numeric value inside. This is applicable as THETA(n), ETA(n), DADT(n) is
+not always allowed in R coding
+
+## Usage
+
+``` r
+par_delete(vect, excfun = TRUE)
+```
+
+## Arguments
+
+- vect:
+
+  the vector that should be scanned for parenthesis
+
+- excfun:
+
+  exclude functions from deleting parenthesis (taken from the globally
+  defined function list in the package)
+
+## Value
+
+a vector with the stripped parenthesis
+
+## Author
+
+Richard Hooijmaijers
+
+## Examples
+
+``` r
+par_delete(c("LOG(1)","ETA(1)","EXP(2)/ETA(3)+THETA(4)"))
+#> [1] "LOG(1)"             "ETA1"               "EXP(2)/ETA3+THETA4"
+```

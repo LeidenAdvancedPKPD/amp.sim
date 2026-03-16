@@ -1,0 +1,149 @@
+# Introduction
+
+There are quite a few R packages available to simulate (pharmacometric)
+models in R. This package is not intended to be yet another simulation
+package, but rather a package that can be used alongside available
+simulation frameworks. This means that the package does not include
+functionality to perform the actual simulations, but rather
+**amp**lifies it:
+
+1.  Automate and streamline simulations within NONMEM
+2.  Translate NONMEM models to R simulation frameworks (support for
+    `deSolve`, `rxode2`, `nlmixr2` and `mrgsolve`)
+3.  Directly create `shiny` applications of (translated) models
+
+Currently the package is under active development and can be installed
+using:
+
+``` r
+devtools::install_github("LeidenAdvancedPKPD/amp.sim")
+```
+
+The pkgdown website contains various articles on how to use the package
+and what should be taken into account when translating models.
+
+This package was initially developed as an in-house package at LAP&P,
+and was started in 2017. Various versions were developed, where many
+people within LAP&P helped in making the package better and more robust.
+Without them this package wouldn’t be possible!
+
+# Other packages
+
+The main packages in R to perform simulations for pharmacometrics are
+`nlmixr2` and `mrgsolve`. The `deSolve` package is a more general
+solution which could require some optimization in case of large/complex
+simulations. Besides simulations in R, NONMEM is a tool often used to
+perform simulations as well. Because NONMEM itself is low level, R
+packages like `NMSim` can make these type of simulations much easier.
+For translating models, there are solutions like `nonmem2mrgsolve`,
+`pharmpy` and `nonmem2rx` (called in this package).
+
+This package only amplifies packages like `nlmixr2` and `mrgsolve`. The
+functionality for NONMEM simulations differ from the `NMSim` package.
+The `amp.sim` package is more low level and has no advanced
+functionality to start/run NONMEM. Implementation is centered towards
+the dataset, in which a control stream is tailored towards. There is an
+overlap with the model translation options, although this package aims
+to combine different translations and extends this with other simulation
+tools and possible `shiny` implementation.
+
+# Package index
+
+## Converting models
+
+Functions to convert NONMEM models
+
+### Main functions
+
+- [`convert_nonmem()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/convert_nonmem.md)
+  : Convert NONMEM model to R syntax
+
+### Helper functions
+
+- [`conv_pow()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/conv_pow.md)
+  : Convert infix power notation to prefix notation
+- [`convert_nmsyntax()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/convert_nmsyntax.md)
+  : Convert NONMEM specific syntax to R syntax
+
+## Simulations in NONMEM
+
+Functions to perform NONMEM Simulations
+
+- [`make_nmsimmodel()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/make_nmsimmodel.md)
+  : Create a simulation model from original model
+- [`split_sim()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/split_sim.md)
+  : Split a large NONMEM simulation in chunks
+
+## Simulations in R
+
+Functions to perform Simulations in R
+
+- [`dose_func()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/dose_func.md)
+  : Create data.frame with dosing for usage in simulation with deSolve
+- [`mdose()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/mdose.md)
+  : Performs multiple dosing in case of analytical solution of model
+- [`model_validation()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/model_validation.md)
+  : Validates NONMEM estimation model with an mrgsolve simulation model
+
+## Shiny functionality
+
+Functions to create and run shiny apps
+
+- [`mod2shiny()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/mod2shiny.md)
+  : Creates a basic simulation app for a given R model
+- [`settings2df()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/settings2df.md)
+  : Add settings to dataframe
+- [`overlaying()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/overlaying.md)
+  : Performs overlaying of simulations
+
+## General functionality
+
+Functions general applicable for simulations
+
+- [`sample_par()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/sample_par.md)
+  : Sample model parameters from a multivariate normal distribution
+- [`sample_sim()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/sample_sim.md)
+  : Sample model parameters for a simulation
+- [`simdata()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/simdata.md)
+  : Create a simulation dataset for NONMEM simulation
+- [`tmpl_model()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/tmpl_model.md)
+  : Get coding for template models
+
+## Utility functions
+
+Utility functions
+
+- [`cut_equal()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/cut_equal.md)
+  : cut function for (appr.) equal intervals
+- [`get_est()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/get_est.md)
+  : Get model estimates from NONMEM ext or model file
+- [`get_inits()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/get_inits.md)
+  : get the initial states for the differential equations
+- [`get_nmblock()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/get_nmblock.md)
+  : Get information from dollar blocks inside NONMEM control streams
+- [`get_param()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/get_param.md)
+  : Get parameter values from model or ext file
+- [`get_parmvar()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/get_parmvar.md)
+  : Get the variables within a NONMEM model that should be passed to the
+  simulation model
+- [`dput2()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/dput2.md)
+  : Wrapper function around dput to provide more options
+- [`pos_clpar()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/pos_clpar.md)
+  : Get position of closing parenthesis
+- [`par_delete()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/par_delete.md)
+  : Delete parenthesis including a numeric within a vector
+- [`nmlistblock()`](https://leidenadvancedpkpd.github.io/amp.sim/reference/nmlistblock.md)
+  : convert a block to a list
+
+# Articles
+
+### All vignettes
+
+- [Simulations using
+  R](https://leidenadvancedpkpd.github.io/amp.sim/articles/01.R_simulations.md):
+- [Simulations using
+  NONMEM](https://leidenadvancedpkpd.github.io/amp.sim/articles/02.NONMEM_simulations.md):
+- [Shiny
+  apps](https://leidenadvancedpkpd.github.io/amp.sim/articles/03.Shiny_apps.md):
+- [Considerations for translating
+  models](https://leidenadvancedpkpd.github.io/amp.sim/articles/04.options_restrictions.md):
