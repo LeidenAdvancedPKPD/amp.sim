@@ -1,7 +1,7 @@
 #------------------------------------------ convert_nonmem ------------------------------------------
 #' Convert NONMEM model to R syntax
 #'
-#' This function converts a NONMEM model to syntax useable in R simulations. Currently DeSolve, rxode2 (nonmem2rx) and mrgsolve are available syntaxes to use
+#' This function converts a NONMEM model to syntax useable in R simulations. Currently deSolve, rxode2 (nonmem2rx) and mrgsolve are available syntaxes to use
 #' Additionally a code to control the simulations is created to directly test the simulations
 #'
 #' @param model character with the model file to be read in and converted
@@ -73,10 +73,10 @@ convert_nonmem <- function(model,out, ext=NULL, mod_return=NULL,type_return="mrg
   # Handle messages (and verbose), check how we want to do this (could add messages in nm2package or have a single message?)
   if(verbose){
     cli::cli_text(paste0("The model is converted to {.pkg ",type_return,"} syntax!"))
-    cli::cli_text("However take into account that this function tries to create a good starting point for simultions in R. It is advised though to double check and test the resulting model code to see if everything is handled correctly. At least the following should be taken into account:")
+    cli::cli_text("However take into account that this function tries to create a good starting point for simulations in R. It is advised though to double check and test the resulting model code to see if everything is handled correctly. At least the following should be taken into account:")
     cli::cli_bullets(c("*"="Be aware of usage of TIME/TALD in model code. In certain cases this works, however rewriting might be necessary (likely when used in des block)"))
     cli::cli_bullets(c("*"="When converting to {.pkg deSolve}, items like IV dosing, bio-availability, lag time and residual error needs to be set manually"))
-    cli::cli_bullets(c("*"="When converting to {.pkg deSolve}, initialiization of compartments might need additional checking when model parameters are used (e.g. A_0(1)=BSL)"))
+    cli::cli_bullets(c("*"="When converting to {.pkg deSolve}, initialization of compartments might need additional checking when model parameters are used (e.g. A_0(1)=BSL)"))
     cli::cli_text("Additional information can be found in the package vignettes.")
   }
   if(length(tmplst$wrn>0)) for(i in tmplst$wrn){cli::cli_alert_warning(i)} 

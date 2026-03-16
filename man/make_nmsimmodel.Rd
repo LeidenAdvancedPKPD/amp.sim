@@ -17,7 +17,7 @@ make_nmsimmodel(omod, smod, data, subprobs = 1, table = NULL, sigma_ext = NULL)
 
 \item{table}{character of length 1 with the items for the dollar table block (if null it will use items in input dataset)}
 
-\item{sigma_ext}{character with teh name of the ext file which includes the sigma value (in case residual error is coded in the dollar sigma block)}
+\item{sigma_ext}{character with the name of the ext file which includes the sigma value (in case residual error is coded in the dollar sigma block)}
 }
 \value{
 a simulation model (file) is created

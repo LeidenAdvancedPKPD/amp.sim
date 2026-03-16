@@ -29,7 +29,7 @@ sample_par(
 \item{seed}{a numeric with the seed number used in set.seed to enable reproducibility, when not provided
 the seed from the global environment will be used (e.g. using \link[base:Random]{base::set.seed})}
 
-\item{nrepl}{numeric witht the number of replicates to sample}
+\item{nrepl}{numeric with the number of replicates to sample}
 
 \item{inc_theta}{logical indicating if THETAs should be added to result}
 

@@ -7,7 +7,7 @@
 #' @param tau numeric vector with the tau of dosing
 #' @param ndose numeric vector with the number of doses
 #' @param t numeric vector with the time-points that should be outputted
-#' @param func name of the function for which mutliple dosing should be applied
+#' @param func name of the function for which multiple dosing should be applied
 #' @param ... arguments for func
 #'
 #' @details This function will create a list that can be used to perform superposition

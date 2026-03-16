@@ -9,7 +9,7 @@ convert_nmsyntax(x, type = "mrgsolve")
 \arguments{
 \item{x}{character vector with the syntax to be converted}
 
-\item{type}{character with the type of syntax to convert to (currently "deSolve" and "mrgsolve" and "RxODE" are supported)}
+\item{type}{character with the type of syntax to convert to (currently "deSolve" and "mrgsolve" and "rxode2" are supported)}
 }
 \value{
 character vector with the converted syntax

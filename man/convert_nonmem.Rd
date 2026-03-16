@@ -36,7 +36,7 @@ convert_nonmem(
 a converted file is generated and a message is returned
 }
 \description{
-This function converts a NONMEM model to syntax useable in R simulations. Currently DeSolve, rxode2 (nonmem2rx) and mrgsolve are available syntaxes to use
+This function converts a NONMEM model to syntax useable in R simulations. Currently deSolve, rxode2 (nonmem2rx) and mrgsolve are available syntaxes to use
 Additionally a code to control the simulations is created to directly test the simulations
 }
 \details{

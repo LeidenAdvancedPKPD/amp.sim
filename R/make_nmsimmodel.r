@@ -9,7 +9,7 @@
 #' @param data character string for the input dataset for the simulation
 #' @param subprobs numeric indicating the number of subproblems in simulation model
 #' @param table character of length 1 with the items for the dollar table block (if null it will use items in input dataset)
-#' @param sigma_ext character with teh name of the ext file which includes the sigma value (in case residual error is coded in the dollar sigma block)
+#' @param sigma_ext character with the name of the ext file which includes the sigma value (in case residual error is coded in the dollar sigma block)
 #'
 #' @details The function will adapt an original model in such a way that it can be used directly for simulations
 #'   the assumptions are that an input dataset is created using [sample_par] and [simdata].

@@ -21,7 +21,7 @@ obtained in case this is set as comment in the model file
 \details{
 the function will return a list with theta, eta, omega and naming of theta values. In case a model is used as input, the values represent
 the initial values from a model. In case the ext file is used, the final estimates are taken. The eta values
-are all set to 0. The omega values are returend as a matrix so it can be used for sampling (e.g. using mvrorm).
+are all set to 0. The omega values are returned as a matrix so it can be used for sampling (e.g. using mvrnorm).
 naming of thetas is taken from the model comments in the THETA block or in case an ext file is used naming is
 set to THETA1:n.
 In case the model is used as input, there are some assumptions within the function on how the model is coded. For the
@@ -32,7 +32,7 @@ For the theta block, it is assumed that in case lower and upper boundaries are a
 }
 \examples{
 
-# get the intial estimates from the model or final estimates from ext file
+# get the initial estimates from the model or final estimates from ext file
 mod  <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
 ext  <- system.file("example_models","PK.1CMT.ORAL.ext", package = "amp.sim")
 get_est(mod)

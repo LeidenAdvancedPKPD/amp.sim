@@ -4,7 +4,7 @@
 #' This function converts a NONMEM syntax to R syntax, mainly for functions and operators
 #'
 #' @param x character vector with the syntax to be converted
-#' @param type character with the type of syntax to convert to (currently "deSolve" and "mrgsolve" and "RxODE" are supported)
+#' @param type character with the type of syntax to convert to (currently "deSolve" and "mrgsolve" and "rxode2" are supported)
 #'
 #' @export
 #' @return character vector with the converted syntax

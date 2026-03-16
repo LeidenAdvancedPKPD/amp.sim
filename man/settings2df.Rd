@@ -9,7 +9,7 @@ settings2df(savedsims, leaveout = c("go", "updOpts", "sett", "refr", "tabsel"))
 \arguments{
 \item{savedsims}{reactiveValue that contains the saved simulations}
 
-\item{leaveout}{character vector with the the elements that should be lefted out the dataframe}
+\item{leaveout}{character vector with the the elements that should be left out the dataframe}
 }
 \value{
 a dataframe with settings

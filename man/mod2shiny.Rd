@@ -23,7 +23,7 @@ mod2shiny(
 \arguments{
 \item{parvector}{named vector with the model parameters, should contain all parameters used by the model}
 
-\item{modfile}{A script with the model defined in it, it is ssumed that this file is created using \code{\link[amp.sim]{convert_nonmem}}}
+\item{modfile}{A script with the model defined in it, it is assumed that this file is created using \code{\link[amp.sim]{convert_nonmem}}}
 
 \item{evnt}{dataframe with the events used by the model (this is saved as rds together with the app)}
 
@@ -57,9 +57,9 @@ This function fills in a default template for simulations within shiny
 This function creates a default shiny app that can be used as a starting point for further
 development. There are already some basic features available but it is intended to be adapted when used
 for production. For the automatic creation of an app it is assumed that the model is created using the \link{convert_nonmem}
-function. Although it is not strictly necesary, the information provided to this function will be in the correct format
+function. Although it is not strictly necessary, the information provided to this function will be in the correct format
 when this function is used. Some of the arguments in this function are only necessary in case a certain conversion framework
-is used. In general a single subject is simulated, but be aware that for the DeSolve and rxode2 framework OMEGA/ETA is implemented.
+is used. In general a single subject is simulated, but be aware that for the deSolve and rxode2 framework OMEGA/ETA is implemented.
 }
 \examples{
 

@@ -10,7 +10,7 @@
 #'    (relevant in case ext files should be excluded because of minimization issues)
 #' @param seed a numeric with the seed number used in set.seed to enable reproducibility, when not provided 
 #'  the seed from the global environment will be used (e.g. using [base::set.seed])
-#' @param nrepl numeric witht the number of replicates to sample
+#' @param nrepl numeric with the number of replicates to sample
 #' @param inc_theta logical indicating if THETAs should be added to result
 #' @param inc_eta logical indicating if ETAs should be added to result
 #' @param verbose logical indicating if additional information should be added to result (e.g. OMEGA/SIGMA values)

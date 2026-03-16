@@ -4,7 +4,7 @@
 #' This function go through all formulas and control flows to check if a parameter is created ad-hoc
 #' or taken from the input file. This is important as these variables need to be set for simulation
 #'
-#' @param lstblock list with each item being a separate strucured dollor block, usually obtain from \code{\link{nmlistblock}}
+#' @param lstblock list with each item being a separate structured dollar block, usually obtain from \code{\link{nmlistblock}}
 #' @param returnall logical indicating if all variables should be returned or just the ones that are not defined
 #'
 #' @export

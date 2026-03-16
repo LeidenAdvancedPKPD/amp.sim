@@ -6,7 +6,7 @@
 #' @param model character vector of length 1 with filename of model, in case length is greater than 1 it is assumed to be a vector with model code
 #' @param block character vector with names of the model blocks. Take into account that grep is used with respect to partial matching
 #' @param ret character with the type of return value can be either "content" or "index"
-#' @param omitbn logical indicating if the name of the block should be omited when return (has only effect if ret="content")
+#' @param omitbn logical indicating if the name of the block should be omitted when return (has only effect if ret="content")
 #'
 #' @export
 #' @return a list with either a numeric vector with the indices or a character vector with the content of the dollar blocks

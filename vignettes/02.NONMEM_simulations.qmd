@@ -187,7 +187,7 @@ split_sim(data    = inp,
 ## Run the simulation
 
 At this point, everything should be in place to perform the simulation. The only thing left to do is to run the model(s) in NONMEM. 
-Obviously there are many different ways to do this, and based on the infrastructure in your organization. Therefore, the `amp.sim` pacakge does not have any functionality for this. **Below pseudo code for a general R function to run all models within a certain folder is shown**:
+Obviously there are many different ways to do this, and based on the infrastructure in your organization. Therefore, the `amp.sim` package does not have any functionality for this. **Below pseudo code for a general R function to run all models within a certain folder is shown**:
 
 ```{r}
 #| eval: false

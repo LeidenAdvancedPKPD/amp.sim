@@ -7,7 +7,7 @@
 get_inits(lstblock)
 }
 \arguments{
-\item{lstblock}{list with each item being a separate strucured dollor block, usually obtain from \code{\link{nmlistblock}}}
+\item{lstblock}{list with each item being a separate structured dollar block, usually obtain from \code{\link{nmlistblock}}}
 }
 \value{
 a named vector with the state values

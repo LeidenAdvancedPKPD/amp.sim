@@ -3,7 +3,7 @@
 #'
 #' This function will extracts the initial states for the differential equations from a NONMEM model
 #'
-#' @param lstblock list with each item being a separate strucured dollor block, usually obtain from \code{\link{nmlistblock}}
+#' @param lstblock list with each item being a separate structured dollar block, usually obtain from \code{\link{nmlistblock}}
 #'
 #' @export
 #' @return a named vector with the state values

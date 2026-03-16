@@ -10,8 +10,22 @@
 
 Tools to transform 'NONMEM' models into R syntax so they can be used for simulations using the 'deSolve', 'nlmixr2' or 'mrgsolve' package. Additionally, functionality is included to aid simulations performed directly in 'NONMEM' and to automatically create shiny apps for simulation models.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://leidenadvancedpkpd.github.io/amp.sim/}
+  \item \url{https://github.com/LeidenAdvancedPKPD/amp.sim}
+  \item Report bugs at \url{https://github.com/LeidenAdvancedPKPD/amp.sim/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Richard Hooijmaijers \email{richardhooijmaijers@gmail.com} [copyright holder]
+
+Other contributors:
+\itemize{
+  \item LAPP Consultants \email{info@lapp.nl} [funder, copyright holder]
+}
 
 }
 \keyword{internal}

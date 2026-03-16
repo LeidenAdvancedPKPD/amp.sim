@@ -15,7 +15,7 @@ mdose(Dose, tau, ndose, t, func, ...)
 
 \item{t}{numeric vector with the time-points that should be outputted}
 
-\item{func}{name of the function for which mutliple dosing should be applied}
+\item{func}{name of the function for which multiple dosing should be applied}
 
 \item{...}{arguments for func}
 }

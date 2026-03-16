@@ -7,7 +7,7 @@
 get_parmvar(lstblock, returnall = FALSE)
 }
 \arguments{
-\item{lstblock}{list with each item being a separate strucured dollor block, usually obtain from \code{\link{nmlistblock}}}
+\item{lstblock}{list with each item being a separate structured dollar block, usually obtain from \code{\link{nmlistblock}}}
 
 \item{returnall}{logical indicating if all variables should be returned or just the ones that are not defined}
 }

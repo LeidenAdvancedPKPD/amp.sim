@@ -4,7 +4,7 @@
 #' This function adds settings or input elements to a dataframe for displaying in app
 #'
 #' @param savedsims reactiveValue that contains the saved simulations
-#' @param leaveout character vector with the the elements that should be lefted out the dataframe
+#' @param leaveout character vector with the the elements that should be left out the dataframe
 #'
 #' @export
 #' @return a dataframe with settings

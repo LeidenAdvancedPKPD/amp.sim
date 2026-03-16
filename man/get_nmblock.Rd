@@ -13,7 +13,7 @@ get_nmblock(model, block, ret = "content", omitbn = TRUE)
 
 \item{ret}{character with the type of return value can be either "content" or "index"}
 
-\item{omitbn}{logical indicating if the name of the block should be omited when return (has only effect if ret="content")}
+\item{omitbn}{logical indicating if the name of the block should be omitted when return (has only effect if ret="content")}
 }
 \value{
 a list with either a numeric vector with the indices or a character vector with the content of the dollar blocks
