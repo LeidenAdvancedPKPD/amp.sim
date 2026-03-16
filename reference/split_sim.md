@@ -67,7 +67,7 @@ make_nmsimmodel(nmmod, mod_out, data=tmp_out)
 
 split_sim(data = tmp_out, model = mod_out, locout=tempdir())
 list.files(tempdir(), pattern="\\.mod$")
-#> [1] "file1ce62e4dcf32.1.mod" "file1ce62e4dcf32.2.mod"
-#> [3] "file1ce62e4dcf32.3.mod" "file1ce62e4dcf32.4.mod"
-#> [5] "file1ce62e4dcf32.mod"   "file1ce64ce295df.mod"  
+#> [1] "file1c9712914d65.1.mod" "file1c9712914d65.2.mod"
+#> [3] "file1c9712914d65.3.mod" "file1c9712914d65.4.mod"
+#> [5] "file1c9712914d65.mod"   "file1c9755a2b3c4.mod"  
 ```
