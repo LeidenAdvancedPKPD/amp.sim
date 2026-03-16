@@ -1,4 +1,3 @@
-#' @export
 # Set up and environment to hold some global variables
 .simenv <- new.env(parent=emptyenv())
 

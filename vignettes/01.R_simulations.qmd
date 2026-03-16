@@ -61,7 +61,7 @@ the following items might need additional attention:
 - Handling of inter-occasion variability
 - Handling of NONMEM reserved keywords or syntax
 
-For more information on this see [Considerations for translating models]("04.options_restrictions.html").
+For more information on this see [Considerations for translating models](04.options_restrictions.html).
 
 ## Simulation of typical subject
 
@@ -102,22 +102,23 @@ convert_nonmem(system.file("example_models/PK.1CMT.ORAL.COV.mod",package = "amp.
 cat(mdl,sep="\n")
 ```
 
-When we run the control script without any adaptations we would see the following:
+When we run the control script (without adaptations) and plot the results:
 
 ```{r}
 #| echo: false
 #| fig-width: 6
 #| message: false
 library(mrgsolve)
+library(ggplot2)
 mod  <- mread(paste0(tempdir(),"/example.cpp"))
 evnt <- ev(amt = 100, ii = 24, addl = 1)
 out  <- mod |> ev(evnt) |> mrgsim(end = 48, delta = 0.1, nid=10)
-plot(out)
+ggplot(out@data,aes(time,CP)) + geom_line() + scale_y_log10() + theme_bw()
 ```
 
-We see that in this case, that the simulations are not as expected. This is because the model has a covariate of weight. Because the translation does not take into account the dataset,
+We see that in this case, that the simulations are empty. This is because the model has a covariate of weight. Because the translation does not take into account the dataset,
 the package cannot set a valid value and is therefore set to -999. 
-Below we can see the simple addition to get a result. Other adaptations showcased are, simulate a single subject without random effects (using `zer0_re`) and use `ggplot` to only plot applicable compartments:
+Below we can see the simple addition to get a result. Other adaptations showcased are, simulate a single subject without random effects (using `zer0_re`):
 
 ```{r}
 #| fig-width: 6

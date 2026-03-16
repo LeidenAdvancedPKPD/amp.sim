@@ -1,5 +1,5 @@
 Package: amp.sim
-Title: Various functions to aid simulation of pharmacometric models
+Title: Various Functions to Aid Simulation of Pharmacometric Models
 Version: 0.1.0
 Authors@R: c(person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = c("aut", "cre","cph")),
              person("LAPP Consultants",email = "info@lapp.nl", role=c("fnd","cph")))
