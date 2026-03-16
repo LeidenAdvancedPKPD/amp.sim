@@ -115,7 +115,7 @@
 <li>Handling of inter-occasion variability</li>
 <li>Handling of NONMEM reserved keywords or syntax</li>
 </ul>
-<p>For more information on this see <a href="%2204.options_restrictions.html%22">Considerations for translating models</a>.</p>
+<p>For more information on this see <a href="04.options_restrictions.html">Considerations for translating models</a>.</p>
 </section><section class="level2"><h2 id="simulation-of-typical-subject">Simulation of typical subject<a class="anchor" aria-label="anchor" href="#simulation-of-typical-subject"></a>
 </h2>
 <p>For the remainder of the vignette, a translation to an <code>mrgsolve</code> model is used. The main principles however holds for the other packages as well. The step below shows the original model and the result of the translated model:</p>
@@ -224,8 +224,15 @@
 <span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="er">$</span>CAPTURE CP</span></code></pre></div>
 </div>
 </div>
-<p>When we run the control script without any adaptations we would see the following:</p>
+<p>When we run the control script (without adaptations) and plot the results:</p>
 <div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in scale_y_log10(): log-10 transformation introduced infinite values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 4800 rows containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure><p><img src="01.R_simulations_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
@@ -233,9 +240,9 @@
 </div>
 </div>
 </div>
-<p>We see that in this case, that the simulations are not as expected. This is because the model has a covariate of weight. Because the translation does not take into account the dataset, the package cannot set a valid value and is therefore set to -999. Below we can see the simple addition to get a result. Other adaptations showcased are, simulate a single subject without random effects (using <code>zer0_re</code>) and use <code>ggplot</code> to only plot applicable compartments:</p>
+<p>We see that in this case, that the simulations are empty. This is because the model has a covariate of weight. Because the translation does not take into account the dataset, the package cannot set a valid value and is therefore set to -999. Below we can see the simple addition to get a result. Other adaptations showcased are, simulate a single subject without random effects (using <code>zer0_re</code>):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">parm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>WEIGHT <span class="op">=</span> <span class="fl">70</span><span class="op">)</span>               </span>
 <span><span class="va">mod</span>  <span class="op">&lt;-</span> <span class="fu">param</span><span class="op">(</span><span class="va">mod</span>,<span class="va">parm</span><span class="op">)</span>   </span>
@@ -256,7 +263,7 @@
 </h3>
 <p>The situation where you want to simulate with only IIV, is the easiest and is already integrated within the <code>mrgsolve</code> package. By default, when a NONMEM model is translated, the model matrices included in the model. This is also used by the <code>mrgsim</code> function to sample <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math> values for the model. As shown in the first example the original code was adapted to set IIV to 0. If we do not do this and set a number of individuals to simulate we can easily include IIV</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">parm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>WEIGHT <span class="op">=</span> <span class="fl">70</span><span class="op">)</span>               </span>
 <span><span class="va">mod</span>  <span class="op">&lt;-</span> <span class="fu">param</span><span class="op">(</span><span class="va">mod</span>,<span class="va">parm</span><span class="op">)</span>   </span>
 <span><span class="va">out</span>  <span class="op">&lt;-</span> <span class="va">mod</span> <span class="op">|&gt;</span> <span class="fu">ev</span><span class="op">(</span><span class="va">evnt</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">mrgsim</span><span class="op">(</span>end <span class="op">=</span> <span class="fl">48</span>, delta <span class="op">=</span> <span class="fl">0.1</span>, nid<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
@@ -273,7 +280,7 @@
 </h4>
 <p>In case we only want to simulate with uncertainty, we need to disregard IIV in the same way as in the first example. Furthermore we need to sample <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math> values from the covariance matrix for the uncertainty. The <code>amp.sim</code> package provides a function to do so (<code>sample_par</code>). Once we have the sampled parameters, it is a matter to simulate each row of the data frame with the sampled parameters. In this example the <code>dplyr</code> package is used to accomplish this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="va">parm</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>WEIGHT <span class="op">=</span> <span class="fl">70</span><span class="op">)</span></span>
 <span><span class="va">mod</span>   <span class="op">&lt;-</span> <span class="fu">param</span><span class="op">(</span><span class="va">mod</span>,<span class="va">parm</span><span class="op">)</span>   </span>
@@ -307,7 +314,7 @@
 </h4>
 <p>For larger clinical trial simulations it is often necessary to simulate including both IIV and uncertainty. This section describes a way to do so. Also running these types of simulation can be computationally intensive. To speed up the simulation an example is included that uses the <code>parallel</code> package, although various other frameworks could be used to multi-thread the simulations. This example combines the examples above where in this case 10 trials are simulated for 10 subjects each</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">parm</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>WEIGHT <span class="op">=</span> <span class="fl">70</span><span class="op">)</span></span>
 <span><span class="va">extf</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example_models/PK.1CMT.ORAL.COV.ext"</span>,package <span class="op">=</span> <span class="st">"amp.sim"</span><span class="op">)</span></span>
 <span><span class="va">covf</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example_models/PK.1CMT.ORAL.COV.cov"</span>,package <span class="op">=</span> <span class="st">"amp.sim"</span><span class="op">)</span></span>
@@ -354,7 +361,7 @@
 </h3>
 <p>In case a closed form model should be simulated, the previous mentioned methods do not work. For these cases different template models are present in the <code>amp.sim</code> package. It includes 1 and 2 compartment models for IV, infusion and extra-vascular dosing, parameterized using rate constants or CL/V, and as analytical solution or differential equations. The <code>tmpl_model</code> function can be used without arguments to see what is available:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmpl_model.html">tmpl_model</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "ana1CMTbolusC.tmp" "ana1CMTbolusK.tmp" "ana1CMTivC.tmp"
@@ -369,12 +376,12 @@
 </div>
 <p>A model can be provided to the function, in which case the simulation code can be added in the current script right after the function call (when working in Rstudio), within the console or as a string:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tmpl_model.html">tmpl_model</a></span><span class="op">(</span><span class="st">"ana1CMTivC.tmp"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>When submitting the lines of code you will directly get an initial simulated curve:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">ana1CMTiv</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">Dose</span>,<span class="va">pars</span>,<span class="va">t</span>,<span class="va">dur</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">C</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">/</span><span class="va">pars</span><span class="op">[</span><span class="st">'V'</span><span class="op">]</span></span>
@@ -398,7 +405,7 @@
 </div>
 <p>This method can be a lot faster for models with an analytical solution, though simulating multiple doses is a bit more of a hassle. For these situations the <code>mdose</code> helper function can be used to perform superposition. Finally, a simple example is shown how these models can be rewritten for simulating a population:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">samp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>CL<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">10</span>,<span class="fl">1</span><span class="op">)</span>,V<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">5</span>,<span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">samp</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="../reference/mdose.html">mdose</a></span><span class="op">(</span>Dose<span class="op">=</span><span class="fl">10</span>,tau<span class="op">=</span><span class="fl">24</span>,ndose<span class="op">=</span><span class="fl">1</span>,t<span class="op">=</span><span class="va">times</span>,func<span class="op">=</span><span class="va">ana1CMTiv</span>,</span>

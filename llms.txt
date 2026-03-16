@@ -47,6 +47,16 @@ overlap with the model translation options, although this package aims
 to combine different translations and extends this with other simulation
 tools and possible `shiny` implementation.
 
+# Model translation test
+
+To test how well this package can translate NONMEM models a separate
+repository is available
+[here](https://github.com/RichardHooijmaijers/amp.sim.test). In here
+dozens of models from the ddmore repository are tested. This test
+indicate that almost all translations are successful. The main reason
+some models could not be fully translated is mainly caused by a subtle
+difference in model syntax which can be fixed quite easily.
+
 # Package index
 
 ## Converting models

@@ -11,12 +11,12 @@
 Source:
 [`DESCRIPTION`](https://github.com/LeidenAdvancedPKPD/amp.sim/blob/main/DESCRIPTION)
 
-Hooijmaijers R (2026). *amp.sim: Various functions to aid simulation of
-pharmacometric models*. R package version 0.1.0,
+Hooijmaijers R (2026). *amp.sim: Various Functions to Aid Simulation of
+Pharmacometric Models*. R package version 0.1.0,
 <https://leidenadvancedpkpd.github.io/amp.sim/>.
 
     @Manual{,
-      title = {amp.sim: Various functions to aid simulation of pharmacometric models},
+      title = {amp.sim: Various Functions to Aid Simulation of Pharmacometric Models},
       author = {Richard Hooijmaijers},
       year = {2026},
       note = {R package version 0.1.0},

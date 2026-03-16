@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Various functions to aid simulation of pharmacometric models • amp.sim</title>
+<title>Various Functions to Aid Simulation of Pharmacometric Models • amp.sim</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <link href="deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Various functions to aid simulation of pharmacometric models">
+<script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Various Functions to Aid Simulation of Pharmacometric Models">
 <meta name="description" content="Tools to transform NONMEM models into R syntax so they can be used for simulations using the deSolve, nlmixr2 or mrgsolve package. Additionally, functionality is included to aid simulations performed directly in NONMEM and to automatically create shiny apps for simulation models.">
 <meta property="og:description" content="Tools to transform NONMEM models into R syntax so they can be used for simulations using the deSolve, nlmixr2 or mrgsolve package. Additionally, functionality is included to aid simulations performed directly in NONMEM and to automatically create shiny apps for simulation models.">
 <meta property="og:image" content="https://leidenadvancedpkpd.github.io/amp.sim/logo.png">
@@ -86,6 +86,11 @@
 </h1>
 <p>The main packages in R to perform simulations for pharmacometrics are <code>nlmixr2</code> and <code>mrgsolve</code>. The <code>deSolve</code> package is a more general solution which could require some optimization in case of large/complex simulations. Besides simulations in R, NONMEM is a tool often used to perform simulations as well. Because NONMEM itself is low level, R packages like <code>NMSim</code> can make these type of simulations much easier. For translating models, there are solutions like <code>nonmem2mrgsolve</code>, <code>pharmpy</code> and <code>nonmem2rx</code> (called in this package).</p>
 <p>This package only amplifies packages like <code>nlmixr2</code> and <code>mrgsolve</code>. The functionality for NONMEM simulations differ from the <code>NMSim</code> package. The <code>amp.sim</code> package is more low level and has no advanced functionality to start/run NONMEM. Implementation is centered towards the dataset, in which a control stream is tailored towards. There is an overlap with the model translation options, although this package aims to combine different translations and extends this with other simulation tools and possible <code>shiny</code> implementation.</p>
+</div>
+<div class="section level1">
+<h1 id="model-translation-test">Model translation test<a class="anchor" aria-label="anchor" href="#model-translation-test"></a>
+</h1>
+<p>To test how well this package can translate NONMEM models a separate repository is available <a href="https://github.com/RichardHooijmaijers/amp.sim.test" class="external-link">here</a>. In here dozens of models from the ddmore repository are tested. This test indicate that almost all translations are successful. The main reason some models could not be fully translated is mainly caused by a subtle difference in model syntax which can be fixed quite easily.</p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
