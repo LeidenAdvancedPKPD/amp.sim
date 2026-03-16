@@ -29,7 +29,7 @@ mdose(Dose, tau, ndose, t, func, ...)
 
 - func:
 
-  name of the function for which mutliple dosing should be applied
+  name of the function for which multiple dosing should be applied
 
 - ...:
 

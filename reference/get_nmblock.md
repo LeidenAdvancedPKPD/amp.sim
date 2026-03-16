@@ -27,7 +27,7 @@ get_nmblock(model, block, ret = "content", omitbn = TRUE)
 
 - omitbn:
 
-  logical indicating if the name of the block should be omited when
+  logical indicating if the name of the block should be omitted when
   return (has only effect if ret="content")
 
 ## Value

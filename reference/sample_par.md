@@ -48,7 +48,7 @@ sample_par(
 
 - nrepl:
 
-  numeric witht the number of replicates to sample
+  numeric with the number of replicates to sample
 
 - inc_theta:
 

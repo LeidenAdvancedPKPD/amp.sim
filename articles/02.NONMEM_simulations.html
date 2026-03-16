@@ -156,12 +156,12 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">simd</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  ID DOSE TIME AMT ADDL II DV WEIGHT AGE STHETA1 STHETA2 STHETA3  SETA1  SETA2
-1  1  100    0 100    2 24 NA     70  37   0.234    1.25    30.1 -0.103  0.121
-2  1  100    0  NA   NA NA NA     70  34   0.234    1.25    30.1  0.056  0.068
-3  1  100    1  NA   NA NA NA     70  38   0.234    1.25    30.1  0.220  0.192
-4  1  100    2  NA   NA NA NA     70  40   0.234    1.25    30.1 -0.320 -0.075
-5  1  100    3  NA   NA NA NA     70  40   0.234    1.25    30.1 -0.008 -0.121
-6  1  100    4  NA   NA NA NA     70  44   0.234    1.25    30.1 -0.009  0.059</code></pre>
+1  1  100    0 100    2 24 NA     70  43   0.234    1.25    30.1 -0.128  0.221
+2  1  100    0  NA   NA NA NA     70  39   0.234    1.25    30.1  0.237 -0.075
+3  1  100    1  NA   NA NA NA     70  46   0.234    1.25    30.1  0.152 -0.278
+4  1  100    2  NA   NA NA NA     70  40   0.234    1.25    30.1 -0.017  0.245
+5  1  100    3  NA   NA NA NA     70  34   0.234    1.25    30.1  0.291  0.038
+6  1  100    4  NA   NA NA NA     70  35   0.234    1.25    30.1  0.090 -0.103</code></pre>
 </div>
 </div>
 </section></section><section class="level2"><h2 id="simulation-model">Simulation model<a class="anchor" aria-label="anchor" href="#simulation-model"></a>
@@ -200,7 +200,7 @@
 </div>
 </section><section class="level2"><h2 id="run-the-simulation">Run the simulation<a class="anchor" aria-label="anchor" href="#run-the-simulation"></a>
 </h2>
-<p>At this point, everything should be in place to perform the simulation. The only thing left to do is to run the model(s) in NONMEM. Obviously there are many different ways to do this, and based on the infrastructure in your organization. Therefore, the <code>amp.sim</code> pacakge does not have any functionality for this. <strong>Below pseudo code for a general R function to run all models within a certain folder is shown</strong>:</p>
+<p>At this point, everything should be in place to perform the simulation. The only thing left to do is to run the model(s) in NONMEM. Obviously there are many different ways to do this, and based on the infrastructure in your organization. Therefore, the <code>amp.sim</code> package does not have any functionality for this. <strong>Below pseudo code for a general R function to run all models within a certain folder is shown</strong>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># NOTE: THIS IS EXAMPLE CODE; run_models IS NOT A FUNCTION AVAILABLE IN THE PACKAGE</span></span>

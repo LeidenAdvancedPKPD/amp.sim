@@ -31,7 +31,7 @@ mod2shiny(
 
 - modfile:
 
-  A script with the model defined in it, it is ssumed that this file is
+  A script with the model defined in it, it is assumed that this file is
   created using
   [`convert_nonmem`](https://leidenadvancedpkpd.github.io/amp.sim/reference/convert_nonmem.md)
 
@@ -99,12 +99,12 @@ available but it is intended to be adapted when used for production. For
 the automatic creation of an app it is assumed that the model is created
 using the
 [convert_nonmem](https://leidenadvancedpkpd.github.io/amp.sim/reference/convert_nonmem.md)
-function. Although it is not strictly necesary, the information provided
-to this function will be in the correct format when this function is
-used. Some of the arguments in this function are only necessary in case
-a certain conversion framework is used. In general a single subject is
-simulated, but be aware that for the DeSolve and rxode2 framework
-OMEGA/ETA is implemented.
+function. Although it is not strictly necessary, the information
+provided to this function will be in the correct format when this
+function is used. Some of the arguments in this function are only
+necessary in case a certain conversion framework is used. In general a
+single subject is simulated, but be aware that for the deSolve and
+rxode2 framework OMEGA/ETA is implemented.
 
 ## Author
 
@@ -121,6 +121,6 @@ evnt  <- mrgsolve::ev(amt = 100, ii = 24, addl = 1)
 nams  <- c(THETA1 = "KA (1/h)", THETA2 = "CL (l/h)", THETA3 = "V (l)") 
 mod2shiny(prm, modfile= paste0(outf,".cpp"), evnt = evnt,
           naming = nams, framework = "mrgsolve", outloc=tempdir())
-#> Shiny app created in location '/tmp/RtmphdCw5i'. It can be submitted using:
-#> shiny::runApp('/tmp/RtmphdCw5i',launch.browser=TRUE)
+#> Shiny app created in location '/tmp/RtmpqBFN33'. It can be submitted using:
+#> shiny::runApp('/tmp/RtmpqBFN33',launch.browser=TRUE)
 ```

@@ -18,7 +18,7 @@ convert_nmsyntax(x, type = "mrgsolve")
 - type:
 
   character with the type of syntax to convert to (currently "deSolve"
-  and "mrgsolve" and "RxODE" are supported)
+  and "mrgsolve" and "rxode2" are supported)
 
 ## Value
 

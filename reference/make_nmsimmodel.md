@@ -36,7 +36,7 @@ make_nmsimmodel(omod, smod, data, subprobs = 1, table = NULL, sigma_ext = NULL)
 
 - sigma_ext:
 
-  character with teh name of the ext file which includes the sigma value
+  character with the name of the ext file which includes the sigma value
   (in case residual error is coded in the dollar sigma block)
 
 ## Value
@@ -81,7 +81,7 @@ readLines(mod_out) |> head(n=15) |> cat(sep="\n")
 #> ;; Importance: 0
 #> ;; Description: 1 CMT PK model with oral absorption
 #> $PROB  1 CMT PK model with oral absorption
-#> $DATA file1cb32d649e7d.csv IGNORE=@
+#> $DATA file1c973d794874.csv IGNORE=@
 #> $INPUT
 #>  ID DOSE TIME AMT ADDL II DV STHETA1 STHETA2 STHETA3 SETA1 SETA2
 #> ; $INPUT

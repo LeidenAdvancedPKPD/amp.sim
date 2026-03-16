@@ -17,7 +17,7 @@ settings2df(savedsims, leaveout = c("go", "updOpts", "sett", "refr", "tabsel"))
 
 - leaveout:
 
-  character vector with the the elements that should be lefted out the
+  character vector with the the elements that should be left out the
   dataframe
 
 ## Value

@@ -13,7 +13,7 @@ get_inits(lstblock)
 
 - lstblock:
 
-  list with each item being a separate strucured dollor block, usually
+  list with each item being a separate structured dollar block, usually
   obtain from
   [`nmlistblock`](https://leidenadvancedpkpd.github.io/amp.sim/reference/nmlistblock.md)
 

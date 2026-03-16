@@ -71,7 +71,7 @@ extension or class of object of file determines the actions to be taken</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>the function will return a list with theta, eta, omega and naming of theta values. In case a model is used as input, the values represent
 the initial values from a model. In case the ext file is used, the final estimates are taken. The eta values
-are all set to 0. The omega values are returend as a matrix so it can be used for sampling (e.g. using mvrorm).
+are all set to 0. The omega values are returned as a matrix so it can be used for sampling (e.g. using mvrnorm).
 naming of thetas is taken from the model comments in the THETA block or in case an ext file is used naming is
 set to THETA1:n.
 In case the model is used as input, there are some assumptions within the function on how the model is coded. For the
@@ -88,7 +88,7 @@ For the theta block, it is assumed that in case lower and upper boundaries are a
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># get the intial estimates from the model or final estimates from ext file</span></span></span>
+<span class="r-in"><span><span class="co"># get the initial estimates from the model or final estimates from ext file</span></span></span>
 <span class="r-in"><span><span class="va">mod</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example_models"</span>,<span class="st">"PK.1CMT.ORAL.mod"</span>, package <span class="op">=</span> <span class="st">"amp.sim"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ext</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example_models"</span>,<span class="st">"PK.1CMT.ORAL.ext"</span>, package <span class="op">=</span> <span class="st">"amp.sim"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">get_est</span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></span>

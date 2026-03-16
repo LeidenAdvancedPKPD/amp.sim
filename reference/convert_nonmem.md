@@ -1,7 +1,7 @@
 # Convert NONMEM model to R syntax
 
 This function converts a NONMEM model to syntax useable in R
-simulations. Currently DeSolve, rxode2 (nonmem2rx) and mrgsolve are
+simulations. Currently deSolve, rxode2 (nonmem2rx) and mrgsolve are
 available syntaxes to use Additionally a code to control the simulations
 is created to directly test the simulations
 

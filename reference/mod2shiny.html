@@ -71,7 +71,7 @@
 
 
 <dt id="arg-modfile">modfile<a class="anchor" aria-label="anchor" href="#arg-modfile"></a></dt>
-<dd><p>A script with the model defined in it, it is ssumed that this file is created using <code><a href="convert_nonmem.html">convert_nonmem</a></code></p></dd>
+<dd><p>A script with the model defined in it, it is assumed that this file is created using <code><a href="convert_nonmem.html">convert_nonmem</a></code></p></dd>
 
 
 <dt id="arg-evnt">evnt<a class="anchor" aria-label="anchor" href="#arg-evnt"></a></dt>
@@ -127,9 +127,9 @@
     <p>This function creates a default shiny app that can be used as a starting point for further
 development. There are already some basic features available but it is intended to be adapted when used
 for production. For the automatic creation of an app it is assumed that the model is created using the <a href="convert_nonmem.html">convert_nonmem</a>
-function. Although it is not strictly necesary, the information provided to this function will be in the correct format
+function. Although it is not strictly necessary, the information provided to this function will be in the correct format
 when this function is used. Some of the arguments in this function are only necessary in case a certain conversion framework
-is used. In general a single subject is simulated, but be aware that for the DeSolve and rxode2 framework OMEGA/ETA is implemented.</p>
+is used. In general a single subject is simulated, but be aware that for the deSolve and rxode2 framework OMEGA/ETA is implemented.</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -147,8 +147,8 @@ is used. In general a single subject is simulated, but be aware that for the DeS
 <span class="r-in"><span><span class="va">nams</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>THETA1 <span class="op">=</span> <span class="st">"KA (1/h)"</span>, THETA2 <span class="op">=</span> <span class="st">"CL (l/h)"</span>, THETA3 <span class="op">=</span> <span class="st">"V (l)"</span><span class="op">)</span> </span></span>
 <span class="r-in"><span><span class="fu">mod2shiny</span><span class="op">(</span><span class="va">prm</span>, modfile<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">outf</span>,<span class="st">".cpp"</span><span class="op">)</span>, evnt <span class="op">=</span> <span class="va">evnt</span>,</span></span>
 <span class="r-in"><span>          naming <span class="op">=</span> <span class="va">nams</span>, framework <span class="op">=</span> <span class="st">"mrgsolve"</span>, outloc<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Shiny app created in location '/tmp/RtmphdCw5i'. It can be submitted using:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">shiny::runApp('/tmp/RtmphdCw5i',launch.browser=TRUE)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Shiny app created in location '/tmp/RtmpqBFN33'. It can be submitted using:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">shiny::runApp('/tmp/RtmpqBFN33',launch.browser=TRUE)</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
