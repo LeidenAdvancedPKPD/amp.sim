@@ -61,7 +61,7 @@ the following items might need additional attention:
 - Handling of inter-occasion variability
 - Handling of NONMEM reserved keywords or syntax
 
-For more information on this see [Considerations for translating models](04.options_restrictions.html).
+For more information on this see [Considerations for translating models](Vign.04.options_restrictions.html).
 
 ## Simulation of typical subject
 
