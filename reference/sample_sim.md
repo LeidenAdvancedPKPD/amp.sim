@@ -69,6 +69,7 @@ Richard Hooijmaijers
 ext <- system.file("example_models","PK.1CMT.ORAL.COV.ext", package = "amp.sim")
 cov <- system.file("example_models","PK.1CMT.ORAL.COV.cov", package = "amp.sim")
 sample_sim(nrepl=2,nsub=3,type="unc_varIIV", ext=ext,cov=cov)
+#> table.name is not a column in data. Nothing done.
 #>     REP ID    STHETA1  STHETA2  STHETA3   STHETA4       SETA1       SETA2
 #> 1     1  1 0.08112494 2.467101 1.505011 0.3364156 -0.19083840 -0.16025019
 #> 1.1   1  2 0.08112494 2.467101 1.505011 0.3364156 -0.12523917  0.20389460
@@ -77,6 +78,7 @@ sample_sim(nrepl=2,nsub=3,type="unc_varIIV", ext=ext,cov=cov)
 #> 2.1   2  2 0.08747512 2.781070 1.596124 0.1583866  0.10841665 -0.09672304
 #> 2.2   2  3 0.08747512 2.781070 1.596124 0.1583866 -0.08076806 -0.14939751
 sample_sim(nrepl=2,nsub=3,type="sameIIV", ext=ext)
+#> table.name is not a column in data. Nothing done.
 #>     REP ID   STHETA1 STHETA2 STHETA3  STHETA4       SETA1      SETA2
 #> 1     1  1 0.0827885  2.6728 1.58939 0.353994  0.03196811 -0.1591824
 #> 2     1  2 0.0827885  2.6728 1.58939 0.353994 -0.08755221  0.3547140

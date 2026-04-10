@@ -74,6 +74,7 @@ get_est(mod)
 #> [1,]  0.1
 #> 
 get_est(ext)
+#> table.name is not a column in data. Nothing done.
 #> $THETA
 #>    THETA1    THETA2    THETA3 
 #> 0.0825086 2.6763900 1.5875600 

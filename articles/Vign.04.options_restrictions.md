@@ -1,0 +1,104 @@
+# Considerations for translating models
+
+Translating model syntax from one language to another can become quite
+complex. This package will try to do this as good as possible, however
+there might be times that things just do not work out of the box. The
+most important things to take into account are listed here. If you find
+some situations that are not handled correctly or have some ideas how it
+could work please file an issue on github.
+
+**Model types**
+
+There are different types of models that can be used in NONMEM.
+Currently the package mainly supports models that are written in
+differential equations (e.g \$DES block). Models written without
+differential equations but still user defined (e.g. \$PRED block) can be
+translated but likely need further inspection. For these types of
+models, the `deSolve` package is not really suited. The package will
+translate it to an R function but it is advised to simplify the result
+and use base R for simulations. For `rxode2` and `mrgsolve` there are
+more options for simulating these types of models. Likely less
+adaptations are necessary, but it is advised to read the additional
+documentation regarding these models once translated for
+[rxode2](https://nlmixr2.github.io/rxode2/articles/rxode2-model-types.html)
+and/or
+[mrgsolve](https://mrgsolve.org/docs/articles/extra/dollar-pred.html).
+
+Furthermore within NONMEM there are multiple ADVAN routines for common
+PK models. The package will not translate models defined using the
+general ADVANS (e.g. models without \$DES block). The main reason for
+this is that translating these types of models is generally fast and
+easy. Also the `rxode2` and `mrgsolve` packages both have options to
+handle these types of models. To simulate these types of models in
+`deSolve` or directly in base R, the package provide template models
+(see
+[`?tmpl_model`](https://leidenadvancedpkpd.github.io/amp.sim/reference/tmpl_model.md)).
+When such a model is used in the `convert_nonmem` function, you would
+typically get the results for the blocks that can be translated, but the
+model will likely not compile. IT can be helpful though to translate
+parts that can easily be added to the the default models.
+
+**Lag time, bio-availability, residual error and infusions**
+
+Because both `rxode2` and `mrgsolve` are focused towards pharmacometric
+models, all specifics regarding lag time, bio-availability, etc. should
+be handled correctly. However when working with `deSolve` there might be
+some considerations that should be take into account. When a
+bio-availability parameter is available, you should check if this
+parameter should be adjust in the model or should be added to the dosing
+part. Similar for lag time, this can be added in the dosing part by
+delaying all given doses by the lag time. Residual error can be added
+manually quite easily within the model or afterwards. With respect to IV
+infusions, this is something that should be taken into account in both
+the event dataset and within the model. The event dataset should define
+a rate of the infusion while in the model an additional compartment
+should be included. Some examples on how to handle these specifics when
+working with `deSolve` are given below:
+
+``` r
+# residual error and bio-availability can be added in the des_func e.g.
+CP  <- (A2/V) * F1 * (1 + rnorm(length(A2),0,sqrt(0.01)))
+# lag time should be adapted in the events data frame e.g.
+events      <- dose_func(cmt=1,value=300,ndose=3,tau=24)
+events$time <- events$time + pars['TLAG']
+# infusions should be handled in the event and are supported in dose_func
+# see template models how this can be adapted in the model part (?tmpl_model)
+dose_func(cmt=4,value=300,ndose=3,tau=24, tinf=2)
+```
+
+**Specific NONMEM coding**
+
+Within NONMEM there are different ways of coding certain blocks. For
+instance there are many ways of defining initial estimates for $\theta$
+and $\omega$ values. The package supports most common coding trough the
+wonderful `NMdata` package but maybe not all. It is therefore advised
+not to use very specific coding here (e.g. defining $\theta$ as
+`(value)xn` to repeat estimates). For $\omega$ values, blocks are
+supported but using the ‘block same’ structure to code inter-occasion
+variability might need some double checking within the simulations. Also
+structures defining correlations instead of covariance will likely need
+adaptations.
+
+Within NONMEM it is also possible to write abbreviated FORTRAN code
+(e.g. including things like `COM(n)` and/or `$ABBREVIATED`).
+Additionally, the usage of protected functions in R could lead to
+possible issues in the translated model (e.g. `PROTECT` option in
+`$ABBREVIATED`). This part is currently not supported by the package. In
+some cases the code is commented out in the translated models, however
+in certain cases it might be necessary to deleted/rewrite before
+translating the model.
+
+The most important reserved keywords are taken into account. However
+given the amount of reserved keywords (not only in NONMEM but in the
+simulation packages as well), it could be that certain keywords are not
+supported. Please file an issue if you stumble upon an example that does
+not work.
+
+**General**
+
+Please be aware that the package reduce the need of manual translating.
+It is however advised to always carefully go through your simulation
+model to see if everything works as expected. Some parts are difficult
+or nearly impossible to translate. However if you have the idea that
+things can be implemented or do not work as expected you can always file
+an issue on github and I will try to handle it as good as possible.

@@ -1,10 +1,10 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://leidenadvancedpkpd.github.io/amp.sim/404.html</loc></url>
 <url><loc>https://leidenadvancedpkpd.github.io/amp.sim/LICENSE.html</loc></url>
-<url><loc>https://leidenadvancedpkpd.github.io/amp.sim/articles/01.R_simulations.html</loc></url>
-<url><loc>https://leidenadvancedpkpd.github.io/amp.sim/articles/02.NONMEM_simulations.html</loc></url>
-<url><loc>https://leidenadvancedpkpd.github.io/amp.sim/articles/03.Shiny_apps.html</loc></url>
-<url><loc>https://leidenadvancedpkpd.github.io/amp.sim/articles/04.options_restrictions.html</loc></url>
+<url><loc>https://leidenadvancedpkpd.github.io/amp.sim/articles/Vign.01.R_simulations.html</loc></url>
+<url><loc>https://leidenadvancedpkpd.github.io/amp.sim/articles/Vign.02.NONMEM_simulations.html</loc></url>
+<url><loc>https://leidenadvancedpkpd.github.io/amp.sim/articles/Vign.03.Shiny_apps.html</loc></url>
+<url><loc>https://leidenadvancedpkpd.github.io/amp.sim/articles/Vign.04.options_restrictions.html</loc></url>
 <url><loc>https://leidenadvancedpkpd.github.io/amp.sim/articles/index.html</loc></url>
 <url><loc>https://leidenadvancedpkpd.github.io/amp.sim/authors.html</loc></url>
 <url><loc>https://leidenadvancedpkpd.github.io/amp.sim/index.html</loc></url>

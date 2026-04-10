@@ -20,10 +20,10 @@ estimates (.ext). Furthermore etas can also be sampled where eta blocks are take
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/01.R_simulations.html">Simulations using R</a></li>
-    <li><a class="dropdown-item" href="../articles/02.NONMEM_simulations.html">Simulations using NONMEM</a></li>
-    <li><a class="dropdown-item" href="../articles/03.Shiny_apps.html">Shiny apps</a></li>
-    <li><a class="dropdown-item" href="../articles/04.options_restrictions.html">Considerations for translating models</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Vign.01.R_simulations.html">Simulations using R</a></li>
+    <li><a class="dropdown-item" href="../articles/Vign.02.NONMEM_simulations.html">Simulations using NONMEM</a></li>
+    <li><a class="dropdown-item" href="../articles/Vign.03.Shiny_apps.html">Shiny apps</a></li>
+    <li><a class="dropdown-item" href="../articles/Vign.04.options_restrictions.html">Considerations for translating models</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -143,6 +143,7 @@ added to row 2, column 1 and column 1, row 2). The matrix is used as Sigma for t
 <span class="r-in"><span><span class="va">ext</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example_models"</span>,<span class="st">"PK.1CMT.ORAL.COV.ext"</span>, package <span class="op">=</span> <span class="st">"amp.sim"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example_models"</span>,<span class="st">"PK.1CMT.ORAL.COV.cov"</span>, package <span class="op">=</span> <span class="st">"amp.sim"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">sample_par</span><span class="op">(</span><span class="va">ext</span>, inc_eta <span class="op">=</span> <span class="cn">TRUE</span>, nrepl <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> table.name is not a column in data. Nothing done.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID   STHETA1 STHETA2 STHETA3  STHETA4       SETA1      SETA2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 0.0827885  2.6728 1.58939 0.353994 -0.08900397 -0.1918347</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 0.0827885  2.6728 1.58939 0.353994 -0.01041112 -0.3412298</span>

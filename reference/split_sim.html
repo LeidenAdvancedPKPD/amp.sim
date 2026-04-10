@@ -20,10 +20,10 @@ to prevent memory problems within the simulation or to enable simulating over mu
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/01.R_simulations.html">Simulations using R</a></li>
-    <li><a class="dropdown-item" href="../articles/02.NONMEM_simulations.html">Simulations using NONMEM</a></li>
-    <li><a class="dropdown-item" href="../articles/03.Shiny_apps.html">Shiny apps</a></li>
-    <li><a class="dropdown-item" href="../articles/04.options_restrictions.html">Considerations for translating models</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Vign.01.R_simulations.html">Simulations using R</a></li>
+    <li><a class="dropdown-item" href="../articles/Vign.02.NONMEM_simulations.html">Simulations using NONMEM</a></li>
+    <li><a class="dropdown-item" href="../articles/Vign.03.Shiny_apps.html">Shiny apps</a></li>
+    <li><a class="dropdown-item" href="../articles/Vign.04.options_restrictions.html">Considerations for translating models</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -106,9 +106,9 @@ a dataframe is used (e.g. from loading an Rdata object)  it is not necessary to 
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">split_sim</span><span class="op">(</span>data <span class="op">=</span> <span class="va">tmp_out</span>, model <span class="op">=</span> <span class="va">mod_out</span>, locout<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, pattern<span class="op">=</span><span class="st">"\\.mod$"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "file1c9712914d65.1.mod" "file1c9712914d65.2.mod"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "file1c9712914d65.3.mod" "file1c9712914d65.4.mod"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "file1c9712914d65.mod"   "file1c9755a2b3c4.mod"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "file1bc7215b948b.1.mod" "file1bc7215b948b.2.mod"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "file1bc7215b948b.3.mod" "file1bc7215b948b.4.mod"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "file1bc7215b948b.mod"   "file1bc76becf5fc.mod"  </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
