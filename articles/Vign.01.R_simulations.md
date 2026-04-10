@@ -71,7 +71,7 @@ simulation, the following items might need additional attention:
 - Handling of NONMEM reserved keywords or syntax
 
 For more information on this see [Considerations for translating
-models](https://leidenadvancedpkpd.github.io/amp.sim/articles/04.options_restrictions.md).
+models](https://leidenadvancedpkpd.github.io/amp.sim/articles/Vign.04.options_restrictions.md).
 
 ## Simulation of typical subject
 
