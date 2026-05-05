@@ -4,11 +4,11 @@
 \name{amp.sim-package}
 \alias{amp.sim}
 \alias{amp.sim-package}
-\title{amp.sim: Various Functions to Aid Simulation of Pharmacometric Models}
+\title{amp.sim: Flexible Simulation Utilities for Pharmacometric Modeling}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Tools to transform 'NONMEM' models into R syntax so they can be used for simulations using the 'deSolve', 'nlmixr2' or 'mrgsolve' package. Additionally, functionality is included to aid simulations performed directly in 'NONMEM' and to automatically create shiny apps for simulation models.
+The goal of 'amp.sim' is to transform 'NONMEM' models into R syntax so they can be used for simulations using the 'deSolve', 'nlmixr2' or 'mrgsolve' package. Additionally, functionality is included to aid simulations performed directly in 'NONMEM' and to automatically create shiny apps for simulation models.
 }
 \seealso{
 Useful links:

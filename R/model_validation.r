@@ -21,12 +21,12 @@
 #' @author Richard Hooijmaijers
 #' @examples
 #'
-#' \dontrun{
+#' \donttest{
 #'   res  <- model_validation(system.file("testfiles/compareParfile",package="amp.sim"),
 #'                            system.file("testfiles/compareModel.cpp",package="amp.sim"),
 #'                            out=NULL)
 #' }
-model_validation <- function(nmtable,simmodel,rounding=4,comppred="CP",out="validate/result.tex",...){
+model_validation <- function(nmtable,simmodel,rounding=4,comppred="CP",out=NULL,...){
 
   if(length(find.package("ggplot2", quiet = TRUE))==0) stop("the ggplot2 package should be installed to use this function")
   if(length(find.package("R3port", quiet = TRUE))==0) stop("the R3port package should be installed to use this function")
@@ -75,9 +75,9 @@ model_validation <- function(nmtable,simmodel,rounding=4,comppred="CP",out="vali
 
   if(!is.null(out)){
     dir.create(dirname(out),showWarnings = FALSE)
-    cat(paste("\\section{Results}","This report shows the results for comparing the NONME results and the results obtained",
-              "after simulations by \\texttt{mrgsolve} for model ",simmodel,".\\\\ \\listoftables \\listoffigures\n",sep="\n"),
-        file=paste0(dirname(out),"/01.res.tex.rawtex"))
+    writeLines(paste("\\section{Results}","This report shows the results for comparing the NONME results and the results obtained",
+                     "after simulations by \\texttt{mrgsolve} for model ",simmodel,".\\\\ \\listoftables \\listoffigures\n",sep="\n"),
+               paste0(dirname(out),"/01.res.tex.rawtex"))
     R3port::ltx_list(sumtbl,out = paste0(dirname(out),"/02.res.tex"), show=FALSE,
                      title="Summary statistics of the differences between estimation and simultion model")
     R3port::ltx_list(utils::head(top10[order(top10$absreldiff,decreasing = TRUE),],10),porder=FALSE,xrepeat=TRUE, show=FALSE,

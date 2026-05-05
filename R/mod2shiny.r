@@ -53,12 +53,13 @@ mod2shiny <- function(parvector,modfile,evnt,init=NULL,naming=NULL,apptitle="Shi
   uiIn    <- readLines(paste0(system.file(package="amp.sim"),"/ui.tmpl"))
   #inpe    <- paste0("numericInput(inputId = '",names(parvector),"', label='",names(parvector),":', value=",round(parvector,2),")")
   inpe    <- paste0("numericInput(inputId = '",names(parvector),"', label='",names(parvector2),":', value=",signif(parvector,3),")")
-  sourcef <- ifelse(framework=="mrgsolve",paste0("assign('model',mread('etc/",basename(modfile),"'),envir = .GlobalEnv)"),paste0("source('etc/",basename(modfile),"')"))
-  uilist  <- list(apptitle=apptitle,inputElements=paste(inpe,collapse=",\n        "),sourcefunc=sourcef,packages=paste0("library(",framework,")"))
+  #sourcef <- ifelse(framework=="mrgsolve",paste0("assign('model',mread('etc/",basename(modfile),"'),envir = .GlobalEnv)"),paste0("source('etc/",basename(modfile),"')"))
+  uilist  <- list(apptitle=apptitle,inputElements=paste(inpe,collapse=",\n        "),packages=paste0("library(",framework,")"))
   uiOut   <- whisker::whisker.render(uiIn, uilist)
   
   # Fill in server template - decided to place in the entire parm output including changes for input elements
   serverIn   <- readLines(paste0(system.file(package="amp.sim"),"/server.tmpl"))
+  sourcef    <- ifelse(framework=="mrgsolve",paste0("model <- mread('etc/",basename(modfile),"')"),paste0("source('etc/",basename(modfile),"')"))
   parserv1   <- paste0("parm <- c(",paste(paste(names(parvector),"=",round(parvector,2)),collapse=", "),")")
   parserv2   <- paste(paste0("    parm['",names(parvector),"'] <- input$",names(parvector)),collapse="\n")
   parserv    <- paste(parserv1,parserv2,sep="\n")
@@ -78,7 +79,7 @@ mod2shiny <- function(parvector,modfile,evnt,init=NULL,naming=NULL,apptitle="Shi
   if(framework=="rxode2")   simcode <- "out   <- rxSolve(model,parm,events,omega=omega,sigma=sigma,nSub=1)"
   #simcode    <- paste(simcode,"out  <- tidyr::pivot_longer(out,cols=!contains('time'))",sep="\n")
   simcode    <- paste(simcode,"out  <- tidyr::pivot_longer(as.data.frame(out),cols=!contains(c('time','ID')))",sep="\n")
-  servlist   <- list(changeParm=parserv,usedesolve=usede,initcode=initcode,simcode=simcode,timesv=times,
+  servlist   <- list(sourcefunc=sourcef,changeParm=parserv,usedesolve=usede,initcode=initcode,simcode=simcode,timesv=times,
                      userxode2=userxode2,omegacode=omegacode,sigmacode=sigmacode)
   #print(servlist)
   serverOut  <- whisker::whisker.render(serverIn, servlist)
@@ -92,5 +93,5 @@ mod2shiny <- function(parvector,modfile,evnt,init=NULL,naming=NULL,apptitle="Shi
   file.copy(logo,paste0(outloc,"/www/logo.png"))
   file.copy(paste0(system.file(package="amp.sim"),"/modelscheme.png"),paste0(outloc,"/www/modelscheme.png"))
   file.copy(modfile,paste0(outloc,"/etc/",basename(modfile)))
-  cat(paste0("Shiny app created in location '",outloc,"'. It can be submitted using:\n",cli::style_bold("shiny::runApp('",normalizePath(outloc, winslash = "/"),"',launch.browser=TRUE)")))
+  message(paste0("Shiny app created in location '",outloc,"'. It can be submitted using:\n",cli::style_bold("shiny::runApp('",normalizePath(outloc, winslash = "/"),"',launch.browser=TRUE)")))
 }

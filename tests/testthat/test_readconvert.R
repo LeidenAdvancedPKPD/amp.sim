@@ -327,12 +327,12 @@ test_that("convert_nonmem returns the correctly tranformed model", {
   
   convert_nonmem(paste0(tdir,"/testmodel.mod"),control="file",out=paste0(tdir,"/testcontrol"),overwrite=TRUE, verbose=FALSE) 
   expect_true(file.exists(paste0(tdir,"/testcontrol_control.r")))
-  expect_output(convert_nonmem(paste0(tdir,"/testmodel.mod"),control="console",out=paste0(tdir,"/testcontrol"),overwrite=TRUE, verbose=FALSE))
+  expect_message(convert_nonmem(paste0(tdir,"/testmodel.mod"),control="console",out=paste0(tdir,"/testcontrol"),overwrite=TRUE, verbose=FALSE))
   
   expect_error(convert_nonmem(paste0(tdir,"/testmodel.mod"),type_return="dummy"))
   convert_nonmem(paste0(tdir,"/testmodel.mod"),control="file",out=paste0(tdir,"/testoverwrite"),overwrite=TRUE, verbose=FALSE) 
   expect_warning(convert_nonmem(paste0(tdir,"/testmodel.mod"),control="file",out=paste0(tdir,"/testoverwrite"),overwrite=FALSE, verbose=FALSE) )
-  expect_output(convert_nonmem(paste0(tdir,"/testmodel.mod"),control="console",out=paste0(tdir,"/testcontrol"),overwrite=TRUE, verbose=TRUE))
+  expect_message(convert_nonmem(paste0(tdir,"/testmodel.mod"),control="console",out=paste0(tdir,"/testcontrol"),overwrite=TRUE, verbose=TRUE))
 })
 
 

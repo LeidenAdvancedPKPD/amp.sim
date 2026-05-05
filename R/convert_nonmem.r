@@ -57,8 +57,8 @@ convert_nonmem <- function(model,out, ext=NULL, mod_return=NULL,type_return="mrg
     }
   }
   # handle the control part of the simulations
-  if(control=="console")  cat(paste(tmplst$control,collapse="\n"))
-  if(control=="file")     cat(paste(tmplst$control,collapse="\n"),file=paste0(out,"_control.r"))
+  if(control=="console")  message(paste(tmplst$control,collapse="\n"))
+  if(control=="file")     writeLines(paste(tmplst$control,collapse="\n"), paste0(out,"_control.r"))
   if(control=="string")   return(tmplst$control)
   if(control=="script"){
     if(rstudioapi::isAvailable()){

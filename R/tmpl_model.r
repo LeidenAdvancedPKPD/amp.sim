@@ -34,7 +34,7 @@ tmpl_model <- function(tmpl, ret="console"){
         cli::cli_text("code can only be used for output in Rstudio environment (use 'string' or 'console' for ret argument outside Rstudio)")
       }
     }else if(ret=="console"){
-      cat(paste(tmplm,collapse="\n"))
+      message(paste(tmplm,collapse="\n"))
     }else if(ret=="string"){
       return(tmplm)
     }

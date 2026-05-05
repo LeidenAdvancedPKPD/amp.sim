@@ -41,9 +41,6 @@
 sample_par <- function(ext,covmat=NULL,bootstrap=NULL,seed=NULL,nrepl=10,inc_theta=TRUE,inc_eta=FALSE,verbose=FALSE,dropfixed=FALSE,uncert=FALSE,restheta=NULL){
   # set seed and read data (if applicable)
   if(!is.null(seed)){
-    if(!exists(".Random.seed")) tmp <- stats::runif(1) # create new .Random.seed in case it is deleted
-    oldseed <- .Random.seed
-    on.exit({ .Random.seed <<- oldseed })
     set.seed(seed)
   }
 

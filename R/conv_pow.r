@@ -20,7 +20,7 @@ conv_pow <- function(x){
       ret   <- paste0("substitute(",ret,",list(`^`='pow',`**`='pow'))")
       ret   <- try(eval(parse(text=ret)),silent=TRUE)
       if("try-error"%in%class(ret)){
-        cat(paste("Could not correctly convert powers (",y,"), returned original string\n"))
+        warning(paste("Could not correctly convert powers (",y,"), returned original string\n"))
         return(y)
       }
       ret   <- paste(trimws(deparse(ret)),collapse="")

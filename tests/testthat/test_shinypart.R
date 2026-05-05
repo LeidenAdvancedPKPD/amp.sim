@@ -8,8 +8,9 @@ test_that("mod2shiny correctly creates a shiny app", {
   prm   <- c(THETA1 = 0.08, THETA2 = 2, THETA3 = 1, THETA4 = 0.2, THETA5 = 1.2, WEIGHT = 70, SEX = 1)
   evnt  <- mrgsolve::ev(amt = 100, ii = 24, addl = 1)
   nams  <- c(THETA1 = "KA (1/h)", THETA2 = "CL (l/h)", THETA3 = "V (l)", THETA4 = "effect of WT", THETA5 = "effect of SEX") 
-  ret   <- capture.output(mod2shiny(prm,modfile=paste0(tempdir(),"/shinytest.cpp"),evnt=evnt,naming=nams,
-                                    framework="mrgsolve",outloc=tempdir()))
+  
+  expect_message(mod2shiny(prm,modfile=paste0(tempdir(),"/shinytest.cpp"),evnt=evnt,naming=nams,
+                           framework="mrgsolve",outloc=tempdir()))
   
   uip  <- try(readLines(paste0(tempdir(),"/ui.r")))
   srvp <- try(readLines(paste0(tempdir(),"/server.r")))
@@ -17,8 +18,6 @@ test_that("mod2shiny correctly creates a shiny app", {
   expect_false("try-error"%in%class(uip))
   expect_false("try-error"%in%class(srvp))
   expect_true(all(c("etc","www")%in%list.files(tempdir())))
-  expect_true(any(grepl("app created",ret)))
-  
   expect_true(any(grepl("numericInput.*THETA1.*KA",uip)))
   expect_true(any(grepl("parm.*WEIGHT",srvp)))
 })

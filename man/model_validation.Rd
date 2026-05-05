@@ -9,7 +9,7 @@ model_validation(
   simmodel,
   rounding = 4,
   comppred = "CP",
-  out = "validate/result.tex",
+  out = NULL,
   ...
 )
 }
@@ -41,7 +41,7 @@ Be aware that no variables are renamed in $TABLE in the NONMEM control stream (e
 }
 \examples{
 
-\dontrun{
+\donttest{
   res  <- model_validation(system.file("testfiles/compareParfile",package="amp.sim"),
                            system.file("testfiles/compareModel.cpp",package="amp.sim"),
                            out=NULL)

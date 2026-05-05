@@ -1,3 +1,5 @@
+# Source functions
+{{{sourcefunc}}}
 server <- function(input, output,session) {
   #observeEvent(input$go, updateTabsetPanel(session, "tabsel",selected = "simtab"))
   observeEvent(input$go, nav_select("seltabs", "simtab"))
