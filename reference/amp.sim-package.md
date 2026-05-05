@@ -1,10 +1,10 @@
-# amp.sim: Various Functions to Aid Simulation of Pharmacometric Models
+# amp.sim: Flexible Simulation Utilities for Pharmacometric Modeling
 
-Tools to transform 'NONMEM' models into R syntax so they can be used for
-simulations using the 'deSolve', 'nlmixr2' or 'mrgsolve' package.
-Additionally, functionality is included to aid simulations performed
-directly in 'NONMEM' and to automatically create shiny apps for
-simulation models.
+The goal of 'amp.sim' is to transform 'NONMEM' models into R syntax so
+they can be used for simulations using the 'deSolve', 'nlmixr2' or
+'mrgsolve' package. Additionally, functionality is included to aid
+simulations performed directly in 'NONMEM' and to automatically create
+shiny apps for simulation models.
 
 ## See also
 

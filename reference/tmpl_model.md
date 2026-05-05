@@ -38,6 +38,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 tmpl_model()
 #>  [1] "ana1CMTbolusC.tmp" "ana1CMTbolusK.tmp" "ana1CMTivC.tmp"   
 #>  [4] "ana1CMTivK.tmp"    "ana1CMToralC.tmp"  "ana1CMToralK.tmp" 

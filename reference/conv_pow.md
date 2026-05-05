@@ -26,6 +26,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 conv_pow("y = par1*(par2/par3)^xy + a - par4**(2/par5)")
 #> [1] "y = par1 * pow((par2/par3), xy) + a - pow(par4, (2/par5))"
 ```

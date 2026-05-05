@@ -144,20 +144,19 @@ added to row 2, column 1 and column 1, row 2). The matrix is used as Sigma for t
 <span class="r-in"><span><span class="va">cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example_models"</span>,<span class="st">"PK.1CMT.ORAL.COV.cov"</span>, package <span class="op">=</span> <span class="st">"amp.sim"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">sample_par</span><span class="op">(</span><span class="va">ext</span>, inc_eta <span class="op">=</span> <span class="cn">TRUE</span>, nrepl <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> table.name is not a column in data. Nothing done.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ID   STHETA1 STHETA2 STHETA3  STHETA4       SETA1      SETA2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 0.0827885  2.6728 1.58939 0.353994 -0.08900397 -0.1918347</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 0.0827885  2.6728 1.58939 0.353994 -0.01041112 -0.3412298</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 0.0827885  2.6728 1.58939 0.353994 -0.06753981  0.4407470</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  4 0.0827885  2.6728 1.58939 0.353994  0.10349327  0.1036561</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  5 0.0827885  2.6728 1.58939 0.353994 -0.04793634 -0.1916024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ID   STHETA1 STHETA2 STHETA3  STHETA4       SETA1       SETA2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 0.0827885  2.6728 1.58939 0.353994  0.21514923 -0.06554339</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 0.0827885  2.6728 1.58939 0.353994  0.14291588  0.05706713</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 0.0827885  2.6728 1.58939 0.353994 -0.14008039 -0.12381181</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  4 0.0827885  2.6728 1.58939 0.353994  0.09642579  0.31445602</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  5 0.0827885  2.6728 1.58939 0.353994 -0.13367776 -0.17802000</span>
 <span class="r-in"><span><span class="fu">sample_par</span><span class="op">(</span><span class="va">ext</span>, <span class="va">cov</span>, uncert <span class="op">=</span> <span class="cn">TRUE</span>, nrepl <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Negative values present, take into account when using results within model</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID    STHETA1  STHETA2  STHETA3    STHETA4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 0.07913362 2.568358 1.427934  0.3698506</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 0.08071131 2.631000 1.181154 -0.1449949</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 0.08442318 2.722236 1.615941  0.5648214</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  4 0.08655393 2.756001 1.692673  0.3736599</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  5 0.08247440 2.739620 1.596263  0.2476445</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1 0.08045363 2.636853 1.385970 0.33874927</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2 0.08073782 2.668343 1.395896 0.08608657</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3 0.08018396 2.477594 1.294906 0.50479642</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  4 0.09117568 2.776652 1.615882 0.24538773</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  5 0.07919310 2.575649 1.447648 0.21982308</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

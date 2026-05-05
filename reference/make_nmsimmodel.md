@@ -67,6 +67,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 nmmod   <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
 dat     <- simdata(0:24, dosetime = 0, doseheight = 10, addl = 2, ii = 24, 
                    numid = 50, STHETA1= 1, STHETA2 = 2, STHETA3 = 1,
@@ -81,7 +82,7 @@ readLines(mod_out) |> head(n=15) |> cat(sep="\n")
 #> ;; Importance: 0
 #> ;; Description: 1 CMT PK model with oral absorption
 #> $PROB  1 CMT PK model with oral absorption
-#> $DATA file1aa65da531d8.csv IGNORE=@
+#> $DATA file1b1a4dab078a.csv IGNORE=@
 #> $INPUT
 #>  ID DOSE TIME AMT ADDL II DV STHETA1 STHETA2 STHETA3 SETA1 SETA2
 #> ; $INPUT

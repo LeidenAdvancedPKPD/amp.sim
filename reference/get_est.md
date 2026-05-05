@@ -49,6 +49,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 # get the initial estimates from the model or final estimates from ext file
 mod  <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
 ext  <- system.file("example_models","PK.1CMT.ORAL.ext", package = "amp.sim")

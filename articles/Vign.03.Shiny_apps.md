@@ -81,6 +81,7 @@ these files. In the chunk below we can see how we can implement
 different dose heights by adjusting only two lines of code:
 
 ``` r
+
 # part added in ui.r
 numericInput(inputId = 'DOSE', label='Dose (mg):', value=100)
 # part added in server.r

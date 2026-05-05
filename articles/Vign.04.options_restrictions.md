@@ -56,6 +56,7 @@ should be included. Some examples on how to handle these specifics when
 working with `deSolve` are given below:
 
 ``` r
+
 # residual error and bio-availability can be added in the des_func e.g.
 CP  <- (A2/V) * F1 * (1 + rnorm(length(A2),0,sqrt(0.01)))
 # lag time should be adapted in the events data frame e.g.
@@ -69,15 +70,15 @@ dose_func(cmt=4,value=300,ndose=3,tau=24, tinf=2)
 **Specific NONMEM coding**
 
 Within NONMEM there are different ways of coding certain blocks. For
-instance there are many ways of defining initial estimates for $\theta$
-and $\omega$ values. The package supports most common coding trough the
-wonderful `NMdata` package but maybe not all. It is therefore advised
-not to use very specific coding here (e.g. defining $\theta$ as
-`(value)xn` to repeat estimates). For $\omega$ values, blocks are
-supported but using the ‘block same’ structure to code inter-occasion
-variability might need some double checking within the simulations. Also
-structures defining correlations instead of covariance will likely need
-adaptations.
+instance there are many ways of defining initial estimates for
+$`\theta`$ and $`\omega`$ values. The package supports most common
+coding trough the wonderful `NMdata` package but maybe not all. It is
+therefore advised not to use very specific coding here (e.g. defining
+$`\theta`$ as `(value)xn` to repeat estimates). For $`\omega`$ values,
+blocks are supported but using the ‘block same’ structure to code
+inter-occasion variability might need some double checking within the
+simulations. Also structures defining correlations instead of covariance
+will likely need adaptations.
 
 Within NONMEM it is also possible to write abbreviated FORTRAN code
 (e.g. including things like `COM(n)` and/or `$ABBREVIATED`).

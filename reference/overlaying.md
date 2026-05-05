@@ -45,10 +45,10 @@ if(requireNamespace("shiny")){
 }
 #> Loading required namespace: shiny
 #>   time          A1 numsim Simulation
-#> 1    0 -0.08433889      1      sim 1
-#> 2    1 -0.55406480      1      sim 1
-#> 3    2  0.74717660      1      sim 1
-#> 4    3 -0.93481966      1      sim 1
-#> 5    4 -0.46662045      1      sim 1
-#> 6    0 -0.08433889      2      sim 2
+#> 1    0 -0.58701399      1      sim 1
+#> 2    1 -0.32785359      1      sim 1
+#> 3    2 -0.08536101      1      sim 1
+#> 4    3 -2.05240389      1      sim 1
+#> 5    4  0.15074825      1      sim 1
+#> 6    0 -0.58701399      2      sim 2
 ```

@@ -89,14 +89,14 @@ run the function without arguments</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [19] "des2CMTbolusC.tmp" "des2CMTbolusK.tmp" "des2CMTivC.tmp"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [22] "des2CMTivK.tmp"    "des2CMToralC.tmp"  "des2CMToralK.tmp" </span>
 <span class="r-in"><span><span class="fu">tmpl_model</span><span class="op">(</span><span class="st">"ana1CMTbolusK.tmp"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> library(ggplot2)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ana1CMTbolus &lt;- function(Dose,pars,t){</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Dose * pars['C'] * exp(-pars['L']*t)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> pars   &lt;- c(C=1,L=1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> times  &lt;- seq(0,24,length.out=200)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> out    &lt;- amp.sim::mdose(Dose=10,tau=24,ndose=1,t=times,func=ana1CMTbolus,pars=pars)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ggplot(out,aes(time,y)) + geom_line()</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> library(ggplot2)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ana1CMTbolus &lt;- function(Dose,pars,t){</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   Dose * pars['C'] * exp(-pars['L']*t)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> }</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> pars   &lt;- c(C=1,L=1)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> times  &lt;- seq(0,24,length.out=200)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> out    &lt;- amp.sim::mdose(Dose=10,tau=24,ndose=1,t=times,func=ana1CMTbolus,pars=pars)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ggplot(out,aes(time,y)) + geom_line()</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -54,6 +54,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 nmmod   <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
 dat     <- simdata(0:24, dosetime = 0, doseheight = 10, addl = 2, ii = 24, 
                    numid = 50, STHETA1= 1, STHETA2 = 2, STHETA3 = 1,
@@ -67,7 +68,7 @@ make_nmsimmodel(nmmod, mod_out, data=tmp_out)
 
 split_sim(data = tmp_out, model = mod_out, locout=tempdir())
 list.files(tempdir(), pattern="\\.mod$")
-#> [1] "file1aa61b3fc734.mod"   "file1aa6349476c0.1.mod"
-#> [3] "file1aa6349476c0.2.mod" "file1aa6349476c0.3.mod"
-#> [5] "file1aa6349476c0.4.mod" "file1aa6349476c0.mod"  
+#> [1] "file1b1a3167ecbf.mod"   "file1b1a741ef5d5.1.mod"
+#> [3] "file1b1a741ef5d5.2.mod" "file1b1a741ef5d5.3.mod"
+#> [5] "file1b1a741ef5d5.4.mod" "file1b1a741ef5d5.mod"  
 ```

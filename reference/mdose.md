@@ -58,6 +58,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 ana1CMTiv <- function(Dose,pars,t){
   Dose * pars['C'] * exp(-pars['L']*t)
 }

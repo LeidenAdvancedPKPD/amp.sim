@@ -31,6 +31,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 convert_nmsyntax("IF(VAR.GT.0) VAR2 = PHI(1)")
 #> [1] "if(VAR > 0) VAR2 = R::pnorm(1, 0.0, 1.0, 1, 0)"
 ```

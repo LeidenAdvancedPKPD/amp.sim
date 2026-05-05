@@ -57,6 +57,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 # Include additional variables
 sim1 <- simdata(seq(0,24,1),0.5,100,10,12,NA,2, WEIGHT=70, ETA=0)
 

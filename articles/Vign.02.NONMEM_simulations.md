@@ -26,6 +26,7 @@ the `simdata` function can be used to create a starting point for a
 simulation data set:
 
 ``` r
+
 library(amp.sim)
 simd <- simdata(time = seq(0,120,1), dosetime = 0, doseheight = 100, 
                 addl = 2, ii = 24, numid = 10)
@@ -38,6 +39,7 @@ different possibilities. The following example shows a couple of
 examples using some simple base R functions:
 
 ``` r
+
 # lapply can be used for multiple repetitions
 simd <- lapply(seq(300,600,1200),function(x) {
   simdata(time = seq(0,120,1), dosetime = 0, doseheight = x,
@@ -70,6 +72,7 @@ prevent NONMEM from crashing. Some simple examples are included here for
 the creation of additional variables:
 
 ``` r
+
 simd$WEIGHT <- 70
 simd$TRT    <- sample(1:3,10,replace=TRUE)
 simd$AGE    <- as.integer(rnorm(10,39,5))
@@ -86,6 +89,7 @@ file) should also be provided to the function. The following chunk show
 some examples on how the function can be used:
 
 ``` r
+
 # Simple sampling for 10 subjects with the same THETAs but different ETAs
 samp <- sample_par("run1.ext",inc_eta=TRUE,nrepl=10)
 
@@ -103,23 +107,24 @@ samp <- sample_par("run1.ext",inc_eta=TRUE,nrepl=10)
 # samp <- sample_sim(ext="run2.ext",cov="run2.cov", type="unc_sameIIV", nrepl=10, nsub=20)
 ```
 
-The resulting data frame will include $\theta$ and/or $\eta$ values
+The resulting data frame will include $`\theta`$ and/or $`\eta`$ values
 based on the settings. The naming will always be prepended with the
 letter ‘S’ (for simulated or sampled) which is important for subsequent
 steps.
 
 In case residual error should be included in the simulations it might be
 necessary to adapt the sampled dataset within this step. This is the
-case when residual error is coded as $\theta$ and uncertainty is
-included. In these cases the $\theta$ value should likely be set to a
+case when residual error is coded as $`\theta`$ and uncertainty is
+included. In these cases the $`\theta`$ value should likely be set to a
 single value (population estimate). In case residual is coded as
-$\sigma$ the simulation model might need adaptation but more on that
+$`\sigma`$ the simulation model might need adaptation but more on that
 later.
 
 At this point the simulation dataset can be combined with the parameter
 estimates to create a final dataset and export the result to a csv file:
 
 ``` r
+
 inp    <- merge(simd,samp)
 inp    <- inp[order(inp$ID,inp$TIME),]
 write.csv(inp,csv="sim.input.csv",row.names = FALSE, na = ".")
@@ -128,22 +133,23 @@ write.csv(inp,csv="sim.input.csv",row.names = FALSE, na = ".")
 The resulting dataset would look something like this:
 
 ``` r
+
 head(simd)
 ```
 
       ID DOSE TIME AMT ADDL II DV WEIGHT AGE STHETA1 STHETA2 STHETA3  SETA1  SETA2
-    1  1  100    0 100    2 24 NA     70  40   0.234    1.25    30.1 -0.224  0.025
-    2  1  100    0  NA   NA NA NA     70  37   0.234    1.25    30.1 -0.513  0.216
-    3  1  100    1  NA   NA NA NA     70  27   0.234    1.25    30.1 -0.212  0.072
-    4  1  100    2  NA   NA NA NA     70  38   0.234    1.25    30.1 -0.373 -0.046
-    5  1  100    3  NA   NA NA NA     70  34   0.234    1.25    30.1 -0.199  0.153
-    6  1  100    4  NA   NA NA NA     70  40   0.234    1.25    30.1  0.194 -0.127
+    1  1  100    0 100    2 24 NA     70  39   0.234    1.25    30.1 -0.023  0.083
+    2  1  100    0  NA   NA NA NA     70  40   0.234    1.25    30.1  0.034 -0.091
+    3  1  100    1  NA   NA NA NA     70  39   0.234    1.25    30.1 -0.213  0.055
+    4  1  100    2  NA   NA NA NA     70  40   0.234    1.25    30.1 -0.225 -0.088
+    5  1  100    3  NA   NA NA NA     70  44   0.234    1.25    30.1  0.075 -0.010
+    6  1  100    4  NA   NA NA NA     70  44   0.234    1.25    30.1  0.114  0.117
 
 ## Simulation model
 
-In the previous step we saw that sampling of $\theta$ and $\eta$ values
-was done in R and added to the dataset. This means that it is not
-necessary to do sample $\theta$ or $\eta$ values in NONMEM. One
+In the previous step we saw that sampling of $`\theta`$ and $`\eta`$
+values was done in R and added to the dataset. This means that it is not
+necessary to do sample $`\theta`$ or $`\eta`$ values in NONMEM. One
 important characteristic of this method is that we do not use certain
 dollar blocks. Furthermore, the original model needs to be rewritten so
 that the parameters are read from the dataset. These things are fairly
@@ -151,6 +157,7 @@ easy to automate and for this reason the `make_nmsimmodel` function is
 available:
 
 ``` r
+
 make_nmsimmodel("run1.mod", smod = "sim1.mod", data = "sim.input.csv")
 ```
 
@@ -160,13 +167,13 @@ This new model should be directly ready for simulation. The only
 exception might be handling of residual error:
 
 1.  In case residual error should be taken into account and is coded as
-    $\sigma$; The true sigma value should be manually replaced in the
+    $`\sigma`$; The true sigma value should be manually replaced in the
     simulation model
 2.  In case residual error should be taken into account, and uncertainty
-    simulation should be performed and is coded as $\theta$; Within the
-    `sample_par` function the “restheta” should be provided. In these
-    cases the residual error is set to the population estimate to use
-    one value for all subjects.
+    simulation should be performed and is coded as $`\theta`$; Within
+    the `sample_par` function the “restheta” should be provided. In
+    these cases the residual error is set to the population estimate to
+    use one value for all subjects.
 
 ## Split simulations
 
@@ -179,6 +186,7 @@ possible to split the simulation in multiple chunks using the
 `split_sim` function:
 
 ``` r
+
 split_sim(data    = "sim.input.csv",
           model   = "run2sim_final.mod",
           locout  = "simulation",
@@ -198,6 +206,7 @@ above). It is suggested to do this with only the head of the simulation
 input and then do the splitting, for example:
 
 ``` r
+
 write.csv(head(inp),csv="sim.input.csv",row.names = FALSE, na = ".")
 make_nmsimmodel("run1.mod", smod = "sim1.mod", data = "sim.input.csv")
 
@@ -218,6 +227,7 @@ does not have any functionality for this. **Below pseudo code for a
 general R function to run all models within a certain folder is shown**:
 
 ``` r
+
 # NOTE: THIS IS EXAMPLE CODE; run_models IS NOT A FUNCTION AVAILABLE IN THE PACKAGE
 mods <- list.files("simulation",pattern="\\.mod$",full.names = TRUE)
 run_models(mods)

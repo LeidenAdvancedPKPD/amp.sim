@@ -42,6 +42,7 @@ model as good as possible and create all applicable code to perform an
 initial simulation:
 
 ``` r
+
 library(amp.sim)
 convert_nonmem("run1.mod", "example1", type_return = "deSolve")
 # convert_nonmem("run1.mod", "example2", type_return = "rxode2")
@@ -129,6 +130,7 @@ $TABLE  ID TIME ETA1 ETA2 KA CP NOPRINT ONEHEADER FILE=par
 ```
 
 ``` r
+
 library(amp.sim)
 convert_nonmem(system.file("example_models/PK.1CMT.ORAL.COV.mod",package = "amp.sim"), 
                "example", type_return = "mrgsolve", mod_return = "CP")
@@ -201,6 +203,7 @@ to get a result. Other adaptations showcased are, simulate a single
 subject without random effects (using `zer0_re`):
 
 ``` r
+
 library(ggplot2)
 parm <- c(WEIGHT = 70)               
 mod  <- param(mod,parm)   
@@ -227,12 +230,13 @@ handled.
 The situation where you want to simulate with only IIV, is the easiest
 and is already integrated within the `mrgsolve` package. By default,
 when a NONMEM model is translated, the model matrices included in the
-model. This is also used by the `mrgsim` function to sample $\eta$
+model. This is also used by the `mrgsim` function to sample $`\eta`$
 values for the model. As shown in the first example the original code
 was adapted to set IIV to 0. If we do not do this and set a number of
 individuals to simulate we can easily include IIV
 
 ``` r
+
 parm <- c(WEIGHT = 70)               
 mod  <- param(mod,parm)   
 out  <- mod |> ev(evnt) |> mrgsim(end = 48, delta = 0.1, nid=100)
@@ -246,13 +250,14 @@ ggplot(out@data,aes(time,CP, group=ID)) + geom_line(alpha=0.3) +
 
 In case we only want to simulate with uncertainty, we need to disregard
 IIV in the same way as in the first example. Furthermore we need to
-sample $\theta$ values from the covariance matrix for the uncertainty.
+sample $`\theta`$ values from the covariance matrix for the uncertainty.
 The `amp.sim` package provides a function to do so (`sample_par`). Once
 we have the sampled parameters, it is a matter to simulate each row of
 the data frame with the sampled parameters. In this example the `dplyr`
 package is used to accomplish this:
 
 ``` r
+
 library(dplyr)
 parm  <- c(WEIGHT = 70)
 mod   <- param(mod,parm)   
@@ -290,6 +295,7 @@ to multi-thread the simulations. This example combines the examples
 above where in this case 10 trials are simulated for 10 subjects each
 
 ``` r
+
 parm  <- c(WEIGHT = 70)
 extf  <- system.file("example_models/PK.1CMT.ORAL.COV.ext",package = "amp.sim")
 covf  <- system.file("example_models/PK.1CMT.ORAL.COV.cov",package = "amp.sim")
@@ -336,13 +342,13 @@ different ways of sampling values and provide this to the simulation
 functions. Please refer to the help pages of the different packages for
 additional guidance.
 
-In the example above, the $\eta$ values are sampled within the model. It
-is also possible to perform all sampling within R using the `sample_par`
-function. In case a clinical trial simulation should be done using a
-combination of replicates and subjects, it is more convenient to use the
-`sample_sim` function instead. This function is a wrapper around
-`sample_par` but makes it easier to make a combined sampling dataset of
-replicates and subjects.
+In the example above, the $`\eta`$ values are sampled within the model.
+It is also possible to perform all sampling within R using the
+`sample_par` function. In case a clinical trial simulation should be
+done using a combination of replicates and subjects, it is more
+convenient to use the `sample_sim` function instead. This function is a
+wrapper around `sample_par` but makes it easier to make a combined
+sampling dataset of replicates and subjects.
 
 ### Using a template model
 
@@ -355,6 +361,7 @@ The `tmpl_model` function can be used without arguments to see what is
 available:
 
 ``` r
+
 tmpl_model()
 ```
 
@@ -372,6 +379,7 @@ code can be added in the current script right after the function call
 (when working in Rstudio), within the console or as a string:
 
 ``` r
+
 tmpl_model("ana1CMTivC.tmp")
 ```
 
@@ -379,6 +387,7 @@ When submitting the lines of code you will directly get an initial
 simulated curve:
 
 ``` r
+
 library(ggplot2)
 ana1CMTiv <- function(Dose,pars,t,dur){
   C <- 1/pars['V']
@@ -404,6 +413,7 @@ superposition. Finally, a simple example is shown how these models can
 be rewritten for simulating a population:
 
 ``` r
+
 samp <- data.frame(CL=rnorm(100,10,1),V=rnorm(100,5,0.5))
 out <- lapply(1:nrow(samp), function(x){
   data.frame(mdose(Dose=10,tau=24,ndose=1,t=times,func=ana1CMTiv,

@@ -27,6 +27,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 nmmod <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
 lst   <- get_nmblock(nmmod, block = "PROB")
 nmlistblock(lst)

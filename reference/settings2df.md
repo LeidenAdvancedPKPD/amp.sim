@@ -31,6 +31,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 if(requireNamespace("tidyr")){
   sim1 <- list(THETA1  = 0.5, THETA2 = 1,
                alllabs =c("THETA1%=%DUMMY1","THETA2%=%DUMMY2"))

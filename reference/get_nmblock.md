@@ -42,6 +42,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 mod  <- system.file("example_models","PK.1CMT.ORAL.mod", package = "amp.sim")
 get_nmblock(mod,"OMEGA")
 #> $OMEGA

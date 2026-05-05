@@ -13,7 +13,7 @@ model_validation(
   simmodel,
   rounding = 4,
   comppred = "CP",
-  out = "validate/result.tex",
+  out = NULL,
   ...
 )
 ```
@@ -68,9 +68,12 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+
+# \donttest{
   res  <- model_validation(system.file("testfiles/compareParfile",package="amp.sim"),
                            system.file("testfiles/compareModel.cpp",package="amp.sim"),
                            out=NULL)
-} # }
+#> Building compareModel_cpp ... 
+#> done.
+# }
 ```

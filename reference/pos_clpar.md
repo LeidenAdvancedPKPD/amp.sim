@@ -27,6 +27,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 tst <- "IF (test == A(1)) a(1)=(1*5)/2"
 pos_clpar(tst)
 #> -1 

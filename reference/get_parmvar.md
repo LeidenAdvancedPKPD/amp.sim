@@ -34,6 +34,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 mod    <- system.file("example_models","PK.1CMT.ORAL.COV.mod", package = "amp.sim")
 mdll   <- get_nmblock(mod,block=c("PK","DES"))
 mdlls  <- nmlistblock(mdll)

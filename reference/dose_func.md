@@ -48,6 +48,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
  dose_func(8,100,tau=48,ndose=5,tinf=2)
 #>    var time value method
 #> 1   A8    0    50    add

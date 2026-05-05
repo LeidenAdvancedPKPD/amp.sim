@@ -16,6 +16,7 @@ Currently the package is under active development and can be installed
 using:
 
 ``` r
+
 devtools::install_github("LeidenAdvancedPKPD/amp.sim")
 ```
 

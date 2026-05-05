@@ -32,6 +32,7 @@ Richard Hooijmaijers
 ## Examples
 
 ``` r
+
 par_delete(c("LOG(1)","ETA(1)","EXP(2)/ETA(3)+THETA(4)"))
 #> [1] "LOG(1)"             "ETA1"               "EXP(2)/ETA3+THETA4"
 ```
