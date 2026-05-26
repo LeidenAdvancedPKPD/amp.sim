@@ -8,7 +8,7 @@ assign("nmfuncs", c("EXP\\("="exp(","LOG\\("="log(","ABS\\("="abs(","SIN\\("="si
 # NONMEM operators and the corresponding translation
 assign("nmoper", c("\\.LT\\."=" < ","\\.LE\\."=" <= ","\\.EQ\\."=" == ","\\.GE\\."=" >= ","\\.GT\\."=" > ",
                  "\\.NE\\."=" != ","\\.AND\\."=" & ","\\.OR\\."=" | ","IF\\(|IF[[:blank:]]*\\("="if(","THEN"="{","ENDIF"="}",
-                 "ELSE IF"="}else if","ELSE$"="}else{","END IF$"="}"), envir=.simenv)
+                 "ELSE IF"="}else if","ELSEIF"="}else if","ELSE$"="}else{","END IF$"="}"), envir=.simenv)
 
 # reserved keywords, for now listed all reserved keywords from mrgsolve:::reserved(). If necessary extend for rxode2 or NONMEM (e.g. reserved2, etc)
 assign("reserved1", c("ID", "amt", "cmt", "ii", "ss", "evid", "addl", "rate", "time","SOLVERTIME", "table", "ETA", "EPS", "AMT", "CMT", "ID", "TIME",

@@ -2,7 +2,9 @@
 
 - fixed reverse dependency warning for `rxode2`
 - suppress messages for `NMdata` package that might confuse user
+- fix bug for ELSEIF (#6)
 - fix bug in obtaining number of CMTs (#7)
+
 
 # amp.sim 0.1.1
 

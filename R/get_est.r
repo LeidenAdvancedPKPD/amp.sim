@@ -47,7 +47,7 @@ get_est <- function(from){
     # actions for model file (be aware sigma is not mandatory!)
     if(length(from)==1 && file.exists(from))  from <- readLines(from)
     from   <- iconv(from, "latin1", "ASCII", sub="") # make sure there are no non-ASCII characters
-    est    <- NMdata::NMreadInits(lines=from, return = "all") suppressMessages()
+    est    <- NMdata::NMreadInits(lines=from, return = "all") |> suppressMessages()
     theta  <- est$pars$init[est$pars$par.type=="THETA"]
     theta  <- stats::setNames(theta, est$pars$parameter[est$pars$par.type=="THETA"])
     thetan <- merge(est$elements[!duplicated(est$elements$linenum),c("linenum","parameter","par.type")],

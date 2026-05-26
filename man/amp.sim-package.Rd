@@ -22,6 +22,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Richard Hooijmaijers \email{richardhooijmaijers@gmail.com} [copyright holder]
 
+Authors:
+\itemize{
+  \item Richard Hooijmaijers \email{richardhooijmaijers@gmail.com} [copyright holder]
+}
+
 Other contributors:
 \itemize{
   \item LAPP Consultants \email{info@lapp.nl} [funder, copyright holder]

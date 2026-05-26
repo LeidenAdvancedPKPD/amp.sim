@@ -27,7 +27,7 @@ sample_par(
 (relevant in case ext files should be excluded because of minimization issues)}
 
 \item{seed}{a numeric with the seed number used in set.seed to enable reproducibility, when not provided
-the seed from the global environment will be used (e.g. using \link[base:Random]{base::set.seed})}
+the seed from the global environment will be used (e.g. using \link[base:set.seed]{base::set.seed})}
 
 \item{nrepl}{numeric with the number of replicates to sample}
 
