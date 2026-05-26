@@ -1,6 +1,6 @@
 Package: amp.sim
 Title: Flexible Simulation Utilities for Pharmacometric Modeling
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = c("aut", "cre","cph")),
              person("LAPP Consultants",email = "info@lapp.nl", role=c("fnd","cph")))
 Description: The goal of 'amp.sim' is to transform 'NONMEM' models into R syntax so they can be used for
@@ -17,6 +17,7 @@ VignetteBuilder: quarto
 Depends:
     R (>= 4.1.0)
 Imports:
+  nonmem2rx,
   stats,
   utils,
   MASS,
@@ -26,7 +27,6 @@ Imports:
   lifecycle,
   NMdata (>= 0.2.3)
 Suggests:
-  nonmem2rx,
   tidyr,
   shiny,
   shinyjs,

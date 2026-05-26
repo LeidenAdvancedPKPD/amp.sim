@@ -1,3 +1,7 @@
+# amp.sim 0.1.2
+
+- fixed reverse dependency warning for `rxode2`
+
 # amp.sim 0.1.1
 
 - fixed rounding in testthat due to CRAN issue
