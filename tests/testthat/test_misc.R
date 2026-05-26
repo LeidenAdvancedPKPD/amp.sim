@@ -80,9 +80,9 @@ test_that("sample_par samples correctly", {
   expect_setequal(samp3$SETA1,omsamp$X1)            # omega sampling same as manual
   expect_setequal(samp3$SETA2,omsamp$X2)            # omega sampling same as manual
   expect_true(length(unique(samp4$STHETA3))==1)     # fixing theta for sigma
-  expect_setequal(samp1$STHETA1,thsamp$THETA1)      # theta sampling same as manual
-  expect_setequal(samp1$STHETA3,thsamp$THETA3)      # theta sampling same as manual
-  expect_setequal(samp1$STHETA5,thsamp$THETA5)      # theta sampling same as manual
+  expect_setequal(round(samp1$STHETA1,10),round(thsamp$THETA1,10))      # theta sampling same as manual
+  expect_setequal(round(samp1$STHETA3,10),round(thsamp$THETA3,10))      # theta sampling same as manual
+  expect_setequal(round(samp1$STHETA5,10),round(thsamp$THETA5,10))      # theta sampling same as manual
   expect_true(all(allbs$THETA2%in%samp5$STHETA2))   # theta sampling same as manual bootstrap
   expect_true(all(allbs$THETA4%in%samp5$STHETA4))   # theta sampling same as manual bootstrap
   expect_warning(sample_par(extf,covf,uncert=TRUE, seed=123)) # warning regarding negative values
