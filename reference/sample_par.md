@@ -111,7 +111,6 @@ Richard Hooijmaijers
 ext <- system.file("example_models","PK.1CMT.ORAL.COV.ext", package = "amp.sim")
 cov <- system.file("example_models","PK.1CMT.ORAL.COV.cov", package = "amp.sim")
 sample_par(ext, inc_eta = TRUE, nrepl = 5)
-#> table.name is not a column in data. Nothing done.
 #>   ID   STHETA1 STHETA2 STHETA3  STHETA4       SETA1       SETA2
 #> 1  1 0.0827885  2.6728 1.58939 0.353994  0.21514923 -0.06554339
 #> 2  2 0.0827885  2.6728 1.58939 0.353994  0.14291588  0.05706713

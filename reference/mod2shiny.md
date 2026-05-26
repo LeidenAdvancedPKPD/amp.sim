@@ -122,6 +122,6 @@ evnt  <- mrgsolve::ev(amt = 100, ii = 24, addl = 1)
 nams  <- c(THETA1 = "KA (1/h)", THETA2 = "CL (l/h)", THETA3 = "V (l)") 
 mod2shiny(prm, modfile= paste0(outf,".cpp"), evnt = evnt,
           naming = nams, framework = "mrgsolve", outloc=tempdir())
-#> Shiny app created in location '/tmp/RtmpxmA465'. It can be submitted using:
-#> shiny::runApp('/tmp/RtmpxmA465',launch.browser=TRUE)
+#> Shiny app created in location '/tmp/Rtmp8qtTj2'. It can be submitted using:
+#> shiny::runApp('/tmp/Rtmp8qtTj2',launch.browser=TRUE)
 ```

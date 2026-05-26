@@ -21,6 +21,11 @@ Useful links:
 **Maintainer**: Richard Hooijmaijers <richardhooijmaijers@gmail.com>
 \[copyright holder\]
 
+Authors:
+
+- Richard Hooijmaijers <richardhooijmaijers@gmail.com> \[copyright
+  holder\]
+
 Other contributors:
 
 - LAPP Consultants <info@lapp.nl> \[funder, copyright holder\]
