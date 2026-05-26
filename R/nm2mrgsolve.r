@@ -74,7 +74,8 @@ nm2mrgsolve <- function(lstblock,model,ext=NULL,mod_return=NULL,out=NULL){
     retlst$cmt         <- paste(paste0("A",1:as.numeric(retlst$cmt)),collapse=" ") 
   }else{
     #retlst$cmt         <- unlist(regmatches(retlst$cmt,gregexpr("\\(.*?\\)",retlst$cmt)))
-    retlst$cmt         <- unlist(regmatches(retlst$cmt,gregexpr("COMPARTMENT.*=|COMP.*=",retlst$cmt))) # no necessarily brackets but we need at least "COMP="
+    #retlst$cmt         <- unlist(regmatches(retlst$cmt,gregexpr("COMPARTMENT.*=|COMP.*=",retlst$cmt))) # no necessarily brackets but we need at least "COMP="
+    retlst$cmt         <- unlist(regmatches(retlst$cmt,gregexpr("COMPARTMENT\\s*=|COMP\\s*=",retlst$cmt))) # no necessarily brackets but we need at least "COMP="
     retlst$cmt         <- paste(paste0("A",1:length(retlst$cmt)),collapse=" ") # Do not use names for CMTs
   }
   retlst$cmt         <- paste(c("$CMT",retlst$cmt),collapse="\n")
